@@ -33,7 +33,7 @@ extern volatile int errno;
 extern int errno;
 #endif
 
-extern char *sys_errlist[];
+// extern char *sys_errlist[];
 extern char *argv0;
 extern char *filenameo;
 extern FILE *fileo;
