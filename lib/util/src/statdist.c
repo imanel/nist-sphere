@@ -12,7 +12,7 @@
 /*                  distributions                               */
 /*                                                              */
 /****************************************************************/
-#include <util/utillib.h>
+#include <utillib.h>
 
 #define MAX_Z	10
 #define MAX_X2	32

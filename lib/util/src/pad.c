@@ -17,7 +17,7 @@
 /*                  can be.                                           */
 /*                                                                    */
 /**********************************************************************/
-#include <util/utillib.h>
+#include <utillib.h>
 
 static int pad_print_out_width=SCREEN_WIDTH;
 

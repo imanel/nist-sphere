@@ -1,6 +1,6 @@
 /* LINTLIBRARY */
 
-#include <util/utillib.h>
+#include <utillib.h>
 
 FOB * fob_create(FILE *fp)
 {

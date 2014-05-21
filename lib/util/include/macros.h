@@ -47,7 +47,7 @@
 #define MAX(_a,_b) (((_a) > (_b)) ? (_a) : (_b))
 #endif
 
-#include <util/min.h>
+#include <min.h>
 
 #define swap_short(_x) \
 {short *_p=(short *)&_x,_t; _t=*(_p+1); *(_p+1)=*(_p); *(_p)=_t;}

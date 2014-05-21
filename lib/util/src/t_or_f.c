@@ -9,7 +9,7 @@
 /*                  throughout the scoring package                    */
 /*                                                                    */
 /**********************************************************************/
-#include <util/utillib.h>
+#include <utillib.h>
 
 /**********************************************************************/
 /*  return the strings depending on the value passed down             */

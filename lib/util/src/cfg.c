@@ -10,7 +10,7 @@
 /*                  line arguments and configuration files            */
 /**********************************************************************/
 
-#include <util/utillib.h>
+#include <utillib.h>
 
 #define CFG_VERSION "V1.0"
 

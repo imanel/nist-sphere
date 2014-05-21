@@ -11,7 +11,7 @@ DOC:package:  numeric histogram package
 DOC:purpose:  create, manipulate and de-create histograms
 DOC:
 */
-#include <util/utillib.h>
+#include <utillib.h>
 
 #define HIST_C_VERSION "V1.0"
 

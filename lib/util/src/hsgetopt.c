@@ -15,7 +15,7 @@
  * and declare strcmp(); and strlen().
 */
 
-#include <util/utillib.h>
+#include <utillib.h>
 
 /* BEGIN AJR MOD */
 extern int strcmp PROTO((const char *, const char *));

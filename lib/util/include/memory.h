@@ -12,7 +12,7 @@
 #ifndef MEMORY_HEADER
 #define MEMORY_HEADER
 
-#include <util/mtrf.h>
+#include <mtrf.h>
 
 /**********************************************************************/
 /*  Allocation macros                                                 */

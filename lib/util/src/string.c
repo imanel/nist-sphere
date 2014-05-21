@@ -9,7 +9,7 @@
 /*                  throughout the scoring package                    */
 /*                                                                    */
 /**********************************************************************/
-#include <util/utillib.h>
+#include <utillib.h>
 
 /***************************************************************/
 /*  Return TRUE if the string is empty, i.e. containing all    */

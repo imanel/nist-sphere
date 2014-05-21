@@ -1,4 +1,4 @@
-#include <util/utillib.h>
+#include <utillib.h>
 
 #define ERROR_UTIL_MESSAGE_LEN 200
 static char static_error_util_proc_name[ERROR_UTIL_MESSAGE_LEN];

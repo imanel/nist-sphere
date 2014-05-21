@@ -1,4 +1,4 @@
-#include <util/utillib.h>
+#include <utillib.h>
 
 #ifdef __STDC__
 # include <stdarg.h>

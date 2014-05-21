@@ -9,7 +9,7 @@
 /*                  throughout the scoring package                    */
 /*                                                                    */
 /**********************************************************************/
-#include <util/utillib.h>
+#include <utillib.h>
 
 /*********************************************************************/
 /*   Return the index into the list of character string matching the */

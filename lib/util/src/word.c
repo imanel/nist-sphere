@@ -9,7 +9,7 @@
 /*                  throughout the scoring package                    */
 /*                                                                    */
 /**********************************************************************/
-#include <util/utillib.h>
+#include <utillib.h>
 
 #define WORD_C_VERSION "V1.0"
 

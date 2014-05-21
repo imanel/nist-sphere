@@ -1,7 +1,7 @@
 /* File: mtrf.c */
 /* converted from spmalloc to be a general memory tracing function */
 
-#include <util/utillib.h>
+#include <utillib.h>
 
 static int mtrf_dealloc = 1;
 static int mtrf_verbose = 0;

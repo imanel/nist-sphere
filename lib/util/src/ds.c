@@ -26,11 +26,11 @@
     cleaned up slightly, verbose option removed summer 1992.
     Jan 24, 1996 JGF, Added the Environement flag DS_DEBUG to diagnose problems
            - Added the full_search variable to search the entire space around a
-	     test point before making a move. 
+	     test point before making a move.
 	   - added the cache functionality to reduce re-computation of S
 */
 #define DS_C_VERSION "V1.0"
-#include <util/utillib.h>
+#include <utillib.h>
 
 static double SS, Spsi, Sphi, theta, *DELTA, *delta, (*S)(int *), rho;
 static int phi[30], phi_base[30], phi_cm[30], phi_map[30], K, k;
