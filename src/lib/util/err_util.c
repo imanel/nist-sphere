@@ -16,7 +16,7 @@ void set_error_util_debug(int n)
 }
 
 void print_return_status(FILE *fp)
-{
+{  
     char *offset="";
     fprintf(fp,"Procedure: %s\n",static_error_util_proc_name);
     fprintf(fp,"%s   Status Code:     %d\n",offset,static_error_util_return_code);
@@ -41,7 +41,7 @@ int return_type(void)
 }
 
 char *get_subordinated_message(void){
-    int l=0;
+    int l=0; 
     char *type, num[10];
     strncpy(static_error_util_buffer,static_error_util_proc_name,
 	    ERROR_UTIL_MESSAGE_LEN);
@@ -56,7 +56,7 @@ char *get_subordinated_message(void){
 	}
 	strncat(static_error_util_buffer, type,ERROR_UTIL_MESSAGE_LEN-l);
     l = strlen(static_error_util_buffer);
-
+    
     if (l < ERROR_UTIL_MESSAGE_LEN){
 	sprintf(num,"Code: %d Message: ",static_error_util_return_code);
 	strncat(static_error_util_buffer, num,ERROR_UTIL_MESSAGE_LEN-l);
@@ -92,7 +92,7 @@ void set_return_util(char *proc_name, int return_code, char *mesg, int type)
 	strncpy(static_error_util_message,static_error_util_message1,ERROR_UTIL_MESSAGE_LEN);
 	strncpy(static_error_util_proc_name,proc_name,ERROR_UTIL_MESSAGE_LEN);
     }
-
+    
     if (err_util_dbg) {
 	fprintf(stderr,"set_return_util: proc_name %s code %d message %s type %d\n",
 		static_error_util_proc_name,
@@ -101,4 +101,4 @@ void set_return_util(char *proc_name, int return_code, char *mesg, int type)
 		static_error_util_return_type);
     }
 }
-
+    

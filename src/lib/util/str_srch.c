@@ -21,7 +21,7 @@ int strings_search(char **list, int count, char *goal)
 
     low = 0, high = count-1;
 
-    do {
+    do { 
         mid = (low + high)/2;
         eval = strcmp(goal,list[mid]);
 /*        printf("%s:  %s (%d) [mid %s (%d)] %s (%d) = res %d\n",

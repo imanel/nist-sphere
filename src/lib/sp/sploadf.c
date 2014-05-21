@@ -9,7 +9,7 @@ int sp_load_file(char *file, char *sdm, SP_INTEGER *nsamp, SP_INTEGER *nchan, SP
 	return_err(proc,101,1,"Null filename");
     if (sdm == (char *)0) sdm = "";
 
-    if ((sp=sp_open(file,"r")) == SPNULL)
+    if ((sp=sp_open(file,"r")) == SPNULL) 
 	return_err(proc,110,1,
 		   rsprintf("sp_open failed to open file '%s'.  Message return"
 			    "ed:\n%s\n",file,get_return_status_message()));
@@ -35,7 +35,7 @@ int sp_load_file(char *file, char *sdm, SP_INTEGER *nsamp, SP_INTEGER *nchan, SP
 	return_err(proc,114,1,rsprintf("unable to alloc waveform memory."
 				       "  Message returned: %s\n",
 				       get_return_status_message()));
-
+    
     if ((ret=sp_read_data(*data,*nsamp,sp)) != *nsamp)
 	return_err(proc,115,1,rsprintf("unable to read waveform, exp samples "
 				       "%d != %d.  Message returned: %s\n",
@@ -45,6 +45,6 @@ int sp_load_file(char *file, char *sdm, SP_INTEGER *nsamp, SP_INTEGER *nchan, SP
 	return_err(proc,116,1,rsprintf("sp_close failed.  Message "
 				       "returned: %s\n",
 				       get_return_status_message()));
-
+	
     return_success(proc,0,0,"ok");
 }

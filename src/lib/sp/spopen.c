@@ -19,9 +19,9 @@ SP_FILE *sp_open(char *filename, char *mode)
     enum SP_file_open_mode current_mode;
 
     if (sp_verbose > 10) fprintf(spfp,"Proc %s:\n",proc);
-    if (filename == CNULL)
+    if (filename == CNULL) 
 	return_err(proc,101,SPNULL,"Null filename string");
-    if (mode == CNULL)
+    if (mode == CNULL) 
 	return_err(proc,101,SPNULL,"Null file mode string");
 
     if (sp_verbose > 10) fprintf(spfp,"Proc %s: file '%s' mode '%s'\n",
@@ -54,14 +54,14 @@ SP_FILE *sp_open(char *filename, char *mode)
     }
 
     /* just open the file, either for reading or writing.  If the      */
-    /* mode was SP_mode_writing, and the file exists, change the mode  */
+    /* mode was SP_mode_writing, and the file exists, change the mode  */ 
     /* to SP_mode_update.                                              */
     switch (tsp->open_mode) {
 	case (SP_mode_read): {
 	    if (! strsame(filename,"-")) {
-		fopen_mode = (current_mode == SP_mode_read) ? READMODE :
+		fopen_mode = (current_mode == SP_mode_read) ? READMODE : 
 		    UPDATEMODE;
-		if ((tsp->read_spifr->waveform->sp_fp =
+		if ((tsp->read_spifr->waveform->sp_fp = 
 		     fopen(filename,fopen_mode)) == (FILE *)0){
 		    free_sphere_t(tsp);
 		    return_err(proc,111,SPNULL,
@@ -78,10 +78,10 @@ SP_FILE *sp_open(char *filename, char *mode)
 		mtrf_strdup(filename);
 	    break;
 	}
-	case (SP_mode_write):{
+	case (SP_mode_write):{ 
 	    if (! strsame(filename,"-")) {
 		/* open the file, truncating if the file exists */
-		fopen_mode = (current_mode == SP_mode_write) ? WRITEMODE :
+		fopen_mode = (current_mode == SP_mode_write) ? WRITEMODE : 
 		    UPDATEMODE;
 		if ((tsp->write_spifr->waveform->sp_fp =
 		     fopen(filename,fopen_mode)) == (FILE *)0){
@@ -95,7 +95,7 @@ SP_FILE *sp_open(char *filename, char *mode)
 		tsp->write_spifr->waveform->sp_fp = stdout;
 		tsp->write_spifr->status->is_disk_file = FALSE;
 	    }
-	    tsp->write_spifr->status->external_filename =
+	    tsp->write_spifr->status->external_filename = 
 		mtrf_strdup(filename);
 	    break;
 	}
@@ -112,14 +112,14 @@ SP_FILE *sp_open(char *filename, char *mode)
 	    tsp->read_spifr->header =
 	       sp_open_header(tsp->read_spifr->waveform->sp_fp,TRUE,&errmsg);
 	    if ( tsp->read_spifr->header == HDRNULL ) {
-		free_sphere_t(tsp);
+		free_sphere_t(tsp);				
 		return_err(proc,104,SPNULL,
 		   rsprintf("Unable to open SPHERE header of file '%s', %s",
 			    filename,errmsg));
 	    }
 	    /* get the size of the header */
 	    if (! strsame(filename,"-")) {
-		if ((tsp->read_spifr->waveform->header_data_size =
+		if ((tsp->read_spifr->waveform->header_data_size = 
 		     sp_file_header_size(filename)) < 0){
 		    free_sphere_t(tsp);
 		    return_err(proc,110,SPNULL,
@@ -155,11 +155,11 @@ SP_FILE *sp_open(char *filename, char *mode)
 			return_err(proc,112,SPNULL,
 				   rsprintf("Unable to delete fake '%s' field",
 					    SAMPLE_COUNT_FIELD));
-
+			
 		    }
 		  }
 	      }
-	    }
+	    }	    
 
 	    /****** Correct any out-of-date headers right NOW ******/
 	    if (correct_out_of_date_headers(tsp) != 0){
@@ -169,11 +169,11 @@ SP_FILE *sp_open(char *filename, char *mode)
 	    }
 
             /* duplicate the header for the file interface */
-            if ((tsp->read_spifr->status->file_header =
+            if ((tsp->read_spifr->status->file_header = 
 		 sp_dup_header(tsp->read_spifr->header)) == HDRNULL){
 		fprintf(spfp,"Error: sp_open_header unable ");
 		fprintf(spfp,"to dup header for file '%s'\n",filename);
-		free_sphere_t(tsp);
+		free_sphere_t(tsp);		
 		return_err(proc,106,SPNULL,
 		   rsprintf("Unable to duplicate the SPHERE header of file",
 			    filename));
@@ -185,31 +185,31 @@ SP_FILE *sp_open(char *filename, char *mode)
 	       rsprintf("Unable to interpret the SPHERE header of file '%s'",
 			filename));
 	    }
-	    break;
+	    break;	
 	}
-	case (SP_mode_write):{
+	case (SP_mode_write):{ 
 	    tsp->write_spifr->header = sp_create_header();
 	    if ( tsp->write_spifr->header == HDRNULL ) {
-		free_sphere_t(tsp);
+		free_sphere_t(tsp);		
 		return_err(proc,108,SPNULL,
 		   rsprintf("Unable to allocate SPHERE header for file '%s'",
 			    filename));
 	    }
 	    tsp->write_spifr->status->file_header = sp_create_header();
 	    if ( tsp->write_spifr->status->file_header == HDRNULL ) {
-	     free_sphere_t(tsp);
+	     free_sphere_t(tsp);		
 	     return_err(proc,109,SPNULL,
  	     rsprintf("Unable to allocate hidden SPHE. header for file '%s'",
 				    filename));
 	    }
 	}
-	default:
+	default: 
 	  ;
     }
 
     /* the file was actually opened for update, so make a temp file, and */
     /* duplicate the read in file. */
-    if (current_mode == SP_mode_update){
+    if (current_mode == SP_mode_update){ 
 	SP_FILE *tsp2;
 	SPIFR *tspifr;
 	char *temp_file;
@@ -218,7 +218,7 @@ SP_FILE *sp_open(char *filename, char *mode)
 	if (temp_file == CNULL)
 	   return_err(proc,300,SPNULL,"Unable to create temporary filename");
 	if ((tsp2 = sp_open(temp_file,WRITEMODE)) == SPNULL) {
-	    free_sphere_t(tsp);
+	    free_sphere_t(tsp);		
 	    mtrf_free(temp_file);
 	    return_err(proc,301,SPNULL,
 		       rsprintf("Unable to open temporary file",temp_file));
@@ -227,8 +227,8 @@ SP_FILE *sp_open(char *filename, char *mode)
 	/* sp_set_data_mode(tsp,"SE-ORIG:SBF-ORIG"); */
 	/* now copy the header into the update file */
 	if (sp_copy_header(tsp,tsp2) != 0){
-	    free_sphere_t(tsp);
-	    free_sphere_t(tsp2);
+	    free_sphere_t(tsp);		
+	    free_sphere_t(tsp2);		
 	    unlink(temp_file);
 	    mtrf_free(temp_file);
 	    return_err(proc,302,SPNULL,"Unable to duplicate output header");
@@ -249,8 +249,8 @@ SP_FILE *sp_open(char *filename, char *mode)
 	  default: ;
 	}
 	if (sp_set_data_mode(tsp2,data_mode) >= 100){
-	    free_sphere_t(tsp);
-	    free_sphere_t(tsp2);
+	    free_sphere_t(tsp);		
+	    free_sphere_t(tsp2);		
 	    unlink(temp_file);
 	    mtrf_free(temp_file);
 	    return_err(proc,303,SPNULL,
@@ -263,7 +263,7 @@ SP_FILE *sp_open(char *filename, char *mode)
 	tsp->write_spifr = tsp2->write_spifr;
 	tsp2->write_spifr = tspifr;
 	free_sphere_t(tsp2);
-	mtrf_free(temp_file);
+	mtrf_free(temp_file);	
 	tsp->open_mode = current_mode;
     }
 
@@ -281,7 +281,7 @@ void sp_file_dump(SP_FILE *sp, FILE *fp)
     fprintf(fp,"========================\n");
     fprintf(fp,"File open mode:      %s\n",
 	    enum_str_SP_file_open_mode(sp->open_mode));
-    if ((sp->open_mode == SP_mode_read) ||
+    if ((sp->open_mode == SP_mode_read) || 
 	(sp->open_mode == SP_mode_update)){
 	fprintf(fp,"Read SPIFR:\n");
 	spifr_dump(sp->read_spifr,fp);
@@ -326,7 +326,7 @@ void spifr_dump(SPIFR *spifr, FILE *fp)
 	    spifr->waveform->interleave_buffer_len);
     fprintf(fp,"Interleave Buf.   %x\n",
 	    (unsigned)spifr->waveform->interleave_buffer);
-
+    
     fprintf(fp,"\n");
 
     fprintf(fp,"Status Structure\n");
@@ -343,9 +343,9 @@ void spifr_dump(SPIFR *spifr, FILE *fp)
     fprintf(fp,"S_D_MODE Occ. Flg:   %d\n",
 	    spifr->status->set_data_mode_occured_flag);
     fprintf(fp,"File checksum:       %d\n",
-	    spifr->status->file_checksum);
+	    spifr->status->file_checksum);   
     fprintf(fp,"Ignore checksum:     %d\n",
-	    spifr->status->ignore_checksum);
+	    spifr->status->ignore_checksum);   
     fprintf(fp,"Nat Sample Byte Fmt: %s\n",
 	    enum_str_SP_sample_byte_fmt(spifr->status->natural_sbf));
     fprintf(fp,"Extra Checksum Check %d\n",
@@ -378,8 +378,8 @@ void spifr_dump(SPIFR *spifr, FILE *fp)
 	    spifr->status->user_sample_count,
 	    spifr->status->file_sample_count);
     fprintf(fp,"Sample Rate:      %22d  %22d\n",
-	    spifr->status->user_sample_rate,
-	    spifr->status->file_sample_rate);
+	    spifr->status->user_sample_rate, 
+	    spifr->status->file_sample_rate); 
     fprintf(fp,"Sample N bytes:   %22d  %22d\n",
            spifr->status->user_sample_n_bytes,
 	    spifr->status->file_sample_n_bytes);
@@ -426,14 +426,14 @@ int sp_set_default_operations(SP_FILE *sp)
 	    spifr->status->user_sample_count =
 		spifr->status->file_sample_count = (int)l_int;*/
         /*  added a condition to permit a pipe to NOT have a sample_count */
-	/*  field.  ADDED June 22, 1993   */
+	/*  field.  ADDED June 22, 1993   */ 
 	if (spifr->status->is_disk_file){
 	    return_err(proc,101,101,rsprintf("Missing '%s' header field",
 					     SAMPLE_COUNT_FIELD));
 	} else { /* Sample counts may be missing from piped files */
 	    spifr->status->user_sample_count =
-		spifr->status->file_sample_count = 999999999;
-	}
+		spifr->status->file_sample_count = 999999999;	    
+	} 
     } else
 	spifr->status->user_sample_count =
 	    spifr->status->file_sample_count = (int)l_int;
@@ -447,7 +447,7 @@ int sp_set_default_operations(SP_FILE *sp)
 	return_err(proc,104,104,
 		   rsprintf("Missing '%s' header field",
 			    SAMPLE_N_BYTES_FIELD));
-    spifr->status->user_sample_n_bytes =
+    spifr->status->user_sample_n_bytes = 
 	spifr->status->file_sample_n_bytes = (int)l_int;
     if (l_int <= 0)
 	return_err(proc,108,108,
@@ -471,15 +471,15 @@ int sp_set_default_operations(SP_FILE *sp)
     /***** NOTE:  only set the file_sbf, Sp_set_data_mode is called to    */
     /***** set the user_sbf                                               */
     if ((ret=sp_h_get_field(sp,SAMPLE_BF_FIELD,T_STRING,(void *)&str)) != 0){
-	if ((spifr->status->file_sbf =
-	     get_natural_sbf(spifr->status->user_sample_n_bytes)) ==
+	if ((spifr->status->file_sbf = 
+	     get_natural_sbf(spifr->status->user_sample_n_bytes)) == 
 	    SP_sbf_null)
 	    return_err(proc,107,107,
 		       rsprintf("Unable to read sample sizes of %d bytes",
 				spifr->status->user_sample_n_bytes));
     } else {  /* str holds the sample_byte_format_value */
 	ret = parse_sample_byte_format(str,&(spifr->status->file_sbf));
-	if (ret == 1000) {
+	if (ret == 1000) { 
 	    /* then the file was compressed using change_wav_format */
 	    spifr->status->file_sbf =
 		get_natural_sbf(spifr->status->user_sample_n_bytes);
@@ -512,14 +512,14 @@ int sp_set_default_operations(SP_FILE *sp)
 	}
 	mtrf_free(str);
     }
-              /***** field break *****/
+              /***** field break *****/	    
     if (sp_h_get_field(sp,SAMPLE_CODING_FIELD,T_STRING,(void *)&str) != 0)
 	if (spifr->status->user_sample_n_bytes == 1)
 	    str = mtrf_strdup("ulaw");
 	else
 	    /* the default, since old Corpora are missing this field */
-	    str = mtrf_strdup("pcm");
-
+	    str = mtrf_strdup("pcm"); 
+    
     if (parse_sample_coding(str,spifr->status->file_sample_n_bytes,
 			    &(spifr->status->file_encoding),
 			    &(spifr->status->file_compress)) != 0){
@@ -565,7 +565,7 @@ int sp_set_default_operations(SP_FILE *sp)
       default:
 	spifr->status->user_sample_rate = spifr->status->file_sample_rate =0;
     }
-
+	  
     /***********************************************************************/
     /*    The following fields are OPTIONAL, but if they exist, there is a */
     /*    special purpose for them                                         */
@@ -581,31 +581,31 @@ int sp_set_default_operations(SP_FILE *sp)
     /*********************/
 
     if (spifr->status->file_encoding == SP_se_ulaw &&
-	spifr->status->file_sample_n_bytes != 1)
+	spifr->status->file_sample_n_bytes != 1) 
 	return_err(proc,120,120,
 		   rsprintf("Ulaw encoding requires a 1 byte sample,%s %d",
 			    " however the header value is",
 			    spifr->status->file_sample_n_bytes));
     if (spifr->status->file_encoding == SP_se_pculaw &&
-	spifr->status->file_sample_n_bytes != 1)
+	spifr->status->file_sample_n_bytes != 1) 
 	return_err(proc,120,120,
 		   rsprintf("Pculaw encoding requires a 1 byte sample,%s %d",
 			    " however the header value is",
 			    spifr->status->file_sample_n_bytes));
     if (spifr->status->file_encoding == SP_se_alaw &&
-	spifr->status->file_sample_n_bytes != 1)
+	spifr->status->file_sample_n_bytes != 1) 
 	return_err(proc,1201,1201,
 		   rsprintf("Alaw encoding requires a 1 byte sample,%s %d",
 			    " however the header value is",
 			    spifr->status->file_sample_n_bytes));
     if (spifr->status->file_encoding == SP_se_pcm1 &&
-	spifr->status->file_sample_n_bytes != 1)
+	spifr->status->file_sample_n_bytes != 1) 
 	return_err(proc,120,120,
 		   rsprintf("PCM1 encoding requires a 1 byte sample, %s %d",
 			    "however the header value is",
 			    spifr->status->file_sample_n_bytes));
     if (spifr->status->file_encoding == SP_se_pcm1 &&
-	spifr->status->file_sample_n_bytes != 2)
+	spifr->status->file_sample_n_bytes != 2) 
 	return_err(proc,120,120,
 		   rsprintf("PCM2 encoding requires a 2 byte sample, %s %d",
 			    "however the header value is",
@@ -637,7 +637,7 @@ int parse_sample_byte_format(char *str, enum SP_sample_byte_fmt *sbf)
     char *proc="parse_sample_byte_format " SPHERE_VERSION_STR;
 
     if (sp_verbose > 10) fprintf(spfp,"Proc %s:\n",proc);
-    if (str == CNULL)
+    if (str == CNULL) 
 	return_err(proc,100,100,"Null sample_byte_format_string");
     if (sbf == (enum SP_sample_byte_fmt *)0)
 	return_err(proc,101,101,"Null sbf pointer");
@@ -657,7 +657,7 @@ int parse_sample_byte_format(char *str, enum SP_sample_byte_fmt *sbf)
     }
     if (sp_verbose > 11) fprintf(spfp,"Proc %s: Returning 0\n",proc);
     return_success(proc,0,0,"ok");
-}
+}    
 
 int parse_sample_coding(char *str, int sample_n_bytes,
 			enum SP_sample_encoding *sample_encoding,
@@ -666,7 +666,7 @@ int parse_sample_coding(char *str, int sample_n_bytes,
     int enc_set=FALSE, comp_set=FALSE;
     char *pstr, *str_mem;
     char *proc="parse_sample_coding " SPHERE_VERSION_STR;
-
+    
     if (sp_verbose > 10) fprintf(spfp,"Proc %s:\n",proc);
 
     if (str == CNULL)
@@ -690,7 +690,7 @@ int parse_sample_coding(char *str, int sample_n_bytes,
     /*    2: set a flag to what it matches    */
     /*    3: move past the token              */
     /*    4: loop to (1)                      */
-
+      
     /* make a duplicate copy because strtok is destructive */
     str_mem = mtrf_strdup(str);
     pstr = strtok(str_mem,",");

@@ -40,7 +40,7 @@ int sp_eof(SP_FILE *sp)
 	return_success(proc_name,0,0,
 		       rsprintf("File '%s' is NOT at EOF",
 				sp->read_spifr->status->external_filename));
-    }
+    }	
 
 }
 

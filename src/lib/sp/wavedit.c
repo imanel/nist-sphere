@@ -22,44 +22,44 @@ int wav_edit(int argc, char **argv, char *ops, char *opspec)
     int ignore_failure = 0, ov, in_place, verbose = 0;
     int add_checksum = 0;
     char *prog;
-
+    
     char *field[MAXFIELDS];
     char op[MAXFIELDS];
     int nfields = 0;
-
+    
     int i, c, uflag = 0;
     char *outfile = CNULL, *dir = CNULL;
-
+    
     prog = strrchr(argv[0],'/');
     prog = (prog == CNULL) ? argv[0] : (prog + 1);
-
+    
     while ( (c = hs_getopt(argc,argv,opspec)) != -1 )
-
+	
 	switch (c) {
 	  case 'D':
 	    if (hs_optarg == CNULL)
 		wav_edit_usage(prog,ops);
 	    dir = hs_optarg;
 	    break;
-
+	    
 	  case 'f':
 	    ignore_failure = 1;
 	    break;
-
+	    
 	  case 'o':
 	    if (hs_optarg == CNULL)
 		wav_edit_usage(prog,ops);
 	    outfile = hs_optarg;
 	    break;
-
+	    
 	  case 'u':
 	    uflag = 1;
 	    break;
-
+	    
 	  case 'v':
 	    verbose = 1;
 	    break;
-
+ 
 	  case 'c':
 	    add_checksum = 1;
 	    break;
@@ -74,26 +74,26 @@ int wav_edit(int argc, char **argv, char *ops, char *opspec)
 	    nfields++;
 	    break;
 	}
-
+    
     if (verbose > 0) fprintf(spfp,"%s: %s\n",prog,sp_get_version());
-
+    
     if (nfields == 0 && !add_checksum) {
 	(void) fprintf(stderr,"%s: Error -- no fields specified\n",prog);
 	exit(1);
     }
-
+    
     if (outfile != CNULL) {
 	if (dir != CNULL)
 	    wav_edit_usage(prog,ops);
 	if (hs_optind + 1 != argc)
 	    wav_edit_usage(prog,ops);
     }
-
+    
     if (hs_optind >= argc) {
 	(void) fprintf(stderr,"%s: Error -- no files specified\n",prog);
 	exit(ERROR_EXIT_STATUS);
     }
-
+    
     in_place = (outfile == CNULL) && (dir == CNULL);
     if (uflag && in_place) {
 	(void) fprintf(stderr,
@@ -103,11 +103,11 @@ int wav_edit(int argc, char **argv, char *ops, char *opspec)
     }
     if (verbose && in_place)
 	(void) printf("Editing in-place\n");
-
+    
     for (i=hs_optind; i < argc; i++) {
-
+	
 	static char ofile[MAXPATHLEN];
-
+	
 	if (outfile != CNULL)
 	    (void) strcpy(ofile,outfile);
 	else {
@@ -116,7 +116,7 @@ int wav_edit(int argc, char **argv, char *ops, char *opspec)
 		(void) strcat(ofile,EXTENSION);
 	    } else {
 		char *base;
-
+		
 		(void) strcpy(ofile,dir);
 		(void) strcat(ofile,"/");
 		base = strrchr(argv[i],'/');
@@ -124,7 +124,7 @@ int wav_edit(int argc, char **argv, char *ops, char *opspec)
 		(void) strcat(ofile,base);
 	    }
 	}
-
+	
 	if (verbose)
 	    (void) printf("\nEditing %s\n",argv[i]);
 	if (wav_edit_headers(argv[i],ofile,nfields,field,op,prog,in_place,
@@ -134,7 +134,7 @@ int wav_edit(int argc, char **argv, char *ops, char *opspec)
 		(void) printf("\tContinuing\n");
 	    continue;
 	}
-
+	
 	if (in_place) {
 	    if (ov) {
 		if (verbose)
@@ -155,7 +155,7 @@ int wav_edit(int argc, char **argv, char *ops, char *opspec)
 		    if (add_checksum_to_file(argv[i], prog) == -1){
 			perror(argv[i]);
 			exit_status = ERROR_EXIT_STATUS;
-		    }
+		    }		
 	    } else {
 		if (verbose)
 		    (void) printf("\tRenaming %s to %s\n",
@@ -170,11 +170,11 @@ int wav_edit(int argc, char **argv, char *ops, char *opspec)
 		    if (add_checksum_to_file(argv[i], prog) == -1){
 			perror(argv[i]);
 			exit_status = ERROR_EXIT_STATUS;
-		    }
+		    }		
 	    }
 	    continue;
 	}
-
+	
 	if (verbose)
 	    (void) printf("\tCreated %s\n",ofile);
 	/* added by JGF 060696, add the checksum if requested */
@@ -182,13 +182,13 @@ int wav_edit(int argc, char **argv, char *ops, char *opspec)
 	    if (add_checksum_to_file(ofile, prog) == -1){
 		perror(ofile);
 		exit_status = ERROR_EXIT_STATUS;
-	    }
+	    }		
 	if (uflag && (unlink(argv[i]) < 0)) {
 	    perror(argv[i]);
 	    exit_status = ERROR_EXIT_STATUS;
 	}
     }
-
+    
     exit(exit_status);
 }
 
@@ -201,7 +201,7 @@ static void wav_edit_usage(char *prog, char *ops)
     static char fnv[]  = "fieldname=value";
     static char use1[] = "Usage: %s [-%suvf] [-D dir] -%s %s ... file ...\n";
     static char use2[] = "   or: %s [-%suvf] [-o outfile] -%s %s ... file\n";
-
+    
     multi = strlen(ops) > 1;
     (void) fprintf(stderr, use1, prog,(strcmp(prog,"h_edit")==0)?"c":"",
 		   (!multi)?ops:"opchar", multi?fnv:fn );
@@ -225,7 +225,7 @@ static int wav_edit_headers(char *f1, char *f2,
     register FILE *fp1, *fp2;
     int i, failed, remove_newlines;
     long ohs, hs, dummy;
-
+    
 
     if (in_place) {
 	ohs = sp_file_header_size(f1);
@@ -287,10 +287,10 @@ static int wav_edit_headers(char *f1, char *f2,
 	    *p++ = '\0';
 	    remove_newlines=FALSE;
 	    switch (fop[i]) {
-
+	    
 	      case 'S':	type = T_STRING;
 		        break;
-
+		
 	      case 'I':	type = T_INTEGER;
 			lbuf = atol(p);
 			p = (char *) &lbuf;
@@ -321,7 +321,7 @@ static int wav_edit_headers(char *f1, char *f2,
 		*eq = '=';
 		continue;
 	    }
-
+	    
 	    if (type != t) {  /* Delete the field instead of reporting an
 				 error */
 		if (sp_delete_field(h,fld_names[i]) < 0) {
@@ -369,42 +369,42 @@ static int wav_edit_headers(char *f1, char *f2,
 		       prog,f1);
 	return -1;
     }
-
+    
     if (*ov)
 	*ov = hs;
 
     return 0;
 }
 
-int add_checksum_to_file(char *f2, char *prog){
+int add_checksum_to_file(char *f2, char *prog){ 
     SP_FILE *sp;
-    SP_CHECKSUM cchksum, fchksum;
+    SP_CHECKSUM cchksum, fchksum;   
     SP_INTEGER lint;
     int add_it = 0;
-
+    
     /* open the file and compute the checksum */
     if ((sp=sp_open(f2,"r")) == SPNULL) {
 	(void) fprintf(stderr,"%s: %s: sp_open failed.\n",prog,f2);
 	sp_print_return_status(stderr);
-	return -1;
+	return -1; 
     }
     if (sp_compute_checksum(sp, &cchksum) != 0){
 	(void) fprintf(stderr,"%s: %s: sp_compute_checksum failed.\n",
 		       prog,f2);
 	sp_print_return_status(stderr);
 	sp_close(sp);
-	return -1;
+	return -1; 
     }
     /* check to see if a checksum exists, if it does, there's nothing */
     /* else to do.  */
     if (sp_h_get_field(sp,"sample_checksum",
 		       T_INTEGER,(void *)&fchksum)!=0){
 	add_it=1;
-    }
+    }    
     if (sp_close(sp) != 0){
 	(void) fprintf(stderr,"%s: %s: initial sp_close failed.\n",
 		       prog,f2);
-	return -1;
+	return -1; 
     }
 
     /* effect the change */
@@ -412,7 +412,7 @@ int add_checksum_to_file(char *f2, char *prog){
 	if ((sp=sp_open(f2,"u")) == SPNULL) {
 	    (void) fprintf(stderr,"%s: %s: update sp_open failed.\n",prog,f2);
 	    sp_print_return_status(stderr);
-	    return -1;
+	    return -1; 
 	}
 	lint = (SP_INTEGER)cchksum;
 	if (sp_h_set_field(sp,"sample_checksum",
@@ -421,13 +421,13 @@ int add_checksum_to_file(char *f2, char *prog){
 			   prog,f2);
 	    sp_print_return_status(stderr);
 	    sp_close(sp);
-	    return -1;
-	}
+	    return -1; 
+	}    
 	if (sp_close(sp) != 0){
 	    (void) fprintf(stderr,"%s: %s: update sp_close failed.\n",
 			   prog,f2);
 	    sp_print_return_status(stderr);
-	    return -1;
+	    return -1; 
 	}
     }
     return 0;

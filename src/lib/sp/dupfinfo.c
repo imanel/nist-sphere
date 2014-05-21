@@ -6,7 +6,7 @@
 *                                                                             *
 ******************************************************************************/
 
-/*
+/* 
   set the atime and mtime of path1 to be the same as that of path0
 */
 

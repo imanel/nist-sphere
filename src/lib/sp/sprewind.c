@@ -23,31 +23,31 @@ int sp_rewind(SP_FILE *sp)
 		   "Unable rewind file not opened for reading");
 
     if (! sp->read_spifr->status->is_disk_file)
-	return_err(proc,103,103,
+	return_err(proc,103,103, 
 		   "Unable rewind file if opened as a pipe");
 
     if (sp->read_spifr->status->read_occured_flag == FALSE) {
 	/* THERE IS NO NEED TO MOVE THE FILE POINTER */
 	return_success(proc,0,0,"ok");
     }
-
+	
     fob_rewind(sp->read_spifr->waveform->sp_fob);
-
+    
     /* if the FOB is pointing to a file, then the header must be */
     /* skipped over */
     if (sp->read_spifr->waveform->sp_fob->fp != FPNULL){
 	if (! sp->read_spifr->status->is_temp_file){
-	    if (sp_verbose > 10)
+	    if (sp_verbose > 10) 
 		fprintf(spfp,"Proc %s: Skipping header in file\n",proc);
 	    if (fob_fseek(sp->read_spifr->waveform->sp_fob,
 			  (long)sp->read_spifr->waveform->header_data_size,0) > 0)
-		return_err(proc,104,104,
+		return_err(proc,104,104, 
 			   "Rewind failed");
 	} else {
-	    if (sp_verbose > 10)
+	    if (sp_verbose > 10) 
 		fprintf(spfp,"Proc %s: Rewinding temp file to beginning\n",proc);
 	    if (fob_fseek(sp->read_spifr->waveform->sp_fob,0,0) > 0)
-		return_err(proc,104,104,
+		return_err(proc,104,104, 
 			   "Rewind failed");
 	}
     }

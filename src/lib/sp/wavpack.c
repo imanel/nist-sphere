@@ -12,8 +12,8 @@
  * This software is being provided to you, the LICENSEE, by the Massachusetts
  * Institute of Technology (M.I.T.) under the following license.  By
  * obtaining, using and/or copying this software, you agree that you have
- * read, understood, and will comply with these terms and conditions:
- *
+ * read, understood, and will comply with these terms and conditions:  
+ *  
  * Permission to use, copy, modify and distribute, including the right to
  * grant others the right to distribute at any tier, this software and its
  * documentation for any purpose and without fee or royalty is hereby granted,
@@ -23,20 +23,20 @@
  * make for internal use or for distribution:
  *
  * Copyright 1992 by the Massachusetts Institute of Technology.  All rights
- * reserved.
+ * reserved. 
  *
  * THIS SOFTWARE IS PROVIDED "AS IS", AND M.I.T. MAKES NO REPRESENTATIONS OR
  * WARRANTIES, EXPRESS OR IMPLIED.  By way of example, but not limitation,
  * M.I.T. MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANTABILITY OR FITNESS
  * FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF THE LICENSED SOFTWARE OR
  * DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS,
- * TRADEMARKS OR OTHER RIGHTS.
- *
+ * TRADEMARKS OR OTHER RIGHTS.   
+ *  
  * The name of the Massachusetts Institute of Technology or M.I.T. may NOT be
  * used in advertising or publicity pertaining to distribution of the
  * software.  Title to copyright in this software and any associated
  * documentation shall at all times remain with M.I.T., and USER agrees to
- * preserve same.
+ * preserve same. 
  */
 
 #ifndef lint
@@ -114,8 +114,8 @@ static struct strat_eval	/* strat evaluation with sample hdrs */
 } strat_eval[256];	/* address microcoded through strat[] */
 
 static struct strat_eval f0b[RUNL+1],f1b[RUNL+1];	/* for mixed strat stereo */
-static struct strat_eval f0s[RUNL+1],f1s[RUNL+1];
-static struct strat_eval f0so[RUNL+1],f1so[RUNL+1];
+static struct strat_eval f0s[RUNL+1],f1s[RUNL+1];			
+static struct strat_eval f0so[RUNL+1],f1so[RUNL+1];			
 
 static float bm,b0b,b1b,b0s,b1s,b0so,b1so;		/* bests for pruning */
 
@@ -314,7 +314,7 @@ int wavpack_pack(FILE *ifile, FILE *ofile)
 		}
 
 		if(!monoflg)				/* finish stereo */
-		{	for(i=0;i<nstrat;i++) if(strat[i]&STEREO)
+		{	for(i=0;i<nstrat;i++) if(strat[i]&STEREO)   
 				strat_eval[strat[i]].obpib=1e5;
 			for(i=0,j= -1,x=1000;i<runl+1;i++)	/* byte */
 			{	if(f0b[i].obpib+f1b[i].obpib<10.)
@@ -552,9 +552,9 @@ static int condition_data(int flags)
 
 static evaluate_strat(int flags)
 {	register int i,count;
-	register struct strat_eval *f0p,*f1p;
+	register struct strat_eval *f0p,*f1p;			
 	int flags1;
-	struct strat_eval f0[RUNL],f1[RUNL];
+	struct strat_eval f0[RUNL],f1[RUNL];			
 
 	strat_eval[flags].obpib=1e5;
 
@@ -587,7 +587,7 @@ static evaluate_strat(int flags)
 }
 
 static evaluate_chan(int flags, struct strat_eval *f)		/* evaluate channel n */
-
+                     			
 {	register i,j,s;
 	unsigned short *chanp;
 	int dmin,dmax;
@@ -656,7 +656,7 @@ static evaluate_chan(int flags, struct strat_eval *f)		/* evaluate channel n */
 			{	if(dmax>=dmin) x.max=s;
 				else x.min=x.hdr.pbase=s;
 				x.range=mod(x.max-x.min);
-
+	
 				if(x.range>=pwr2[x.hdr.nbits])
 				{	for(j=x.hdr.nbits;j<17;j++)
 						if(x.range<pwr2[j]) break;
@@ -752,7 +752,7 @@ static output_chan(int flags, FILE *ofile)
 		pbase=strat_eval[flags].hdr.pbase;
 	}
 	else pbase=0;
-
+	
 	if(flags&CHAN1) chanp=chan_1;
 	else chanp=chan_0;
 
@@ -950,7 +950,7 @@ static printstrat(int x)
 
 	for(i=0;i<5;i++) str[i]='_';
 	str[5]='\0';
-
+	
 	if(x&SHORT) str[0]='S';
 	else str[0]='B';
 	if(x&REV) str[1]='R';

@@ -10,7 +10,7 @@
  * (From Henry Spencer @ U of Toronto Zoology, slightly edited)
  */
 
-/*
+/* 
  * modiifed by Tony Robinson on 27 March 1993 to remove the call to index()
  * and declare strcmp(); and strlen().
 */
@@ -32,7 +32,7 @@ void
 hs_resetopt(void) {
         scan = (char *)0;
         hs_optind = 0;
-}
+} 
 
 int
 hs_getopt(register int argc, register char **argv, char *optstring)

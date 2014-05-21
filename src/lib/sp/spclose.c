@@ -27,7 +27,7 @@ int sp_close(SP_FILE *sp)
     r_spstat = sp->read_spifr->status;
     write_name = (w_spstat->external_filename == CNULL) ? CNULL :
 	mtrf_strdup(sp->write_spifr->status->external_filename);
-    read_name =  (r_spstat->external_filename == CNULL) ? CNULL :
+    read_name =  (r_spstat->external_filename == CNULL) ? CNULL : 
 	mtrf_strdup(r_spstat->external_filename);
     if (sp->open_mode == SP_mode_update) {
 	if (sp_verbose > 10) fprintf(spfp,"Proc %s:  Mode SP_update\n",proc);
@@ -74,7 +74,7 @@ int sp_close(SP_FILE *sp)
 	    /* Step 1: */
 	    spifr = sp->write_spifr;
 	    fp = ((spifr->waveform->sp_fp != FPNULL) ?
-		  (spifr->waveform->sp_fp) :
+		  (spifr->waveform->sp_fp) : 
 		  ((spifr->waveform->sp_fob->fp != FPNULL) ?
 		   (spifr->waveform->sp_fob->fp) : FPNULL));
 	    if (sp_verbose > 15)
@@ -102,7 +102,7 @@ int sp_close(SP_FILE *sp)
 	    }
 	    rewind(fp);
 	    /* Step 2   -  -  if the header size or waveform has changed */
-	    if ((sp->read_spifr->waveform->header_data_size != header_size) ||
+	    if ((sp->read_spifr->waveform->header_data_size != header_size) || 
 		(w_spstat->file_encoding != r_spstat->file_encoding) ||
 		(w_spstat->file_compress != r_spstat->file_compress) ||
 		(w_spstat->file_sbf != r_spstat->file_sbf) ||
@@ -112,13 +112,13 @@ int sp_close(SP_FILE *sp)
 		if (sp_verbose > 15) {
 		    fprintf(spfp,"Proc %s:   output header and/or",proc);
 		    fprintf(spfp,"data has changed, copying file.\n");
-		    fprintf(spfp,"Proc %s:       from %ld to %ld\n",proc,
+		    fprintf(spfp,"Proc %s:       from %ld to %ld\n",proc, 
 			   sp->read_spifr->waveform->header_data_size,
 			   header_size);
 		}
 		ns = r_spstat->user_sample_count;
 		nc = r_spstat->user_channel_count;
-		in_nspb  = r_spstat->user_sample_n_bytes *
+		in_nspb  = r_spstat->user_sample_n_bytes * 
 		    r_spstat->user_channel_count;
 		out_nspb = w_spstat->user_sample_n_bytes *
 		     w_spstat->user_channel_count;
@@ -133,7 +133,7 @@ int sp_close(SP_FILE *sp)
 		}
 		/* A: */
 		do {
-		    sp->open_mode = SP_mode_read;
+		    sp->open_mode = SP_mode_read;	
 		    samples_read = sp_read_data(buff,4096,sp);
 		    if (samples_read > 0) {
 			sp->open_mode = SP_mode_write;
@@ -146,7 +146,7 @@ int sp_close(SP_FILE *sp)
 			    return_err(proc,3012,3012,
 				       "Copy of waveform data failed");
 			}
-		    } else {
+		    } else { 
 			if (sp_eof(sp) == 0) {
 			    free_sphere_t(sp);
 			    unlink(write_name);
@@ -196,11 +196,11 @@ int sp_close(SP_FILE *sp)
 		if (write_name != CNULL) mtrf_free(write_name);
 		if (read_name != CNULL) mtrf_free(read_name);
 		return_success(proc,0,0,"ok");
-	    } else {
+	    } else { 
 		/* A: */
 		spifr = sp->read_spifr;
-		fp = ((spifr->waveform->sp_fp != FPNULL) ?
-		      (spifr->waveform->sp_fp) :
+		fp = ((spifr->waveform->sp_fp != FPNULL) ? 
+		      (spifr->waveform->sp_fp) : 
 		      ((spifr->waveform->sp_fob->fp != FPNULL) ?
 		       (spifr->waveform->sp_fob->fp) : FPNULL));
 		if (fp == FPNULL)
@@ -288,9 +288,9 @@ int sp_close(SP_FILE *sp)
 		/* Reset the write occured flag */
 		w_spstat->write_occured_flag = TRUE;
 		header_changed = TRUE;
-	    } else
+	    } else 
 		if (lint != spifr->waveform->checksum) {
-		    spifr->waveform->failed_checksum = TRUE;
+		    spifr->waveform->failed_checksum = TRUE;	    
 		    if (write_name != CNULL) mtrf_free(write_name);
 		    if (read_name != CNULL) mtrf_free(read_name);
 		    free_sphere_t(sp);
@@ -309,8 +309,8 @@ int sp_close(SP_FILE *sp)
 		return_err(proc,301,301,
 		   "Internal Error, header changed size on write to stdout");
 	    }
-	    fp = ((spifr->waveform->sp_fp != FPNULL) ?
-		  (spifr->waveform->sp_fp) :
+	    fp = ((spifr->waveform->sp_fp != FPNULL) ? 
+		  (spifr->waveform->sp_fp) : 
 		  ((spifr->waveform->sp_fob->fp != FPNULL) ?
 		   (spifr->waveform->sp_fob->fp) : FPNULL));
 	    if (fp == FPNULL) {
@@ -323,14 +323,14 @@ int sp_close(SP_FILE *sp)
 	    if (sp_write_header(fp,spifr->status->file_header,
 				&header_size,&data_size) < 0) {
 		if (write_name != CNULL) mtrf_free(write_name);
-		if (read_name != CNULL) mtrf_free(read_name);
+		if (read_name != CNULL) mtrf_free(read_name);		
 		free_sphere_t(sp);
 		return_err(proc,204,204,"Unable to update header in file");
 	    }
         }
-
+	
 	if ((spifr->status->is_temp_file == FALSE) &&
-	    fob_is_fp(spifr->waveform->sp_fob)) {
+	    fob_is_fp(spifr->waveform->sp_fob)) { 
 	    /* check to make sure the blocking has not changed */
 	    if (header_changed)
 		/* check to see if we jumped header sizes */
@@ -340,7 +340,7 @@ int sp_close(SP_FILE *sp)
 		    if (read_name != CNULL) mtrf_free(read_name);
 		    free_sphere_t(sp);
 		    return_err(proc,205,205,
-			       "Header size has changed on update");
+			       "Header size has changed on update");    
 		}
 	} else {
 	    if (spifr->status->user_compress == spifr->status->file_compress){
@@ -384,9 +384,9 @@ int sp_close(SP_FILE *sp)
 			else
 			    shorten_set_ftype("s16hl");
 		    if (sp_verbose > 15) shorten_dump_flags(spfp);
-
+  
 	            if(setjmp(exitenv) == 0){
-			if (shorten_compress(spifr->waveform->sp_fob,
+			if (shorten_compress(spifr->waveform->sp_fob, 
 					     comp_fob, message) < 0){
 			    fob_destroy(comp_fob);
 			    if (write_name != CNULL) mtrf_free(write_name);
@@ -398,7 +398,7 @@ int sp_close(SP_FILE *sp)
 			}
 		    } else
 			return_err(proc,213,213,"Shorten Compression Aborted");
-
+		  
 		    fob_fflush(comp_fob);
 		    break;
 		  case SP_wc_wavpack:
@@ -483,7 +483,7 @@ int verify_file_checksum(char *filename)
 
     if (sp_verbose > 10) fprintf(spfp,"Proc %s:\n",proc);
     if (filename == CNULL) return_err(proc,100,100,"Null filename");
-
+    
     if ((sp = sp_open(filename,"rv")) == SPNULL)
         return_err(proc,101,101,
 		   rsprintf("Unable to open SPHERE file '%s'",filename));
@@ -496,7 +496,7 @@ int verify_file_checksum(char *filename)
 	sp_close(sp);
 	return_err(proc,300,300,"No data in file to check");
     }
-
+	
     sp_close(sp);
     if (sp_verbose > 11) fprintf(spfp,"Proc %s: Returning 0\n",proc);
     return_success(proc,0,0,"Checksum verification passed");

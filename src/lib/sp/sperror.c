@@ -18,11 +18,11 @@ int sp_error(SP_FILE *sp)
 	return_err(proc_name,200,200,rsprintf("Null SPFILE pointer"));
     if ((sp->open_mode == SP_mode_read) || (sp->open_mode == SP_mode_update)){
 	spifr = sp->read_spifr;
-
+	
 	if (spifr->waveform->failed_checksum)
 	    return_success(proc_name,0,100,
 			   rsprintf("File '%s' had a checksum error",
-				    spifr->status->external_filename));
+				    spifr->status->external_filename)); 
 	if (spifr->waveform->read_premature_eof)
 	    return_success(proc_name,0,101,
 			   rsprintf("Premature EOF on file '%s'",
@@ -41,15 +41,15 @@ int sp_error(SP_FILE *sp)
 		return_success(proc_name,0,104,
 			       rsprintf("File '%s' has an error",
 					spifr->status->external_filename));
-	}
-    }
+	}	
+    } 
     if ((sp->open_mode == SP_mode_write) || (sp->open_mode == SP_mode_update)){
 	spifr = sp->write_spifr;
-
+	
 	if (spifr->waveform->failed_checksum)
 	    return_success(proc_name,0,100,
 			   rsprintf("File '%s' had a checksum error",
-				    spifr->status->external_filename));
+				    spifr->status->external_filename)); 
 	if (spifr->waveform->sp_fp != FPNULL) {
 	    if (ferror(spifr->waveform->sp_fp) != 0)
 		return_success(proc_name,0,102,
@@ -64,7 +64,7 @@ int sp_error(SP_FILE *sp)
 		return_success(proc_name,0,104,
 			       rsprintf("File '%s' has an error",
 					spifr->status->external_filename));
-	}
+	}	
     }
     return_success(proc_name,0,0,"There was no file error");
 }

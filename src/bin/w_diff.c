@@ -70,7 +70,7 @@ int main(int argc, char **argv)
 	print_usage();
 	exit(-1);
     }
-
+    
 
     filename1 = argv[hs_optind];
     filename2 = argv[hs_optind+1];
@@ -85,14 +85,14 @@ int main(int argc, char **argv)
 					       conversion_flag,1,spfp);
 	    exit_status = (-1);
 	}
-	else
+	else 
 	    if (sp_verbose > 0) fprintf(spfp,"Waveforms are the same\n");
     }
 
     if (do_data_diff){
 	if (diff_data(filename1,filename2,0,spfp) > 0){
 	    fprintf(spfp,"ERROR: Raw Waveform data differ\n");
-	    if (sp_verbose > 0 &&
+	    if (sp_verbose > 0 && 
 		(!strsame(filename1,"-") && !strsame(filename2,"-")))
 		diff_data(filename1,filename2,1,spfp);
 	    exit_status = (-1);

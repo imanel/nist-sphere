@@ -16,11 +16,11 @@ va_dcl
 #endif
 {
     va_list args;
-#ifndef __STDC__
+#ifndef __STDC__    
     char *format;
 #endif
 
-#ifdef __STDC__
+#ifdef __STDC__    
     va_start(args,format);
 #else
     va_start(args);

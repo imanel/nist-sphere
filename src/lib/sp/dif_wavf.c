@@ -31,7 +31,7 @@ int diff_waveforms(char *file1, char *file2,
 	    fprintf(fp,"sp_open failed on file %s\n",file2);
 	sp_print_return_status(fp);
 	goto FATAL_QUIT;
-    }
+    }    
 
     if (fail)
 	goto FATAL_QUIT;
@@ -45,7 +45,7 @@ int diff_waveforms(char *file1, char *file2,
 	    if (verbose)
 		fprintf(fp,"sp_set_data_mode failed on file %s\n",file1);
 	    sp_print_return_status(fp);
-	}
+	}	    
     if (conv_str2 != CNULL)
 	if (sp_set_data_mode(sp2,conv_str2) != 0){
 	    if (fail == 0)
@@ -53,7 +53,7 @@ int diff_waveforms(char *file1, char *file2,
 		    fprintf(fp,"DIFFERENT WAVEFORM: files %s and %s\n",
 			    file1,file2);
 	    fail=1;
-	    if (verbose)
+	    if (verbose) 
 		fprintf(fp,"sp_set_data_mode failed on file %s\n",file2);
 	    sp_print_return_status(fp);
 	}
@@ -125,7 +125,7 @@ int diff_SP_FILE_waveforms(SP_FILE *sp1, SP_FILE *sp2, char *file1, char *file2,
 		    file1_snb,file2_snb);
 	}
 	goto FATAL_QUIT;
-    }
+    }	
 
     if (file1_chcnt != file2_chcnt){
 	if (verbose){
@@ -135,7 +135,7 @@ int diff_SP_FILE_waveforms(SP_FILE *sp1, SP_FILE *sp2, char *file1, char *file2,
 		    file1_chcnt,file2_chcnt);
 	}
 	goto FATAL_QUIT;
-    }
+    }	
 
     do {
 	int record_size = file1_snb * file1_chcnt;
@@ -155,7 +155,7 @@ int diff_SP_FILE_waveforms(SP_FILE *sp1, SP_FILE *sp2, char *file1, char *file2,
 	    if (verbose)
 		fprintf(fp,"DIFFERENT WAVEFORM: files %s and %s\n",
 			file1,file2);
-	    if (verbose)
+	    if (verbose) 
 		fprintf(fp,"   %d samples read from '%s'\n",n1,file1);
 	    if (verbose)
 		fprintf(fp,"   %d samples read from '%s'\n",n2,file2);
@@ -289,7 +289,7 @@ int diff_data(char *file1, char *file2, int verbose, FILE *fp)
 	  return(100);
       }
       h2_sbf[size] = '\0';
-
+      
       if (! strsame(h1_sbf,h2_sbf)){
 	  mtrf_free(h1_sbf); mtrf_free(h2_sbf);
 	  if (verbose)
@@ -331,7 +331,7 @@ int diff_data(char *file1, char *file2, int verbose, FILE *fp)
     return(0);
 }
 
-int diff_header(char *file1, char *file2, int *chg, int *ins, int *del,
+int diff_header(char *file1, char *file2, int *chg, int *ins, int *del, 
 		int verbose, FILE *fp)
 {
     FILE *fp1, *fp2;
@@ -349,14 +349,14 @@ int diff_header(char *file1, char *file2, int *chg, int *ins, int *del,
 	fprintf(spfp,"diff_header: Unable to open file '%s'\n",file1);
 	return(100);
     }
-
+	
     if ((fp2 = (strsame(file2,"-") ? stdin : fopen(file2, "r"))) == FPNULL){
 	fprintf(spfp,"diff_header: Unable to open file '%s'\n",file2);
 	return(100);
     }
 
     if ((h1 = sp_open_header(fp1,TRUE,&errmsg)) == HDRNULL){
-	if (verbose)
+	if (verbose) 
 	   fprintf(fp,"diff_header: Unable to open header for file '%s' - %s\n"
 		    ,file1,errmsg);
 	fclose(fp1);
@@ -388,7 +388,7 @@ int diff_header(char *file1, char *file2, int *chg, int *ins, int *del,
 		    continue;
 		} else {
 		    if (! strsame(h1->fv[i1]->data,h2->fv[i2]->data)){
-			if(strsame(h1->fv[i1]->name,SAMPLE_CODING_FIELD) &&
+			if(strsame(h1->fv[i1]->name,SAMPLE_CODING_FIELD) && 
                           (strncmp(h1->fv[i1]->data,h2->fv[i2]->data,20)==0))
 			    ;
 			else {
@@ -410,12 +410,12 @@ int diff_header(char *file1, char *file2, int *chg, int *ins, int *del,
 				 h1->fv[i1]->name);
 	    *del += 1;
 	}
-    }
+    }		
 
     for (i2=0 ;i2 < h2->fc; i2++) {
 	found=0;
 	for (i1=0 ;found==0 && i1 < h1->fc; i1++) {
-	    if (strsame(h1->fv[i1]->name,h2->fv[i2]->name))
+	    if (strsame(h1->fv[i1]->name,h2->fv[i2]->name)) 
 		found=1;
 	}
 	if (found == 0){
@@ -423,7 +423,7 @@ int diff_header(char *file1, char *file2, int *chg, int *ins, int *del,
 				 h2->fv[i2]->name);
 	    *ins += 1;
 	}
-    }
+    }		
 
     sp_close_header(h1);
     sp_close_header(h2);

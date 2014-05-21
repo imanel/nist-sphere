@@ -18,12 +18,12 @@
 #       undef fread
 #endif
 #define fread(a,b,c,d)          fob_fread((a),(b),(c),(d))
-
+ 
 #ifdef fwrite
 #       undef fwrite
 #endif
 #define fwrite(a,b,c,d)         fob_fwrite((a),(b),(c),(d))
-
+ 
 #ifdef putc
 #       undef putc
 #endif
@@ -181,7 +181,7 @@ long uvar_get(nbin, stream) int nbin; FOB *stream; {
       result = (result << nbin) | ((gbuffer >> (nbitget-nbin)) &masktab[nbin]);
       nbitget -= nbin;
       nbin = 0;
-    }
+    } 
     else {
       result = (result << nbitget) | (gbuffer & masktab[nbitget]);
       gbuffer = word_get(stream);
@@ -208,7 +208,7 @@ void var_put_quit(stream) FOB *stream; {
   uvar_put((ulong) 0, 31, stream);
 
   /* and write out the remaining chunk in the buffer */
-  if(fwrite((char*) putbuf, 1, putbufp - putbuf, stream) !=
+  if(fwrite((char*) putbuf, 1, putbufp - putbuf, stream) != 
      putbufp - putbuf)
     update_exit(1, "failed to write compressed stream\n");
 

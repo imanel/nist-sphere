@@ -46,5 +46,5 @@
 
 
 #ifdef PEDANTIC
-#include <proto.h>
+#include <util/proto.h>
 #endif

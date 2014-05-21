@@ -12,11 +12,11 @@ int sp_h_get_field(SP_FILE *sp_file, char *field, int ftype, void **value)
     if (sp_verbose > 10) fprintf(spfp,"Proc %s:\n",proc);
     if ( sp_file == SPNULL )
 	return_err(proc,100,100,"Null SPFILE");
-    if ( field == CNULL )
+    if ( field == CNULL )	
 	return_err(proc,102,102,"Null header field requested");
     if ( value == (void **)NULL )
 	return_err(proc,103,103,"Null value pointer");
-
+    
     if (sp_file->open_mode == SP_mode_read){
 	return_child(proc,int,h_get_field(sp_file->read_spifr->header,
 					       field,ftype,value));
@@ -36,14 +36,14 @@ int h_get_field(struct header_t *header, char *field, int ftype,
     if (sp_verbose > 10) fprintf(spfp,"Proc %s:\n",proc);
     if ( header == HDRNULL )
 	return_err(proc,101,101,"Null header");
-    if ( field == CNULL )
+    if ( field == CNULL )	
 	return_err(proc,102,102,"Null header field requested");
     if ( value == (void **)NULL )
 	return_err(proc,103,103,"Null value pointer");
     if ( ftype != T_STRING && ftype != T_REAL && ftype != T_INTEGER)
 	return_err(proc,104,104,"Illegal field type");
 
-    switch (ftype){
+    switch (ftype){ 
       case T_INTEGER:{
 	  SP_INTEGER *ivalue;
 	  /* Bug fixed, this value was mistakenly a int */
@@ -135,7 +135,7 @@ int sp_h_set_field(SP_FILE *sp_file, char *field, int ftype, void *value)
     if (sp_verbose > 10) fprintf(spfp,"Proc %s:\n",proc);
     if ( sp_file == SPNULL )
 	return_err(proc,100,100,"Null SPFILE");
-    if ( field == CNULL )
+    if ( field == CNULL )	
 	return_err(proc,102,102,"Null header field requested");
     if ( value == (char *)NULL )
 	return_err(proc,103,103,"Null value pointer");
@@ -144,7 +144,7 @@ int sp_h_set_field(SP_FILE *sp_file, char *field, int ftype, void *value)
 
     /**********************************************************/
     /*  Pre-check the field types of standard fields          */
-
+    
     if (strsame(field,SAMPLE_BF_FIELD)) {
 	if (ftype != T_STRING)
 	    return_err(proc,112,112,
@@ -184,9 +184,9 @@ int sp_h_set_field(SP_FILE *sp_file, char *field, int ftype, void *value)
 				value,field));
 	}
     }
-    if (strsame(field,SAMPLE_COUNT_FIELD) ||
+    if (strsame(field,SAMPLE_COUNT_FIELD) || 
 	strsame(field,CHANNEL_COUNT_FIELD) ||
-	strsame(field,SAMPLE_RATE_FIELD) ||
+	strsame(field,SAMPLE_RATE_FIELD) || 
 	strsame(field,SAMPLE_CHECKSUM_FIELD)) {
 	if (ftype != T_INTEGER)
 	    return_err(proc,115,115,
@@ -194,10 +194,10 @@ int sp_h_set_field(SP_FILE *sp_file, char *field, int ftype, void *value)
 				field,"field not T_INTEGER"));
     }
 
-
+   
     if ((sp_file->open_mode == SP_mode_write) ||
 	(sp_file->open_mode == SP_mode_update)){
-
+	
 	spifr = sp_file->write_spifr;
 
 	/* do some consitency checking on X fields to be able to catch */
@@ -228,33 +228,33 @@ int sp_h_set_field(SP_FILE *sp_file, char *field, int ftype, void *value)
 	       rsprintf("Unable to set field '%s' in the files's header\n",
 			field));
 	/* check for special fields which control the waveform definitions */
-
+	
 	if (strsame(field,"sample_n_bytes")) {
 	    spifr->status->user_sample_n_bytes = (int)*((SP_INTEGER *)value);
 	    spifr->status->file_sample_n_bytes = (int)*((SP_INTEGER *)value);
-	    if (spifr->status->set_data_mode_occured_flag)
+	    if (spifr->status->set_data_mode_occured_flag) 
 	      return_warn(proc,1,1,
 		"Field 'sample_n_bytes' set after set_data_mode occured\n");
 	}
 	if (strsame(field,"sample_byte_format")){
 	    spifr->status->user_sbf = new_sbf;
 	    spifr->status->file_sbf = new_sbf;
-	    if (spifr->status->set_data_mode_occured_flag)
+	    if (spifr->status->set_data_mode_occured_flag) 
 	     return_warn(proc,2,2,
 	     "Field 'sample_byte_format' set after set_data_mode occured\n");
 	}
 	if (strsame(field,"sample_checksum")){
 	    spifr->status->file_checksum = (int)*((SP_INTEGER *)value);
-	    if (spifr->status->set_data_mode_occured_flag)
+	    if (spifr->status->set_data_mode_occured_flag) 
 		return_warn(proc,2,2,
 		"Field 'sample_checksum' set after set_data_mode occured\n");
 	}
 	if (strsame(field,SAMPLE_CODING_FIELD)){
-	    spifr->status->user_compress = spifr->status->file_compress =
+	    spifr->status->user_compress = spifr->status->file_compress = 
 		new_compress;
 	    spifr->status->user_encoding = spifr->status->file_encoding =
 		new_encoding;
-	    if (spifr->status->set_data_mode_occured_flag)
+	    if (spifr->status->set_data_mode_occured_flag) 
 		return_warn(proc,3,3,
 		  "Field 'sample_coding' set after set_data_mode occured\n");
 	}
@@ -287,7 +287,7 @@ int sp_h_set_field(SP_FILE *sp_file, char *field, int ftype, void *value)
 	    return_err(proc,112,112,
 		       rsprintf("Field '%s' should not be set on a %s",
 				field,"file opened for reading"));
-
+	    
 	if (h_set_field(spifr->header,field,ftype,value) >= 100)
 	    return_err(proc,110,110,
 		rsprintf("Unable to set field '%s' in the SPFILE's header\n",
@@ -302,15 +302,15 @@ int h_set_field(struct header_t *header, char *field, int ftype, void *value)
 {
     char *proc="h_set_field " SPHERE_VERSION_STR;
     int type, size, n;
-
+   
     if (sp_verbose > 10) fprintf(spfp,"Proc %s:\n",proc);
     if (sp_verbose > 30) {
 	fprintf(spfp,"Proc %s: before set\n",proc);
-	sp_print_lines(header,spfp);
+	sp_print_lines(header,spfp); 
     }
     if ( header == HDRNULL )
 	return_err(proc,101,101,"Null header in SPFILE");
-    if ( field == CNULL )
+    if ( field == CNULL )	
 	return_err(proc,102,102,"Null header field requested");
     if ( value == (char *)NULL )
 	return_err(proc,103,103,"Null value pointer");
@@ -318,17 +318,17 @@ int h_set_field(struct header_t *header, char *field, int ftype, void *value)
 	return_err(proc,104,104,"Illegal field type");
 
     n = sp_get_field( header, field, &type, &size );
-
+    
     if ( n < 0 ){ /* add the field to the header */
 	if (sp_add_field(header,field,ftype,value) < 0)
 	    return_err(proc,105,105,"Unable to add field");
     }
-    else
+    else 
         if (sp_change_field(header,field,ftype,value) < 0)
 	    return_err(proc,106,106,"Unable to change existing field");
-    if (sp_verbose > 30) {
-	fprintf(spfp,"Proc %s: After set\n",proc);
-	sp_print_lines(header,spfp);
+    if (sp_verbose > 30) { 
+	fprintf(spfp,"Proc %s: After set\n",proc); 
+	sp_print_lines(header,spfp); 
     }
     return_success(proc,0,0,"ok");
 }
@@ -341,11 +341,11 @@ int sp_h_delete_field(SP_FILE *sp_file, char *field)
 {
     char *proc="sp_h_delete_field " SPHERE_VERSION_STR;
     SPIFR *spifr;
-
+    
     if (sp_verbose > 10) fprintf(spfp,"Proc %s:\n",proc);
     if ( sp_file == SPNULL )
 	return_err(proc,100,100,"Null SPFILE");
-    if ( field == CNULL )
+    if ( field == CNULL )	
 	return_err(proc,102,102,"Null header field requested");
 
     if ((sp_file->open_mode == SP_mode_write) ||
@@ -353,8 +353,8 @@ int sp_h_delete_field(SP_FILE *sp_file, char *field)
 	spifr = sp_file->write_spifr;
     else
 	spifr = sp_file->read_spifr;
-
-    if ((sp_file->open_mode == SP_mode_write) ||
+       
+    if ((sp_file->open_mode == SP_mode_write) || 
 	(sp_file->open_mode == SP_mode_update)) {
 	if (h_delete_field(sp_file->write_spifr->header,field) < 0)
 	    return_err(proc,105,105,
@@ -387,13 +387,13 @@ int h_delete_field(struct header_t *header, char *field)
     int type, size;
     int n;
     char *proc="h_delete_field " SPHERE_VERSION_STR;
-
+    
     if (sp_verbose > 10) fprintf(spfp,"Proc %s:\n",proc);
     if ( header == HDRNULL )
 	return_err(proc,101,101,"Null header in SPFILE");
-    if ( field == CNULL )
+    if ( field == CNULL )	
 	return_err(proc,102,102,"Null header field requested");
-
+    
     n = sp_get_field( header, field, &type, &size );
     if ( n < 0 )
 	return_warn(proc,1,1,rsprintf("Header field '%s' does not exist",
@@ -401,6 +401,6 @@ int h_delete_field(struct header_t *header, char *field)
     if (sp_delete_field(header,field) < 0)
 	return_err(proc,104,104,rsprintf("Deletion of field '%s' failed",
 					 field));
-    return_success(proc,0,0,"ok");
+    return_success(proc,0,0,"ok");	
 }
 

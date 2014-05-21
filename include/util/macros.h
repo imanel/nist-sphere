@@ -34,7 +34,7 @@
 #define find_end_of_word(_ptr) \
     while ((*_ptr != ' ') && (*_ptr != '\t') && (*_ptr != (char)0) && \
            (*_ptr != '\n')) \
-        _ptr++;
+        _ptr++; 
 
 #define pct(num,dem)	(((dem)==0) ? 0 : (double)(num)/(double)(dem) * 100.0)
 #define ROUND(_x) ((int) ((_x) + 0.5))
@@ -57,7 +57,7 @@
 
 #define move_to_null(to) \
     while (*to != NULL_CHAR) \
-        to++;
+        to++; 
 
 #define form_feed()	printf("");
 

@@ -1,13 +1,13 @@
 /*  File: sphere.c
  *
  *  Description:
- *  This is the main sphere include file.  It should be included in any modules
+ *  This is the main sphere include file.  It should be included in any modules 
  *  that use the sphere libraries.
  *
  *  Revision History:
  *     - Created: November 1993
  *
- *     - May 5, 1994: Added the redefinition for the sp_read_data and
+ *     - May 5, 1994: Added the redefinition for the sp_read_data and 
  *       sp_write_data so as to properly handle old function argument syntax
  */
 

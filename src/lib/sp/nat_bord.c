@@ -22,11 +22,11 @@ enum SP_sample_byte_fmt get_natural_sbf(int sample_size)
 	    return(SP_sbf_10);
 	else if (*cp != 0)
 	    return(SP_sbf_01);
-	return(SP_sbf_null);
+	return(SP_sbf_null);    
     }
     if (sample_size == 4) {
 	cp = (unsigned char *)&sl;
-	/* byte 1 */ memcpy(&n,cp,1);    sbf_str[0] = '0' + n;
+	/* byte 1 */ memcpy(&n,cp,1);    sbf_str[0] = '0' + n;	
 	/* byte 2 */ memcpy(&n,cp+1,1);  sbf_str[1] = '0' + n;
 	/* byte 3 */ memcpy(&n,cp+2,1);  sbf_str[2] = '0' + n;
 	/* byte 4 */ memcpy(&n,cp+3,1);  sbf_str[3] = '0' + n;
@@ -36,5 +36,5 @@ enum SP_sample_byte_fmt get_natural_sbf(int sample_size)
 	else if (strsame(sbf_str,"1032")) return(SP_sbf_1032);
 	else if (strsame(sbf_str,"0123")) return(SP_sbf_0123);
     }
-    return(SP_sbf_N);
+    return(SP_sbf_N);    
 }

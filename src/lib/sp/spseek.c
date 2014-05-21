@@ -11,7 +11,7 @@ int sp_seek(SP_FILE *sp, int offset, int origin)
 
     if (sp == SPNULL)
 	return_err(proc,101,1,"Null SPFILE structure");
-    if (sp->open_mode != SP_mode_read)
+    if (sp->open_mode != SP_mode_read) 
 	return_err(proc,102,1,"file not opened for read");
 
     /* do an intitial read to set up the buffers & such */
@@ -24,7 +24,7 @@ int sp_seek(SP_FILE *sp, int offset, int origin)
     }
 
     switch (origin){
-      case 0:
+      case 0: 
 	if (offset < 0)
 	    return_err(proc,111,1,"Illegal negative offset for origin '0'");
 	sample = offset; break;
@@ -52,7 +52,7 @@ int sp_seek(SP_FILE *sp, int offset, int origin)
 	/* adjust for the header size */
 	if (sp->read_spifr->waveform->sp_fob->fp != FPNULL)
 	    woff += sp->read_spifr->waveform->header_data_size;
-
+	
 	/* Execute the fseek command */
 	if (fob_fseek(sp->read_spifr->waveform->sp_fob,woff,0) != 0){
 	    return_err(proc,103,1,"physical seek failed");
@@ -78,11 +78,11 @@ int sp_seek(SP_FILE *sp, int offset, int origin)
 	/* allocate memory for the reading buffer */
 	if ((read_buf=(char *)sp_data_alloc(sp,BUF_SAMPLES)) == CNULL)
 	    return_err(proc,111,1,"buffer alloc failed");
-
+	
 	/* First skip the number of samples requested */
 	while (samples_read < sample){
 	    n1 = sp_read_data((char *)read_buf,
-			      (samples_read + BUF_SAMPLES < sample) ?
+			      (samples_read + BUF_SAMPLES < sample) ? 
 			      BUF_SAMPLES :
 			      sample - samples_read,sp);
 	    if (n1 == 0 && sp_eof(sp) == 0){

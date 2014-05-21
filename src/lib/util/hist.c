@@ -126,7 +126,7 @@ double percentage_left_hist(HIST **hist, int num_bins, double value)
     int i, area=0, left_area=0;
 
     area = (double)hist_area(hist,num_bins);
-
+   
     for (i=0; (i<num_bins) &&((hist[i]->to+hist[i]->from)/2.0) <= value;i++){
         left_area+=hist[i]->count;
     }
@@ -150,7 +150,7 @@ double do_least_squares(HIST **noise, HIST **normal, int num_bins)
         i++;
     end=i;
     if ((i-=num_bins)<0)
-        i=0;
+        i=0; 
 
     for (; end<num_bins && (normal[end]->count > 0); end++)
         ;
@@ -175,7 +175,7 @@ double do_least_squares(HIST **noise, HIST **normal, int num_bins)
 void hist_copy(HIST **from, HIST **to, int num_bins, int start, int end)
 {
     int i;
-
+ 
     for (i=start; (i<num_bins) && (i<=end); i++)
          to[i]->count = from[i]->count;
 }
@@ -261,7 +261,7 @@ void read_esps_hist(HIST ***hist, int *num_bins, char *fname)
     printf("number of bins to read %d\n",*num_bins);
 
     fgets(buff,400,fp);  /* skip a line */
-
+    
     fscanf(fp,"%f %f %f\n",&hist_beg, &hist_end, &hist_incr);
     printf("hist beg %f,  end %f  incr %f\n",hist_beg,hist_end,hist_incr);
     init_hist(&t_hist,*num_bins,hist_beg,hist_end);
@@ -445,10 +445,10 @@ int comp(const void *a, const void *b)
 
 void median_filter(HIST **h, HIST **out, int num_bins, int size)  /* size must be ODD */
                                     /* h and out may be the same */
-
+                  
 {
   int bin,*out_vals,*temp,i,half_size,index,median;
-
+  
   half_size=size/2;
 
   out_vals = (int *) malloc (num_bins * sizeof (int));
@@ -461,7 +461,7 @@ void median_filter(HIST **h, HIST **out, int num_bins, int size)  /* size must b
       index=bin-half_size+i;
       temp[i]=((index >= 0) && (index < num_bins)) ? h[index]->count : 0;
     }
-
+      
     /* find median of window */
     qsort(temp,size,sizeof(int),comp);
     median = temp[half_size];
@@ -477,7 +477,7 @@ void median_filter(HIST **h, HIST **out, int num_bins, int size)  /* size must b
   free(temp);
 }
 
-
+    
 int locate_extremum(HIST **h, int from, int to, int type)
 {
   int i,j,extremum,swing_loc,k,next_swing_loc,diff1,diff2,pre_swing,post_swing;
@@ -587,7 +587,7 @@ int hist_slope(HIST **hist, int num_bins, int center, int factor)
     int ind, cnt;
 
     for (ind=0,cnt=0; ind < factor; ind++)
-        if (center-ind < 0)
+        if (center-ind < 0) 
             cnt -= hist[center+ind]->count;
         else if (ind+center>=num_bins)
             cnt += hist[center-ind]->count;

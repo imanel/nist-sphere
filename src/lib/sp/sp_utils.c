@@ -186,10 +186,10 @@ int sp_copy_header(SP_FILE *spin, SP_FILE *spout)
     /* add a dummy sample_count field to the output header              */
     /*   Added June 22, 1994 */
     {   int type, size, is_disk_file, out_is_disk_file;
-	is_disk_file = (spin->open_mode == SP_mode_read) ?
+	is_disk_file = (spin->open_mode == SP_mode_read) ? 
 	    spin->read_spifr->status->is_disk_file :
 		spin->write_spifr->status->is_disk_file;
-	out_is_disk_file = (spout->open_mode == SP_mode_read) ?
+	out_is_disk_file = (spout->open_mode == SP_mode_read) ? 
 	    spout->read_spifr->status->is_disk_file :
 		spout->write_spifr->status->is_disk_file;
 	if (! is_disk_file)
@@ -441,7 +441,7 @@ int sp_add_field(struct header_t *h, char *name, int type, char *p)
 	(void) spx_deallocate_field(nf);
 	return -1;
     }
-
+    
     if (fc > 0) {
 	(void) spx_copy_field_vector(h->fv, fv, fc);
 	mtrf_free((char *) h->fv);
@@ -607,7 +607,7 @@ SP_INTEGER sp_file_header_size(char *file)
 SP_INTEGER sp_header_size(struct header_t *h)
 {
     FILE *fp;
-    SP_INTEGER header_size, data_size;
+    SP_INTEGER header_size, data_size;    
 
     if (h == HDRNULL)
 	return -1;

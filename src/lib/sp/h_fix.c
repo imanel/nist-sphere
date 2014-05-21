@@ -11,7 +11,7 @@ int correct_out_of_date_headers(SP_FILE *sp)
     struct stat fileinfo;
     SP_INTEGER samp_cnt, chan_cnt, samp_nb_cnt, new_samp_cnt;
     int changes_have_occured = FALSE;
-
+    
     if (sp == SPNULL)
 	return_err(proc,100,0,"Null SPFILE structure");
 
@@ -49,7 +49,7 @@ int correct_out_of_date_headers(SP_FILE *sp)
 			T_INTEGER, (void *)&chan_cnt) != 0)
 	    chan_cnt = 1;
 	if (chan_cnt != 1){
-	    if (samp_cnt * samp_nb_cnt ==
+	    if (samp_cnt * samp_nb_cnt == 
 		fileinfo.st_size - sp->read_spifr->waveform->header_data_size) {
 		/****** WE HAVE AN OUT-OF-DATE Header ******/
 		/* change the sample count to be the number of samples per    */
@@ -68,12 +68,12 @@ int correct_out_of_date_headers(SP_FILE *sp)
     }
 
     if (changes_have_occured)
-	if ((sp->read_spifr->waveform->header_data_size =
+	if ((sp->read_spifr->waveform->header_data_size = 
 	     sp_header_size(sp->read_spifr->header)) < 0){
 	    return_err(proc,1000,1000,
 		       rsprintf("Unable to get SPHERE header size%s",
 				"of corrected header"));
 	}
-
+	
     return_success(proc,0,0,"ok");
 }

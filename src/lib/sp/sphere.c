@@ -36,7 +36,7 @@ char *shorten_argv[MAX_SHORTEN_ARGC];
 int shorten_set_flag(char *flag) {
   int nbyte = (int)strlen(flag) + 1;
   char *new_argv = (char *)malloc(nbyte);
-
+  
   if(new_argv == NULL) {
     fprintf(stderr, "shorten_set_flag: malloc(%d) == NULL\n", nbyte);
     return(100);
@@ -67,7 +67,7 @@ void shorten_init(void) {
 
 void shorten_dump_flags(FILE *fpout) {
   int i;
-
+    
   fprintf(fpout,"Shorten Arguements:\n");
   for(i = 0; i < shorten_argc; i++)
       fprintf(fpout,"   Arg %1d: %s\n",i,shorten_argv[i]);

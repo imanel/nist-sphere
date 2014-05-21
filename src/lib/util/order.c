@@ -23,7 +23,7 @@ void rank_int_arr(int *arr, int num, int *ptr_arr, double *rank_arr, int order)
 {
     int i, j, tmp, count;
 
-    /* init the indexes to 1-n */
+    /* init the indexes to 1-n */ 
     for (j=0;j<num;j++)
         ptr_arr[j] = j;
     if (order == DECREASING){

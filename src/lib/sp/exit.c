@@ -12,7 +12,7 @@
 #define HAVE_STDARG_H
 #endif
 #endif
-
+ 
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -33,7 +33,7 @@ extern volatile int errno;
 extern int errno;
 #endif
 
-// extern char *sys_errlist[];
+extern char *sys_errlist[];
 extern char *argv0;
 extern char *filenameo;
 extern FILE *fileo;
@@ -45,7 +45,7 @@ void basic_exit(exitcode) int exitcode; {
 
 /* only do this if it is standalone code */
 #ifdef STANDALONE_CODE
-
+    
   /* try to delete the output file on all abnormal exit conditions */
   if(exitcode != 0 && fileo != NULL && fileo != stdout) {
     fclose(fileo);

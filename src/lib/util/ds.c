@@ -10,7 +10,7 @@
         phi:	the current base point
         K:	The number of coordinate points
         DELTA:	The current step size
-        delta:	The "minimum" step size
+        delta:	The "minimum" step size	
         rho:	The reduction factor for the step size (rho < 1)
         S:	The function used for the minimization
 
@@ -26,7 +26,7 @@
     cleaned up slightly, verbose option removed summer 1992.
     Jan 24, 1996 JGF, Added the Environement flag DS_DEBUG to diagnose problems
            - Added the full_search variable to search the entire space around a
-	     test point before making a move.
+	     test point before making a move. 
 	   - added the cache functionality to reduce re-computation of S
 */
 #define DS_C_VERSION "V1.0"
@@ -54,7 +54,7 @@ static void add_to_cache(double Snew, int *phi_new){
     last_cache = new_pos;
     if (cache_count < num_cache)
 	cache_count ++;
-/*
+/* 
     for (x=0; x<cache_count; x++){
 	printf("Cached %d:  S()= %.2f %2s ",x,Scache[x],(x == last_cache) ? "x" : " ");
 	for (ack=0; ack<K; ack++)
@@ -104,7 +104,7 @@ static void E_proc(void){
 		    SS = Sphi;
 		else
 		    phi[epk] = phi_base[epk];
-	    }
+	    } 
 	}
     } else {
 	int iter = 0, maxiter = 1 << K, done=0, carry;
@@ -115,7 +115,7 @@ static void E_proc(void){
 	while (! done){
 	    /* load the new phi */
 	    if (debug) printf("DS: E:  iter: %d  Mapping: ",iter);
-	    for (epk=0; epk<K; epk++)
+	    for (epk=0; epk<K; epk++) 
 		if (phi_map[epk] == 0) {
 		    phi[epk] = phi_base[epk];            if (debug) printf(" 0");
 		} else if (phi_map[epk] == 1) {
@@ -146,7 +146,7 @@ static void E_proc(void){
 		    if (epk == K-1) done = 1;
 		}
 	    }
-
+		    
 	}
 	/* copy in the selected minimum */
 	for (epk=0; epk<K; epk++) phi[epk] = phi_cm[epk];
@@ -212,7 +212,7 @@ L2:
 	    add_to_cache(Sphi, phi);
 	}
 	SS = Sphi;
-
+	
 	E_proc();
 	if (SS < Spsi) goto L2; else goto L1;
     }

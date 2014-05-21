@@ -60,10 +60,10 @@ int main(int argc, char **argv)
 	  case 'o':
 	    if (strsame(hs_optarg,"short_01") || strsame(hs_optarg,"pcm_01"))
 		strcpy(format_conversion,"SE-PCM:SBF-01");
-	    else  if (strsame(hs_optarg,"short_10") ||
+	    else  if (strsame(hs_optarg,"short_10") || 
 		      strsame(hs_optarg,"pcm_10"))
 		strcpy(format_conversion,"SE-PCM:SBF-10");
-	    else  if (strsame(hs_optarg,"short_natural") ||
+	    else  if (strsame(hs_optarg,"short_natural") || 
 		      strsame(hs_optarg,"pcm"))
 		strcpy(format_conversion,"SE-PCM:SBF-N");
 	    else  if (strsame(hs_optarg,"ulaw"))

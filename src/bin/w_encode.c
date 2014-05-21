@@ -167,7 +167,7 @@ int main(int argc, char **argv)
 			    compute_compression_percent(argv[op]));
 		else
 		    fprintf(spfp,"\n");
-	    }
+	    }	    
 	}
     }
     exit(0);
@@ -193,7 +193,7 @@ double compute_compression_percent(char *file){
 	sp_close(sp);
 	return(-1.0);
     }
-    percent = ((double)(sc * snb * cc) -
+    percent = ((double)(sc * snb * cc) - 
 	           (double)(fileinfo.st_size -
 			   sp->read_spifr->waveform->header_data_size)) /
 	      ((double)(sc * snb * cc)) * 100.0;
@@ -201,7 +201,7 @@ double compute_compression_percent(char *file){
 
     return(percent);
 }
+    
 
-
-
-
+    
+    

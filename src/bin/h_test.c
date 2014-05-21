@@ -53,7 +53,7 @@ int main(int argc, char **argv)
 
 	static double r = DOUBLE1;
 	static long l = LONG1, l2 = LONG2;
-
+	
 	if (((i+1) % 1000) == 0) printf("Iteration %d\n",i+1);
 	if ((n = sp_add_field(h,rsprintf("field1_%d",j),
 			      T_INTEGER,(char *) &l)) >= 0){
@@ -69,7 +69,7 @@ int main(int argc, char **argv)
 		fprintf(spfp,"ADD of REAL field failed\n");
 	} else
 	    fprintf(spfp,"ADD of INTEGER field failed\n");
-
+       
 	if (n < 0) {
 	    (void) fprintf(spfp,
 		        "%s: iteration %d -- error adding fields to header\n",
@@ -96,8 +96,8 @@ int main(int argc, char **argv)
 			if ((n = sp_get_data(h,rsprintf("field3_%d",j),buf,
 					     &f3size)) >= 0){
 			    if (strncmp(buf,str_buf,f3size) != 0){
-				n = -1;
-				if (n < 0)
+				n = -1;			
+				if (n < 0) 
 				    printf("Failed STRING value check %s\n",
 					   buf);
 			    }
@@ -125,7 +125,7 @@ int main(int argc, char **argv)
 	    (void) sp_print_lines(h,spfp);
 	    exit(ERROR_EXIT_STATUS);
 	}
-
+	
 	if ((rand() % 10) == 5) {
 	    n = sp_delete_field(h,rsprintf("field1_%d",j));
 	    if (n >= 0) n = sp_delete_field(h,rsprintf("field2_%d",j));
@@ -140,7 +140,7 @@ int main(int argc, char **argv)
 		exit(ERROR_EXIT_STATUS);
 	    }
 	    j = 0;
-	} else
+	} else 
 	    j++;
 
 	if (n < 0) {

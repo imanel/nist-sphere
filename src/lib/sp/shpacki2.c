@@ -1,5 +1,5 @@
 /*CopyRight 1992 Massachusetts Institute of Technology*/
-
+ 
 #include <stdio.h>
 
 /**** Added byt JGF  ****/
@@ -18,12 +18,12 @@ extern jmp_buf	exitenv;
 #       undef fread
 #endif
 #define fread(a,b,c,d)          fob_fread((void *)(a),(b),(c),(d))
-
+ 
 #ifdef fwrite
 #       undef fwrite
 #endif
 #define fwrite(a,b,c,d)         fob_fwrite((void *)(a),(b),(c),(d))
-
+ 
 #ifdef putc
 #       undef putc
 #endif
@@ -89,10 +89,10 @@ read_wav_data(FOB *fp, short int **pwaveform, header_t *header, int check_checks
 /*  if((strcmp(sample_byte_format, "01") == 0) || (strcmp(sample_byte_format, "10") == 0))*/
   if (0)
   { fread(waveform, sizeof(short), len, fp);
-
+    
     /*if byte ordering of file was different from machine, swapem*/
 
-
+    
     if ((sp_htons(test_short) == test_short && strcmp("01", sample_byte_format) == 0) ||
 	(sp_htons(test_short) != test_short && strcmp("10", sample_byte_format) == 0))
     { printf("swapping");
@@ -133,7 +133,7 @@ read_wav_data(FOB *fp, short int **pwaveform, header_t *header, int check_checks
 write_wav_data(FOB *fp, short int *waveform, header_t *header)
 { int i;
   char sample_byte_format[MAX_HEADER_FIELD];
-  int swap;
+  int swap; 
   int string_len;
   int len;
   short test_short = 1;
@@ -181,7 +181,7 @@ write_wav_data(FOB *fp, short int *waveform, header_t *header)
   { if(strcmp(sample_byte_format, "shortpack-v0") == 0)
     { printf("writing with shortpack");
       write_shortpacked_data(waveform, len, fp);  /*writes from machines byte-order*/
-
+      
     }
     else
     { fprintf(stderr,"SORRY! don't know about sample_byte_format %s\n", sample_byte_format);
@@ -253,9 +253,9 @@ compute_checksum(short int *wav, int len)
   return checksum;
 }
 
-
-
-
-
-
-
+  
+  
+  
+  
+    
+  

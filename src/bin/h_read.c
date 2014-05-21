@@ -89,14 +89,14 @@ int main(int argc, char **argv)
 		(void) printf("Option: -%c\n",c);
 	    else
 		(void) printf("Option: -%c %s\n",c,hs_optarg);
-
+	
 	switch (c) {
 	  case 'a':	check_alphanum = TRUE;			break;
 	  case 'B':	blanklines = atoi(hs_optarg);		break;
 	  case 'b':	check_byte_order = TRUE;		break;
 	  case 'c':	complement_selection = TRUE;		break;
 	  case 'd':	pr_data_flag = FALSE;			break;
-
+	    
 	  case 'f':	p = hs_optarg;
 	    while (*p)
 		switch (*p++) {
@@ -110,7 +110,7 @@ int main(int argc, char **argv)
 		    usage();
 		} /* switch */
 	    break;
-
+	    
 	  case 'N':	p = hs_optarg;
 	    while (*p)
 		switch (*p++) {
@@ -124,15 +124,15 @@ int main(int argc, char **argv)
 		    usage();
 		} /* switch */
 	    break;
-
-	  case 'o':
+	    
+	  case 'o':	
 	    if (odd != CNULL) {
 		(void) fprintf(stderr,
 			       "Only one -o option is allowed\n");
 		usage();
 	    }
 	    odd = hs_optarg;				break;
-
+	    
 	  case 'T':	pr_str = pr_int = pr_real = FALSE;
 	    p = hs_optarg;
 	    while (*p)
@@ -150,7 +150,7 @@ int main(int argc, char **argv)
 		    usage();
 		} /* switch */
 	    break;
-
+	    
 	  case 'q':	pr_quote_flag = TRUE;			break;
 	  case 'n':	pr_fieldname_flag = FALSE;		break;
 	  case 't':	pr_type_flag = TRUE;			break;
@@ -164,11 +164,11 @@ int main(int argc, char **argv)
 	  case '0':	number_from_zero = TRUE;		break;
 	  default:	usage();
 	} /* switch */
-
+	
     } /* for (;;) */
-
+    
     if (verbose) fprintf(spfp,"%s: %s\n",prog,sp_get_version());
-
+  
     /*
       If any fields to be printed were named for on the command
       line, change selection mode, except if standard fields
@@ -183,7 +183,7 @@ int main(int argc, char **argv)
 	    (void) fprintf(stderr,"Cannot specify both -F and -S\n");
 	    usage();
 	}
-
+    
 
     if (pr_total_field_numbers)
 	total_fields = number_from_zero ? 0 : 1;
@@ -197,10 +197,10 @@ int main(int argc, char **argv)
 	    for (j = 0; j < blanklines; j++)
 		(void) putchar('\n');
     }
-
-
+    
+    
     exit_status = errors ? ERROR_EXIT_STATUS : 0;
-
+    
     if (verbose) {
 	(void) printf("Files: %d\n",files);
 	(void) printf("Errors: %d\n",errors);
@@ -220,8 +220,8 @@ void read_file(char *file)
     register struct header_t *h;
     int i, nfields, type, size;
     char *errmsg;
-
-
+    
+    
     fp = fopen(file,"r");
     if (fp == FPNULL) {
 	pr_error("Cannot open");
@@ -248,7 +248,7 @@ void read_file(char *file)
 		free( errmsg );
 	    }
 	}
-
+    
 
     if (verify_byte_count) {
 	struct stat s;
@@ -315,19 +315,19 @@ void read_file(char *file)
 	    if (verbose)
 		(void) printf("%s: Byte count ok\n",file);
 	}
-
+	
       end:
 	;
     }
-
+    
     nfields = sp_get_nfields(h);
     if (verbose)
 	(void) printf("Fields: %d\n",nfields);
-
+    
     if (check_std_fields) {
 	register char **f = &std_fields[0];
 	char buffer[1024];
-
+	
 	while (*f != CNULL) {
 	    if (sp_get_field(h,*f,&type,&size) < 0) {
 		(void) sprintf(buffer,"Missing standard field %s",*f);
@@ -336,7 +336,7 @@ void read_file(char *file)
 	    f++;
 	}
     }
-
+    
 
     if (check_alphanum) {
 	register struct field_t **fv;
@@ -369,7 +369,7 @@ void read_file(char *file)
 		      prog,file,nfields,nfields_expected);
 	errors++;
     }
-
+    
     if (nfields > 0) {
 	char **fv;
 
@@ -386,7 +386,7 @@ void read_file(char *file)
 	    free((char *) fv);
 	}
     }
-
+    
     (void) fclose(fp);
 
     if (sp_close_header(h) < 0)
@@ -431,7 +431,7 @@ void field(register struct header_t *h, char *name)
 {
     char *p, *q, buffer[1024];
     int n, print_it, type, size, size2, nprinted;
-
+    
     switch (selection) {
       case SELECT_ALL:
 	print_it = TRUE;
@@ -443,7 +443,7 @@ void field(register struct header_t *h, char *name)
 	print_it = in_list(name,nprf,prf);
 	break;
     }
-
+    
     if (complement_selection)
 	print_it = ! print_it;
 
@@ -453,14 +453,14 @@ void field(register struct header_t *h, char *name)
 			  name);
 	return;
     }
-
+    
     n = sp_get_field(h,name,&type,&size);
     if (n < 0) {
 	(void) sprintf(buffer,"No field \"%s\"",name);
 	pr_error(buffer);
 	return;
     }
-
+    
     switch (type) {
       case T_STRING:
 	print_it = pr_str;
@@ -472,13 +472,13 @@ void field(register struct header_t *h, char *name)
 	print_it = pr_real;
 	break;
     }
-
+    
     if (! print_it) {
 	if (verbose)
 	    (void) printf("Field %s ignored (based on type)\n",name);
 	return;
     }
-
+    
     p = q = malloc((u_int) size);
     if (p == CNULL) {
 	pr_error("Out of memory");
@@ -498,39 +498,39 @@ void field(register struct header_t *h, char *name)
 	pr_error(buffer);
 	return;
     }
-
-
+    
+    
     nprinted = 0;
-
+    
     if (pr_total_field_numbers) {
 	(void) printf("%d",total_fields++);
 	nprinted++;
     }
-
+    
     if (pr_filename_with_fields) {
 	if (nprinted++)
 	    (void) fputs(delim,stdout);
 	(void) printf("%s",current_file);
     }
-
+    
     if (pr_field_numbers) {
 	if (nprinted++)
 	    (void) fputs(delim,stdout);
 	(void) printf("%d",fieldno++);
     }
-
+    
     if (pr_fieldname_flag) {
 	if (nprinted++)
 	    (void) fputs(delim,stdout);
 	(void) printf("%s",name);
     }
-
+    
     if (pr_type_flag) {
 	if (nprinted++)
 	    (void) fputs(delim,stdout);
 	(void) printf("%c",spx_tp(type));
     }
-
+    
     if (pr_data_flag) {
 	if (nprinted++)
 	    (void) fputs(delim,stdout);
@@ -551,10 +551,10 @@ void field(register struct header_t *h, char *name)
 	if (pr_quote_flag)
 	    (void) putchar('"');
     }
-
+    
     if (nprinted)
 	(void) putchar('\n');
-
+    
     free(q);
 }
 
@@ -563,10 +563,10 @@ void field(register struct header_t *h, char *name)
 int in_list(char *name, int n, char **f)
 {
     register int i;
-
+    
     if (name == CNULL)
 	return FALSE;
-
+    
     for (i=0; i < n; i++)
 	if (strcmp(name,f[i]) == 0)
 	    return TRUE;
