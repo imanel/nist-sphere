@@ -12,7 +12,7 @@
 
 #include <sys/stat.h>
 #define SPHERE_PRE_2_2
-#include <sp/sphere.h>
+#include <sphere.h>
 
 char usage[] = "Usage:  %s [-v] -o [-[t|p]F:T]] [-c EXP] [-o OUT ] { filein | - } \
 { fileout | - }\n\
@@ -105,7 +105,7 @@ int main(int argc, char **argv)
 			    fprintf(spfp,usage,prog,prog);
 			    goto FATAL_EXIT;
 			}
-		    }		    
+		    }
 		}
 		tstr = strtok(CNULL,":");
 	    }
@@ -133,10 +133,10 @@ int main(int argc, char **argv)
 			fprintf(spfp,usage,prog,prog);
 			goto FATAL_EXIT;
 		    }
-		}		    
+		}
 	    }
 	    if ((c == 't' && (begin_time > end_time) && (end_time != (-1.0)))||
-		(c == 's' && (begin_sample > end_sample) && (end_sample != 
+		(c == 's' && (begin_sample > end_sample) && (end_sample !=
 							     (-1)))){
 		    fprintf(spfp,"Error: Beginning %s is after Ending %s.\n",
 			    (c == 't') ? "time" : "sample",
@@ -153,7 +153,7 @@ int main(int argc, char **argv)
 	    else  if (strsame(hs_optarg,"short_10") ||
 		      strsame(hs_optarg,"pcm_10"))
 		format_conversion = "SE-PCM:SBF-10";
-	    else  if (strsame(hs_optarg,"short_natural") || 
+	    else  if (strsame(hs_optarg,"short_natural") ||
 		      strsame(hs_optarg,"pcm"))
 		format_conversion = "SE-PCM:SBF-N";
 	    else  if (strsame(hs_optarg,"ulaw"))
@@ -242,7 +242,7 @@ int main(int argc, char **argv)
 
     /* if times were used on the command line, convert them to samples */
     if (use_sample) {
-	/* printf("Using samples from %d:%d\n",begin_sample,end_sample); */ 
+	/* printf("Using samples from %d:%d\n",begin_sample,end_sample); */
 	begin_time = (double)begin_sample / (double)in_sample_rate;
 	end_time   = (double)end_sample   / (double)in_sample_rate;
     } else {
@@ -283,13 +283,13 @@ int main(int argc, char **argv)
 	if (sp_h_set_field(sp_out,"start_time",T_REAL,(void *)&spreal) != 0){
 	    fprintf(spfp,"Warning: sp_h_set_field failed on 'start_time'\n");
 	    sp_print_return_status(spfp);
-	}    
+	}
 	spreal = (SP_REAL) end_time;
 	if (sp_h_set_field(sp_out,"end_time",T_REAL,(void *)&spreal) != 0){
 	    fprintf(spfp,"Warning: sp_h_set_field failed on 'end_time'\n");
 	    sp_print_return_status(spfp);
-	}    
-	
+	}
+
 	/* set the 'data_origins' field */
 	*data_origins = '\0';
 	if (sp_h_get_field(sp_out,"database_id",T_STRING,(void *)&str) == 0){
@@ -314,13 +314,13 @@ int main(int argc, char **argv)
 	    strcat(data_origins,",");
 	strcat(data_origins,str);
 	free(str);
-	
+
 	/* Set the new 'data_origins' field */
 	if (sp_h_set_field(sp_out,"data_origins",
 			   T_STRING,(void *)&data_origins) != 0){
 	    fprintf(spfp,"Warning: sp_h_set_field failed on 'data_origins'\n");
 	    sp_print_return_status(spfp);
-	}    
+	}
     }
 
     /* convert the file using the format_conversion field */
@@ -364,7 +364,7 @@ int main(int argc, char **argv)
 	if (samp_to_get == 0){
 	    break;
 	}
-	
+
 	n1 = sp_read_data((char *)read_buf,in_snb,samp_to_get,sp_in);
 	if (n1 == 0 && sp_error(sp_in) != 0) {
 	    fprintf(spfp,"%s: sp_error() returned Non-Zero code\n",prog);
@@ -403,7 +403,7 @@ int main(int argc, char **argv)
 		    prog,fileout);
 	    exit_val = 1;
 	}
-    
+
     if (exit_val == 1)
 	if ((fileout != CNULL) && ! strsame(fileout,"-")) unlink(fileout);
 

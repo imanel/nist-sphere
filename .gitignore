@@ -11,4 +11,3 @@ install-sh
 missing
 .deps
 .dirstamp
-*.a

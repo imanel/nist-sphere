@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
-#define SPHERE_PRE_2_2 
-#include <sp/sphere.h>
-#include <util/hsgetopt.h>
-#include <util/memory.h>
+#define SPHERE_PRE_2_2
+#include <sphere.h>
+#include <hsgetopt.h>
+#include <memory.h>
 
 #if defined(NARCH_SUN) || defined(NARCH_HP)	/* cth */
 #include <sys/types.h>
@@ -141,7 +141,7 @@ int main(int argc, char **argv)
     char *sphere_lib_dir=".";
     int c,l,loop=1,start_test=0,final_test=100;
     char *prog;
-    
+
     prog = strrchr(argv[0],'/');
     prog = (prog == CNULL) ? argv[0] : (prog + 1);
 
@@ -170,7 +170,7 @@ int main(int argc, char **argv)
  	    mtrf_set_dealloc(1);
 	    mtrf_set_verbose(1);
 	    break;
-	  case 'e':	    
+	  case 'e':
 	    set_error_util_debug(1);
 	    break;
 	  case 'h':
@@ -196,37 +196,37 @@ int main(int argc, char **argv)
 	    fprintf(spfp,
 		  "*************   Beginning Iteration %d   ************\n\n",
 		  l+1);
-	
-	if (start_test <= 1 && final_test >= 1)  header_test(1);  
+
+	if (start_test <= 1 && final_test >= 1)  header_test(1);
 	if (start_test <= 2 && final_test >= 2)
 	    checksum_pre_post_verification(2);
 	if (start_test <= 3 && final_test >= 3)  write_required_field_test(3);
-	if (start_test <= 4 && final_test >= 4)  
+	if (start_test <= 4 && final_test >= 4)
 	    write_check_adding_fields_test(4);
 	if (start_test <= 5 && final_test >= 5)
 	    verify_checksum_computations(5);
 	if (start_test <= 6 && final_test >= 6)  update_test(6);
-	if (start_test <= 7 && final_test >= 7)  large_file_test(7); 
+	if (start_test <= 7 && final_test >= 7)  large_file_test(7);
 	if (start_test <= 8 && final_test >= 8)  ulaw_test(8);
-	if (start_test <= 9 && final_test >= 9)  two_channel_test(9); 
+	if (start_test <= 9 && final_test >= 9)  two_channel_test(9);
 	if (start_test <= 10 && final_test >= 10)
 	    mult_channel_raw_data_test(10);
 	if (start_test <= 11 && final_test >= 11)  doc_example_2_test(11);
 	if (start_test <= 12 && final_test >= 12)  doc_example_4_test(12);
 	if (start_test <= 13 && final_test >= 13) selective_channel_test(13);
-	if (start_test <= 14 && final_test >= 14) array_access_tests(14); 
-	if (start_test <= 15 && final_test >= 15) rewind_tests(15); 
-	if (start_test <= 16 && final_test >= 16) pculaw_test(16); 
-	if (start_test <= 17 && final_test >= 17) seek_test(17); 
-	if (start_test <= 18 && final_test >= 18) sp_compute_checksum_test(18); 
+	if (start_test <= 14 && final_test >= 14) array_access_tests(14);
+	if (start_test <= 15 && final_test >= 15) rewind_tests(15);
+	if (start_test <= 16 && final_test >= 16) pculaw_test(16);
+	if (start_test <= 17 && final_test >= 17) seek_test(17);
+	if (start_test <= 18 && final_test >= 18) sp_compute_checksum_test(18);
 
 #ifdef SUN
 	if (malloc_verify() == 0){
   	    fprintf(spfp,"******  all tests completed BUT THE MEMORY HEAP");
 	    fprintf(spfp,"IS TRASHED  ******\n");
 	}
-#endif 
-   }  
+#endif
+   }
 
     if (warning > 0)
 	fprintf(spfp,
@@ -260,11 +260,11 @@ void sp_compute_checksum_test(int test)
 void do_sp_compute_checksum_test(char *file, int with_checksum, int corrupt, int test_seek){
     SP_FILE *sp;
     SP_INTEGER fchksum;
-    SP_CHECKSUM cchksum;    
+    SP_CHECKSUM cchksum;
     int ret;
-    
+
     fprintf(spfp,"---- Testing sp_compute_checksum() on file '%s'\n",file);
-    
+
     if ((sp=sp_open(file,"r")) == SPNULL) {
 	fprintf(spfp,"Error: sp_open of file '%s' failed.\n",file);
 	goto FATAL_EXIT;
@@ -275,7 +275,7 @@ void do_sp_compute_checksum_test(char *file, int with_checksum, int corrupt, int
 	    fprintf(spfp,"Error: Can't get checksum from file '%s'\n",file);
 	    goto FATAL_EXIT;
 	}
-    }    
+    }
     if (test_seek){
 	if (sp_seek(sp,1034,0) != 0){
 	    fprintf(spfp,"Error: attempt to perform an initial seek failed");
@@ -339,26 +339,26 @@ void perform_seek_test(char *file){
 
     /* 1. open and read in a file.
        2. close the file
-       3. re-open the file, randomly seeking through the 
+       3. re-open the file, randomly seeking through the
        file verifying data as you go .
-       */ 
+       */
     fprintf(spfp,"-- Seek testing on file '%s'.\n",file);
     if (sp_load_file(file, ""/*SDM*/, &nsamp, &nchan, &nsnb,
 		     &orig_data) != 0){
 	fprintf(spfp,"   sp_load_file for file '%s' failed\n",file);
-	goto FATAL_QUIT;	    
+	goto FATAL_QUIT;
     }
-    
+
     if ((sp=sp_open(file,"r")) == SPNULL) {
 	fprintf(spfp,"   sp_open of file '%s' failed.\n",file);
-	goto FATAL_QUIT;	    
+	goto FATAL_QUIT;
     }
-    
+
     if ((seek_data = (void *)sp_data_alloc(sp,-1))== (void *)0){
 	fprintf(spfp,"   seek data allocation failed\n");
-	goto FATAL_QUIT;	    
+	goto FATAL_QUIT;
     }
-    
+
     for (origin = 0; origin < 3; origin ++){
 	fprintf(spfp,"---- Origin: %d, Seek to: ",origin);
 	/* start seeking through the data, comparing the data */
@@ -369,7 +369,7 @@ void perform_seek_test(char *file){
 	    /* check the location, and make sure we don't read after EOF */
 	    if (loc > (nsamp - 100)) loc = 100;
 	    if (loc + size > nsamp) size = nsamp - loc;
-	    
+
 	    fprintf(spfp,"%d[%d] ",(int)loc,(int)size);
 	    switch (origin) {
 	      case 0: offset = loc;
@@ -385,7 +385,7 @@ void perform_seek_test(char *file){
 		fprintf(spfp,"\nsp_seek() failed.\n");
 		goto FATAL_QUIT;
 	    }
-	    
+
 	    n1 = sp_read_data(seek_data,nsnb,size,sp);
 	    if (n1 != size){
 		fprintf(spfp,"\nsp_read_data failed.\n");
@@ -402,12 +402,12 @@ void perform_seek_test(char *file){
 	fprintf(spfp,"\n");
     }
     goto CLEAN_UP;
-    
+
   FATAL_QUIT:
     sp_print_return_status(spfp);
   FATAL_EXIT:
     exit (1);
-    
+
   CLEAN_UP:
     if (sp != SPNULL) {
 	if (seek_data != (void *)0) sp_data_free(sp,seek_data);
@@ -436,29 +436,29 @@ int do_sp_tell_check(SP_FILE *sp, char *file){
 		" for something other that read or write",file);
 	return(1);
     }
-	    
+
     file_byte_loc = fob_ftell(spifr->waveform->sp_fob);
     if ((! fob_is_fp(spifr->waveform->sp_fob)) ||
-	(fob_is_fp(spifr->waveform->sp_fob) && spifr->status->is_temp_file)) 
+	(fob_is_fp(spifr->waveform->sp_fob) && spifr->status->is_temp_file))
 	file_byte_loc += spifr->waveform->header_data_size;
 
-    file_samples = 
+    file_samples =
 	(fob_ftell(spifr->waveform->sp_fob) -
-	 ((fob_is_fp(spifr->waveform->sp_fob) && 
+	 ((fob_is_fp(spifr->waveform->sp_fob) &&
 	   !(spifr->status->is_temp_file)) ?
-	  spifr->waveform->header_data_size : 0)) / 
-	 (spifr->status->file_sample_n_bytes * 
+	  spifr->waveform->header_data_size : 0)) /
+	 (spifr->status->file_sample_n_bytes *
 	  spifr->status->file_channel_count);
-    
+
     if ((sptell_byte_loc = sp_tell(sp)) < 0){
 	fprintf(spfp,"Error: sp_tell() failed\n");
 	sp_print_return_status(spfp);
 	return(1);
     }
-    sptell_byte_loc = 
-	(sptell_byte_loc * 
-	 spifr->status->file_sample_n_bytes * 
-	 spifr->status->file_channel_count) + 
+    sptell_byte_loc =
+	(sptell_byte_loc *
+	 spifr->status->file_sample_n_bytes *
+	 spifr->status->file_channel_count) +
 	     spifr->waveform->header_data_size;
 
     if (file_byte_loc != sptell_byte_loc){
@@ -473,7 +473,7 @@ int do_sp_tell_check(SP_FILE *sp, char *file){
 void rewind_tests(int test)
 {
     fprintf(spfp,"Test %2d: Rewind waveform tests:\n",test);
-       
+
     fprintf(spfp,"---- Rewind without data_mode modifications\n");
     rewind_file_compare(EX1_10,EX1_10,"","","");
     rewind_file_compare(EX1_10,EX1_01,"","","");
@@ -512,14 +512,14 @@ void rewind_tests(int test)
     rewind_file_compare(EX5_2CHAN,EX5_2CHAN,"",EX5_CHAN12,"CH-1+2");
 
     fprintf(spfp,"---- Rewind of multi channel file\n");
-    rewind_file_multi_channel(EX5_2CHAN,"",EX5_CHAN1,EX5_CHAN2); 
+    rewind_file_multi_channel(EX5_2CHAN,"",EX5_CHAN1,EX5_CHAN2);
     rewind_file_multi_channel(EX5_2CHAN_PCM,"",EX5_CHAN1_PCM,EX5_CHAN2_PCM);
     rewind_file_multi_channel(EX5_2CHAN,"SE-PCM:",EX5_CHAN1_PCM,
-			      EX5_CHAN2_PCM); 
+			      EX5_CHAN2_PCM);
     rewind_file_multi_channel(EX5_2CHAN_SHORTEN,"SE-PCM:",EX5_CHAN1_PCM,
-			      EX5_CHAN2_PCM); 
+			      EX5_CHAN2_PCM);
     rewind_file_multi_channel(EX5_2CHAN_WAVPACK,"SE-PCM:",EX5_CHAN1_PCM,
-			      EX5_CHAN2_PCM); 
+			      EX5_CHAN2_PCM);
     fprintf(spfp,"\n");
 }
 
@@ -527,10 +527,10 @@ void rewind_file_multi_channel(char *file1, char *conv, char *file2, char *file3
 {
     SP_FILE *sp1, *sp2, *sp3, *sp4;
     char dm[50];
-    
+
     fprintf(spfp,"------ Comparing file '%s' converted by '%s'\n",file1,conv);
     fprintf(spfp,"-------- Chan1 '%s' and Chan2 '%s':\n",file2,file3);
-    
+
     if ((sp1=sp_open(file1,"r")) == SPNULL) {
 	fprintf(spfp,"   sp_open: spopen failed on file '%s'\n",file1);
 	sp_print_return_status(spfp);
@@ -635,7 +635,7 @@ void rewind_file_compare(char *file1, char *file2, char *conv2, char *file3, cha
 	switch (i){
 	  case 0:
 	    cfile = file2; cconv = conv2; break;
-	  case 1: 
+	  case 1:
 	    cfile = file3; cconv = conv3; break;
 	  default:
 	    fprintf(spfp,"Error: undefined limit\n");
@@ -732,7 +732,7 @@ void build_example_file_names(char *sphere_lib_dir)
     sprintf(EX5_2CHAN_WAVPACK, "%s/%s", sphere_lib_dir,
 	    EX5_ULAW_2CHAN_WAVPACK_BASE);
     sprintf(EX5_2CHAN_SHORTEN, "%s/%s", sphere_lib_dir,
-	    EX5_ULAW_2CHAN_SHORTEN_BASE); 
+	    EX5_ULAW_2CHAN_SHORTEN_BASE);
     sprintf(EX5_CHAN1, "%s/%s", sphere_lib_dir,EX5_ULAW_CHAN1_BASE);
     sprintf(EX5_CHAN1_BITREV, "%s/%s", sphere_lib_dir,
 	    EX5_ULAW_CHAN1_BITREV_BASE);
@@ -795,7 +795,7 @@ int verify_checksum_computations(int test){
 
     for (i=0; i<100; i++)
 	sh_arr[i] = i*17;
-       
+
     for (i=0; i<100; i++){
 	comp_chksm = sp_compute_short_checksum(sh_arr, i+1, FALSE);
 	if (comp_chksm != ex_arr[i]){
@@ -837,9 +837,9 @@ void array_access_tests(int test){
 
 
     for (fmt=0; fmt < 6; fmt++){
-	
+
 	switch (fmt){
-	  case 0: 
+	  case 0:
 	    fprintf(spfp,"---- %d: No format changes\n",fmt+1);
 	    strcpy(conversion,"");
 	    sprintf(array_conversion,"DF-ARRAY");
@@ -882,7 +882,7 @@ void array_access_tests(int test){
 	    fprintf(spfp,"file '%s' failed\n",EX6);
 	    sp_print_return_status(spfp);
 	    goto FATAL_QUIT;
-	    
+
 	}
 
 	if (sp_set_data_mode(sp_inter,conversion) != 0){
@@ -897,14 +897,14 @@ void array_access_tests(int test){
 		    EX6);
 	    sp_print_return_status(spfp);
 	    goto FATAL_QUIT;
-	}    
+	}
 	if (sp_h_get_field(sp_inter,CHANNEL_COUNT_FIELD,
 			   T_INTEGER,(void *)&snb)!=0){
 	    fprintf(spfp,"   Can't get the sample_n_bytes from file '%s'\n",
 		    EX6);
 	    sp_print_return_status(spfp);
 	    goto FATAL_QUIT;
-	}    
+	}
 
 	/* convert the spfile to be read as an array */
 	if (sp_set_data_mode(sp_array,array_conversion) != 0){
@@ -1008,7 +1008,7 @@ void array_access_tests(int test){
 
       FATAL_QUIT:  /* Failed routine */
 	return_value = 100;
-	
+
       CLEAN_UP:
 	if (sp_inter != SPNULL) {
 	    if (inter_buf != (void *)0) sp_data_free(sp_inter,inter_buf);
@@ -1045,7 +1045,7 @@ int write_with_array_access(char *filein, char *conversion,
 
     fprintf(spfp,"------ Writing test into format '%s'\n",
 	    array_conversion);
-    
+
     /**** re open the input file, un-altered, writting it to the ****/
     /**** new file  ****/
     if ((sp_inter=sp_open(filein,"r")) == SPNULL) {
@@ -1080,7 +1080,7 @@ int write_with_array_access(char *filein, char *conversion,
 		filein);
 	sp_print_return_status(spfp);
 	goto FATAL_QUIT;
-    }    
+    }
 
     /* alloc buffers for each file */
     if ((inter_buf = (void *)sp_data_alloc(sp_inter,frame_size))==
@@ -1101,7 +1101,7 @@ int write_with_array_access(char *filein, char *conversion,
     do {
 	short *sintr = (short *)inter_buf;
 	short **nsarr = (short **)new_array_buf;
-	
+
 	ret=sp_read_data(inter_buf,2,frame_size,sp_inter);
 	if ((ret == 0) && (sp_error(sp_inter) > 0)){
 	    fprintf(spfp,"   Read failed on interleaved input file\n");
@@ -1113,7 +1113,7 @@ int write_with_array_access(char *filein, char *conversion,
 	    for (s=0; s<ret; s++)
 		for (c=0; c<nchan; c++)
 		    nsarr[c][s] = (*(sintr + s*nchan +c));
-	    
+
 	    if ((ret2=sp_write_data(new_array_buf,2,ret,sp_new)) != ret){
 		fprintf(spfp,"Unable to write %d array samples to file\n",
 			ret);
@@ -1134,22 +1134,22 @@ int write_with_array_access(char *filein, char *conversion,
 	}
 	sp_new = SPNULL;
     }
-    
-    
+
+
     if (diff_waveforms(filein,fileout,conversion,"", 0, spfp) != 0){
 	fprintf(spfp,"Write of Array Accessed passed, but diff failed\n");
 	diff_waveforms(filein,fileout,conversion,"", 1, spfp);
 	goto FATAL_QUIT;
     }
-    
+
     /* everything is ok */
     return_value = 0;
     unlink(fileout);
     goto CLEAN_UP;
-    
+
   FATAL_QUIT:  /* Failed routine */
     return_value = 100;
-    
+
   CLEAN_UP:
     if (sp_inter != SPNULL) {
 	if (inter_buf != (void *)0) sp_data_free(sp_inter,inter_buf);
@@ -1174,7 +1174,7 @@ int write_with_array_access(char *filein, char *conversion,
     }
     if (return_value != 0)
 	exit(-1);
-    return(1);    
+    return(1);
 }
 
 void selective_channel_test(int test){
@@ -1209,12 +1209,12 @@ void selective_channel_test(int test){
 	exit(-1);
     if (do_selective_read_test(EX5_2CHAN,EX5_CHAN12, "CH-1+2","",1))
 	exit(-1);
-    if (do_selective_read_test(EX5_2CHAN_PCM_01,EX5_CHAN12_PCM, 
+    if (do_selective_read_test(EX5_2CHAN_PCM_01,EX5_CHAN12_PCM,
 			       "SBF-01:CH-1+2", "SBF-01",1))
 	exit(-1);
     fprintf(spfp,
 	    "---- Read channels added together converting sample types\n");
-    if (do_selective_read_test(EX5_2CHAN,EX5_CHAN12_PCM, 
+    if (do_selective_read_test(EX5_2CHAN,EX5_CHAN12_PCM,
 			       "SE-PCM:SBF-01:CH-1+2", "SBF-01",1))
 	exit(-1);
     fprintf(spfp,"\n");
@@ -1258,7 +1258,7 @@ void mult_channel_raw_data_test(int test){
     char *out_file="testing.wav";
     double factor;
     int ntypes=5, cur_type;
-    union{ 
+    union{
 	short  **b_short; int **b_int; long **b_long; float **b_float;
 	double **b_double;
     } buf;
@@ -1279,13 +1279,13 @@ void mult_channel_raw_data_test(int test){
 	switch (cur_type){
 	  case 0: bps=sizeof(short);	   break;
 	  case 1: bps=sizeof(int);	   break;
-	  case 2: bps=sizeof(long);	   break; 
-	  case 3: bps=sizeof(float);	   break; 
+	  case 2: bps=sizeof(long);	   break;
+	  case 3: bps=sizeof(float);	   break;
 	  case 4: bps=sizeof(double);	   break;
-	}	  
+	}
 	fprintf(spfp,"---- using type '%s', %ld bytes ",types[cur_type],bps);
 	fprintf(spfp,"per sample,  %ld channels, %ld samples\n",nc,sc);
-	
+
 	/* set the byte size and allocate memory for the buffers */
 	switch (cur_type){
 	  case 0: alloc_2dimarr(buf.b_short,nc,sc,short);
@@ -1295,22 +1295,22 @@ void mult_channel_raw_data_test(int test){
 	    alloc_singarr(time_samp.b_int,nc,int);
 	    break;
 	  case 2: alloc_2dimarr(buf.b_long,nc,sc,long);
-	    alloc_singarr(time_samp.b_long,nc,long);	
-	    break; 
+	    alloc_singarr(time_samp.b_long,nc,long);
+	    break;
 	  case 3: alloc_2dimarr(buf.b_float,nc,sc,float);
 	    alloc_singarr(time_samp.b_float,nc,float);
-	    break; 
+	    break;
 	  case 4: alloc_2dimarr(buf.b_double,nc,sc,double);
 	    alloc_singarr(time_samp.b_double,nc,double);
 	    break;
-	}	  
-	
+	}
+
 	/* load the values in the buffer */
 	for (c=0; c<MC_CHAN; c++){
 	    factor = 1.0 / ((c+1) * 10.0 );
 	    switch (cur_type){
 	      case 0: for (s=0; s<MC_BUFS; s++)
-		  buf.b_short[c][s] = 
+		  buf.b_short[c][s] =
 		      (short)((c+1) * 10 * cos( M_PI * 2.0 * s * factor));
 		break;
 	      case 1: for (s=0; s<MC_BUFS; s++)
@@ -1318,7 +1318,7 @@ void mult_channel_raw_data_test(int test){
 		      (int)((c+1) * 10 * cos( M_PI * 2.0 * s * factor));
 		break;
 	      case 2: for (s=0; s<MC_BUFS; s++)
-		  buf.b_long[c][s] = 
+		  buf.b_long[c][s] =
 		      (long)((c+1) * 10 * cos( M_PI * 2.0 * s * factor));
 		break;
 	      case 3: for (s=0; s<MC_BUFS; s++)
@@ -1326,12 +1326,12 @@ void mult_channel_raw_data_test(int test){
 		      (float)((c+1) * 10 * cos( M_PI * 2.0 * s * factor));
 		break;
 	      case 4: for (s=0; s<MC_BUFS; s++)
-		  buf.b_double[c][s] = 
+		  buf.b_double[c][s] =
 		      (double)((c+1) * 10 * cos( M_PI * 2.0 * s * factor));
 		break;
 	    }
 	}
-	
+
 	/* open a sphere file to write out to */
 	if ((sp=sp_open(out_file,"w")) == SPNULL) {
 	    fprintf(spfp,"   sp_open failed for file '%s' opened for write\n",
@@ -1339,7 +1339,7 @@ void mult_channel_raw_data_test(int test){
 	    sp_print_return_status(spfp);
 	    exit(-1);
 	}
-	
+
 	/* set up the header */
 	/* set the channel count */
 	if (sp_h_set_field(sp,CHANNEL_COUNT_FIELD,T_INTEGER,(void *)&nc) != 0){
@@ -1347,61 +1347,61 @@ void mult_channel_raw_data_test(int test){
 		   CHANNEL_COUNT_FIELD);
 	    sp_print_return_status(spfp);
 	    exit(-1);
-	}    
+	}
 	/* set the sample_n_bytes */
 	if (sp_h_set_field(sp,SAMPLE_N_BYTES_FIELD,T_INTEGER,(void *)&bps)!=0){
 	    fprintf(spfp,"    sp_h_set_field: failed on field '%s'\n",
 		   SAMPLE_N_BYTES_FIELD);
 	    sp_print_return_status(spfp);
 	    exit(-1);
-	}    
+	}
 	/* set the sample_count */
 	if (sp_h_set_field(sp,SAMPLE_COUNT_FIELD,T_INTEGER,(void *)&sc) != 0){
 	    fprintf(spfp,"    sp_h_set_field: failed on field '%s'\n",
 		   SAMPLE_COUNT_FIELD);
 	    sp_print_return_status(spfp);
 	    exit(-1);
-	}    
+	}
 	/* set the sample_rate */
 	if (sp_h_set_field(sp,SAMPLE_RATE_FIELD,T_INTEGER,(void *)&sr) != 0){
 	    fprintf(spfp,"    sp_h_set_field: failed on field '%s'\n",
 		   SAMPLE_RATE_FIELD);
 	    sp_print_return_status(spfp);
 	    exit(-1);
-	}    
+	}
 	/* set the sample_coding */
 	if (sp_h_set_field(sp,SAMPLE_CODING_FIELD,T_STRING,(void *)"raw") !=0){
 	    fprintf(spfp,"    sp_h_set_field: failed on field '%s'\n",
 		   SAMPLE_CODING_FIELD);
 	    sp_print_return_status(spfp);
 	    exit(-1);
-	}    
-	
+	}
+
 	/* write the data to the file, INTERLEAVED!!!!! */
 	for (s=0; s<MC_BUFS; s++){
 	    switch (cur_type){
 	      case 0:
-		for (c=0; c<MC_CHAN; c++)  
+		for (c=0; c<MC_CHAN; c++)
 		    time_samp.b_short[c] = buf.b_short[c][s];
 		rtn = sp_write_data((void *)time_samp.b_short,bps,1,sp);
 		break;
 	      case 1:
-		for (c=0; c<MC_CHAN; c++)  
+		for (c=0; c<MC_CHAN; c++)
 		    time_samp.b_int[c] = buf.b_int[c][s];
 		rtn = sp_write_data((void *)time_samp.b_int,bps,1,sp);
 		break;
 	      case 2:
-		for (c=0; c<MC_CHAN; c++)  
+		for (c=0; c<MC_CHAN; c++)
 		    time_samp.b_long[c] = buf.b_long[c][s];
 		rtn = sp_write_data((void *)time_samp.b_long,bps,1,sp);
 		break;
 	      case 3:
-		for (c=0; c<MC_CHAN; c++)  
+		for (c=0; c<MC_CHAN; c++)
 		    time_samp.b_float[c] = buf.b_float[c][s];
 		rtn = sp_write_data((void *)time_samp.b_float,bps,1,sp);
 		break;
 	      case 4:
-		for (c=0; c<MC_CHAN; c++)  
+		for (c=0; c<MC_CHAN; c++)
 		    time_samp.b_double[c] = buf.b_double[c][s];
 		rtn = sp_write_data((void *)time_samp.b_double,bps,1,sp);
 		break;
@@ -1414,16 +1414,16 @@ void mult_channel_raw_data_test(int test){
 			s);
 		sp_print_return_status(spfp);
 		exit(-1);
-	    }    
-	}	
-	
+	    }
+	}
+
 	/* Close the output file */
 	if (sp_close(sp) != 0){
 	    fprintf(spfp,"Erro: Close of multichannel file failed\n");
 	    sp_print_return_status(spfp);
 	    exit(-1);
-	}    
-	
+	}
+
 	/*** NOW Read the file back in, comparing it to the form in memory ***/
 	if ((sp=sp_open(out_file,"rv")) == SPNULL) {
 	    fprintf(spfp,"   sp_open failed for file '%s' opened for read\n",
@@ -1431,29 +1431,29 @@ void mult_channel_raw_data_test(int test){
 	    sp_print_return_status(spfp);
 	    exit(-1);
 	}
-	
+
 	/* get the channel count */
 	if (sp_h_get_field(sp,CHANNEL_COUNT_FIELD,T_INTEGER,(void *)&r_nc)!=0){
 	    fprintf(spfp,"    sp_h_get_field: failed on field '%s'\n",
 		   CHANNEL_COUNT_FIELD);
 	    sp_print_return_status(spfp);
 	    exit(-1);
-	}    
+	}
 	/* get the sample_n_bytes */
-	if (sp_h_get_field(sp,SAMPLE_N_BYTES_FIELD,T_INTEGER,(void *)&r_bps) 
+	if (sp_h_get_field(sp,SAMPLE_N_BYTES_FIELD,T_INTEGER,(void *)&r_bps)
 	    != 0){
 	    fprintf(spfp,"    sp_h_get_field: failed on field '%s'\n",
 		   SAMPLE_N_BYTES_FIELD);
 	    sp_print_return_status(spfp);
 	    exit(-1);
-	}    
+	}
 	/* get the sample_count */
 	if (sp_h_get_field(sp,SAMPLE_COUNT_FIELD,T_INTEGER,(void *)&r_sc)!= 0){
 	    fprintf(spfp,"    sp_h_get_field: failed on field '%s'\n",
 		   SAMPLE_COUNT_FIELD);
 	    sp_print_return_status(spfp);
 	    exit(-1);
-	}    
+	}
 	/* verify the header fields */
 	if (nc != r_nc){
 	    fprintf(spfp,"Error: read channel_count (%ld) != expected (%ld)\n",
@@ -1480,12 +1480,12 @@ void mult_channel_raw_data_test(int test){
 	      default: fprintf(spfp,
 			       "type %d not defined\n",cur_type); exit(-1);
 	    }
-	
+
 	/* loop through reading the data, verifying it against the memory  */
 	/* version */
 	for (s=0; s<MC_BUFS; s++){
 	    char *mem, *file;
-	    
+
 	    switch (cur_type){
 	      case 0: file=(char *)(time_samp.b_short); break;
 	      case 1: file=(char *)(time_samp.b_int); break;
@@ -1501,16 +1501,16 @@ void mult_channel_raw_data_test(int test){
 			s);
 		sp_print_return_status(spfp);
 		exit(-1);
-	    }    	
+	    }
 	    for (c=0, failure=0; c<MC_CHAN; c++){
 		switch (cur_type){
 		  case 0: mem = (char *)&(buf.b_short[c][s]);
 		    file=(char *)&(time_samp.b_short[c]); break;
-		  case 1: mem = (char *)&(buf.b_int[c][s]); 
+		  case 1: mem = (char *)&(buf.b_int[c][s]);
 		    file=(char *)&(time_samp.b_int[c]); break;
 		  case 2: mem = (char *)&(buf.b_long[c][s]);
 		    file=(char *)&(time_samp.b_long[c]); break;
-		  case 3: mem = (char *)&(buf.b_float[c][s]); 
+		  case 3: mem = (char *)&(buf.b_float[c][s]);
 		    file=(char *)&(time_samp.b_float[c]); break;
 		  case 4: mem = (char *)&(buf.b_double[c][s]);
 		    file=(char *)&(time_samp.b_double[c]); break;
@@ -1520,7 +1520,7 @@ void mult_channel_raw_data_test(int test){
 		if (memcmp(mem,file,bps))
 		    failure = 1;
 	    }
-	    
+
 	    if (failure){
 		fprintf(spfp,"Error Multichannel failed to match");
 		fprintf(spfp,"memory version on sample %d\n",s);
@@ -1559,7 +1559,7 @@ void mult_channel_raw_data_test(int test){
 		fprintf(spfp,"\n");
 		/*	    exit(-1); */
 	    }
-	}	
+	}
 	/* free the memory associated with the type */
 	switch (cur_type){
 	  case 0: free_2dimarr(buf.b_short,nc,short);
@@ -1569,15 +1569,15 @@ void mult_channel_raw_data_test(int test){
 	    free_singarr(time_samp.b_int,int);
 	    break;
 	  case 2: free_2dimarr(buf.b_long,nc,long);
-	    free_singarr(time_samp.b_long,long);	
-	    break; 
+	    free_singarr(time_samp.b_long,long);
+	    break;
 	  case 3: free_2dimarr(buf.b_float,nc,float);
 	    free_singarr(time_samp.b_float,float);
-	    break; 
+	    break;
 	  case 4: free_2dimarr(buf.b_double,nc,double);
 	    free_singarr(time_samp.b_double,double);
 	    break;
-	}	  
+	}
 	if (sp != SPNULL) sp_close(sp);
     }
     fprintf(spfp,"\n");
@@ -1648,7 +1648,7 @@ void header_test(int test)
 	     rtn);
 	sp_print_return_status(spfp);
     }
-	   
+
     fprintf(spfp,"------ Illegal Field access:\n");
     if ((rtn=sp_h_get_field(SPNULL,"field3",T_REAL,(void *)&real)) < 100){
 	fprintf(spfp,"    sp_h_get_field: Invalid REAL command, SPNULL, ");
@@ -1752,11 +1752,11 @@ void header_test(int test)
 	sp_file_dump(sp,spfp);
 	exit(-1);
     }
-    
+
     sp_close(sp);
     system("rm -f testing.wav");
     fprintf(spfp,"\n");
-    
+
     fprintf(spfp,"-- Read Mode header operations:\n");
     if ((sp=sp_open(EX1_10,"r")) == SPNULL) {
 	fprintf(spfp,"   sp_open: Valid spopen for read of ");
@@ -1810,7 +1810,7 @@ void header_test(int test)
 	fprintf(spfp,"returned %d and failed\n",rtn);
 	sp_print_return_status(spfp);
     }
-	   
+
     fprintf(spfp,"------ Illegal Field access:\n");
     if ((rtn=sp_h_get_field(SPNULL,"field3",T_REAL,(void *)&real)) < 100){
 	fprintf(spfp,"    sp_h_get_field: Invalid REAL command, SPNULL, ");
@@ -1957,7 +1957,7 @@ void doc_example_2_test(int test)
 	sp_close(sp);
 	exit(-1);
     }
-    
+
     if ((samp_read=sp_read_data(waveform,sample_n_bytes,total_samples,sp)) !=
                      total_samples){
         fprintf(spfp,"Error: Unable to read speech waveform, ");
@@ -1983,7 +1983,7 @@ void doc_example_4_test(int test)
     int stow, i;
     int samps_written=0, size=64000, status;
     char *name="example4.wav";
-    double factor;	
+    double factor;
 
     fprintf(spfp,"Test %2d: Documentation Example 4: File Creation example\n",test);
     fprintf(spfp,"---- filename: %s\n",name);
@@ -2052,7 +2052,7 @@ void doc_example_4_test(int test)
 	    sp_close(spp);
 	    (void) mtrf_free((char *)wavbuf);
 	    exit(-1);
-	}	
+	}
 	samps_written += stow;
     }
     fprintf(spfp,"---- Closing the file\n");
@@ -2064,7 +2064,7 @@ void doc_example_4_test(int test)
     }
     fprintf(spfp,"\n");
 
-    unlink(name); 
+    unlink(name);
 }
 
 void ulaw_test(int test)
@@ -2296,12 +2296,12 @@ int perform_2_channel_write_test(char *combined_wav, char *conversion,
     /* now read through the 2 channel files, interleaving them and writing  */
     /* them to the new_sp just cycle through the data checking to make      */
     /* sure the interleaving is correct */
-    do {	
+    do {
 	s = sp_read_data(chan1_buf,chan1_snb,frame_size,chan1_sp);
 	if ((sp_get_return_status() > 0) && (s == 0)) {
 	    fprintf(spfp,"Unable to read samples from channel 1 file\n");
 	    sp_print_return_status(spfp);
-	    goto FATAL_QUIT; 
+	    goto FATAL_QUIT;
 	}
 	if (sp_read_data(chan2_buf,chan2_snb,s,chan2_sp) != s){
 	    fprintf(spfp,"Unable to read %ld samples from file %s\n",
@@ -2323,7 +2323,7 @@ int perform_2_channel_write_test(char *combined_wav, char *conversion,
 		    s,new_wav);
 	    sp_print_return_status(spfp);
 	    goto FATAL_QUIT;
-	}	    
+	}
     } while (s > 0);
 
     /* everything is ok */
@@ -2362,7 +2362,7 @@ int perform_2_channel_write_test(char *combined_wav, char *conversion,
 	if ((rtn = diff_data(combined_wav,new_wav,1,spfp)) != 0){
 	    fprintf(spfp,"Warning: files '%s' and '%s' decode to the",
 		    combined_wav,new_wav);
-	    if (rtn == 100) 
+	    if (rtn == 100)
 		fprintf(spfp," same form, but are not identical on disk\n");
 	    else
 		fprintf(spfp," same form, but are byte-swapped on disk\n");
@@ -2412,10 +2412,10 @@ int perform_2_channel_read_test(char *combined_wav, char *conversion,
 		       T_INTEGER,(void *)&comb_snb) != 0){
 	fprintf(spfp,"Unable to retieve ");
 	fprintf(spfp,"%s field from file '%s'\n",
-		SAMPLE_N_BYTES_FIELD,combined_wav);	
+		SAMPLE_N_BYTES_FIELD,combined_wav);
 	goto FATAL_QUIT;
     }
-	
+
     /********   Channel 1 SP_FILE ****************/
     if ((chan1_sp = sp_open(chan1_wav, "rv")) == SPNULL) {
 	fprintf(spfp,"Couldn't open for read-verified ");
@@ -2457,18 +2457,18 @@ int perform_2_channel_read_test(char *combined_wav, char *conversion,
 
     /* just cycle through the data checking to make sure the interleaving  */
     /* is correct */
-    do {	
+    do {
 	s = sp_read_data(comb_buf,comb_snb,frame_size,comb_sp);
 	if ((sp_get_return_status() > 0) && (s == 0)) {
 	    fprintf(spfp,"Unable to read samples from stereo file\n");
 	    sp_print_return_status(spfp);
-	    goto FATAL_QUIT; 
+	    goto FATAL_QUIT;
 	}
 	if (sp_read_data(chan1_buf,chan1_snb,s,chan1_sp) != s){
 	    sp_print_return_status(spfp);
 	    fprintf(spfp,"Unable to read %ld samples from file %s\n",
 		    s,chan1_wav);
- 	    goto FATAL_QUIT; 
+ 	    goto FATAL_QUIT;
 	}
 	if (sp_read_data(chan2_buf,chan2_snb,s,chan2_sp) != s){
 	    fprintf(spfp,"Unable to read %ld samples from file %s\n",
@@ -2476,7 +2476,7 @@ int perform_2_channel_read_test(char *combined_wav, char *conversion,
  	    goto FATAL_QUIT;
 	}
 
-	/*	for (i=0; i<s; i++) 
+	/*	for (i=0; i<s; i++)
 		printf ("   %2x %2x %2x %2x-> %2x %2x %2x %2x\n",
 		*(comb_buf + i*2*comb_snb),
 		(comb_buf + i*2*comb_snb+1),
@@ -2503,7 +2503,7 @@ int perform_2_channel_read_test(char *combined_wav, char *conversion,
 	    }
 	    if (memcmp(comb_buf + i*2*comb_snb + (1*comb_snb),
 		     chan2_buf+i*chan2_snb,comb_snb)){
-		int bn;	
+		int bn;
 		fprintf(spfp,"Channel 2 differs from the stereo version ");
 		fprintf(spfp,"at sample %ld\n",i);
 		fprintf(spfp,"    Stereo Chan 2:  ");
@@ -2550,16 +2550,16 @@ void large_file_test(int test)
 {
     char *large_file_name = "large.wav";
     char *large2_file_name = "large2.wav";
-    
+
     fprintf(spfp,"Test %2d: Large File Handling and sp_tell() for write:\n",test);
     fprintf(spfp,"---- Building CONTROL data file, %s\n",large2_file_name);
     make_test_file(large2_file_name,160000,"");
 
-    do_large_file_conversion(large_file_name, large2_file_name, 
+    do_large_file_conversion(large_file_name, large2_file_name,
 			     "SE-PCM:SBF-01");
-    do_large_file_conversion(large_file_name, large2_file_name, 
+    do_large_file_conversion(large_file_name, large2_file_name,
 			     "SE-SHORTEN:SBF-10");
-    do_large_file_conversion(large_file_name, large2_file_name, 
+    do_large_file_conversion(large_file_name, large2_file_name,
 			     "SE-WAVPACK:SBF-01");
 
     unlink(large2_file_name);
@@ -2634,7 +2634,7 @@ void make_test_file(char *name, int size, char *conversion)
 	    sp_close(spp);
 	    (void) mtrf_free((char *)wavbuf);
 	    exit(-1);
-	}	
+	}
 	samps_written += stow;
 	if (do_sp_tell_check(spp,name) != 0)
 	    exit(-1);
@@ -2691,17 +2691,17 @@ void write_required_field_test(int test)
 	}
 
 	lint = buf_nsamp; sp_h_set_field(spp, "sample_count",
-					 T_INTEGER, (void *) &lint); 
+					 T_INTEGER, (void *) &lint);
 
-	if (i > 0) sp_h_set_field(spp, "sample_n_bytes", 
+	if (i > 0) sp_h_set_field(spp, "sample_n_bytes",
 				  T_INTEGER, (void *) &nbyte);
 	if (i > 1) { lint = 1;  sp_h_set_field(spp, "channel_count",
 					       T_INTEGER, (void *) &lint);}
 	if (i > 2) { sp_h_set_field(spp, "sample_coding",
 				    T_STRING, (void *) "ulaw"); }
-	if (i > 3) { sp_h_set_field(spp, "sample_coding", 
+	if (i > 3) { sp_h_set_field(spp, "sample_coding",
 				    T_STRING, (void *) "pcm"); }
-	if (i > 3) { lint = 16000;  sp_h_set_field(spp, "sample_rate", 
+	if (i > 3) { lint = 16000;  sp_h_set_field(spp, "sample_rate",
 						   T_INTEGER, (void *) &lint);}
 
 	status = sp_write_data((void *)wavbuf, sizeof(short), buf_nsamp, spp);
@@ -2753,7 +2753,7 @@ void write_check_adding_fields(char *comp_file, char *conversion_str)
 	  case 0: fprintf(spfp,
 			  "-------- Test %d: All fields present\n",i+1); break;
 	  case 1: fprintf(spfp,
-			  "-------- Test %d: Missing sample_count\n",i+1); 
+			  "-------- Test %d: Missing sample_count\n",i+1);
 	    break;
 	  case 2: fprintf(spfp,
 			  "-------- Test %d: Missing sample_checksum\n",i+1);
@@ -2781,7 +2781,7 @@ void write_check_adding_fields(char *comp_file, char *conversion_str)
 	if ((i == 0) || (i == 2) || (i == 3))
 	    sp_h_set_field(spp, "sample_count", T_INTEGER, (void *) &nsamp);
 	if ((i == 0) || (i == 1) || (i == 3))
-	    sp_h_set_field(spp, "sample_checksum", T_INTEGER, 
+	    sp_h_set_field(spp, "sample_checksum", T_INTEGER,
 			   (void *) &lchecksum);
 	if ((i == 0) || (i == 1) || (i == 2))
 	    sp_h_set_field(spp, "sample_coding", T_STRING, (void *)"pcm");
@@ -2808,13 +2808,13 @@ void write_check_adding_fields(char *comp_file, char *conversion_str)
 		status = sp_error(spp);
 		sp_print_return_status(spfp);
 		sp_close(spp);
-	    }	
+	    }
 	if (sp_close(spp) != 0) {
 	    fprintf(spfp,"SP_close failed\n");
 	    sp_print_return_status(spfp);
 	    exit(-1);
 	}
-	    
+
 
 	if (diff_waveforms(outfilename,comp_file,CNULL,CNULL,1,spfp) != 0){
 	    fprintf(spfp,"Successful write failed waveform verification\n");
@@ -2940,7 +2940,7 @@ void header_update(char *file, int expand)
     int added_field=0, num_to_add=30, i;
 
     fprintf(spfp,"------ File %s\n",file);
-        
+
     system(rsprintf("%s %s output.wav",COPY,file));
     if ((sp=sp_open("output.wav","u")) == 0){
 	fprintf(spfp,"Unable to open copy base file '%s' called '%s'\n",
@@ -2974,11 +2974,11 @@ void header_update(char *file, int expand)
 	    added_field ++;
 	}
     }
-	
+
 
     if (sp_close(sp) != 0) {
 	fprintf(spfp,"      Failed to close\n");
-	sp_print_return_status(spfp);	
+	sp_print_return_status(spfp);
 	exit(-1);
     }
 
@@ -2987,12 +2987,12 @@ void header_update(char *file, int expand)
 		"Update passed, but waveforms of files '%s' and '%s' differ\n",
 		"output.wav",file);
 	exit(-1);
-    }	
+    }
     if ((rtn = diff_data("output.wav",file,1,spfp)) != 0){
 	fprintf(spfp,
 		"WARNING: files '%s' and '%s' decompress to the same form,\n",
 		"output.wav",file);
-	if (rtn == 100) 
+	if (rtn == 100)
 	    fprintf(spfp,"         but are not identical on disk\n");
 	else
 	    fprintf(spfp,"         but are byte-swapped on disk\n");
@@ -3057,12 +3057,12 @@ void waveform_update(char *base_file, char *sdm_mode, char *compare_file)
 	       "output.wav",compare_file);
 	exit(-1);
     }
-	
+
     if ((rtn = diff_data("output.wav",compare_file,1,spfp)) != 0){
 	fprintf(spfp,
 		"WARNING: files '%s' and '%s' decompress to the same form,\n",
 	       "output.wav",compare_file);
-	if (rtn == 100) 
+	if (rtn == 100)
 	    fprintf(spfp,"         but are not identical on disk\n");
 	else
 	    fprintf(spfp,"         but are byte-swapped on disk\n");
@@ -3073,7 +3073,7 @@ void waveform_update(char *base_file, char *sdm_mode, char *compare_file)
 
 }
 
-void checksum_pre_post_verification(int test) 
+void checksum_pre_post_verification(int test)
 {
     fprintf(spfp,"Test %2d: Checksum verification tests\n",test);
     fprintf(spfp,"---- Pre-Read Check\n");
@@ -3133,7 +3133,7 @@ void pre_read_check(char *file, int corrupt)
 void post_write_check(char *file)
 {
     SP_FILE *sp, *out_sp;
-    
+
     fprintf(spfp,"------ File: %s\n",file);
     if ((sp = sp_open(file,"r")) == SPNULL) {
 	sp_print_return_status(spfp);
@@ -3157,7 +3157,7 @@ void post_write_check(char *file)
 	sp_print_return_status(spfp);
 	exit(-1);
     }
-/* NO NEED TO DO THIS 
+/* NO NEED TO DO THIS
     if (sp->read_spifr->status->file_compress !=
 	sp->read_spifr->status->user_compress){
 	switch (sp->read_spifr->status->file_compress){
