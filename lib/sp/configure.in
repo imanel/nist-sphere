@@ -1,0 +1,10 @@
+AC_INIT([libsp],[2.6])
+AM_INIT_AUTOMAKE([foreign])
+
+AC_PROG_CC
+AC_PROG_RANLIB
+
+AC_SUBST(OS,`uname -s`)
+AC_SUBST(ARCH,`uname -m`)
+
+AC_OUTPUT(Makefile src/Makefile)
