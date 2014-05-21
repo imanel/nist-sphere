@@ -2,6 +2,7 @@ Makefile
 Makefile.in
 aclocal.m4
 autom4te.cache/
+bin/*
 compile
 config.log
 config.status
@@ -11,3 +12,7 @@ install-sh
 missing
 .deps
 .dirstamp
+*.a
+*.o
+
+!.gitkeep
