@@ -7,10 +7,5 @@ AC_PROG_RANLIB
 AC_SUBST(OS,`uname -s`)
 AC_SUBST(ARCH,`uname -m`)
 
-AC_OUTPUT([lib/Makefile
-           lib/util/Makefile
-           lib/util/src/Makefile
-           lib/sp/Makefile
-           lib/sp/src/Makefile
-           src/Makefile
+AC_OUTPUT([src/Makefile
            Makefile])

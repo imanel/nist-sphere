@@ -1,3 +1,1 @@
-SUBDIRS=\
-  lib\
-  src
+SUBDIRS=src

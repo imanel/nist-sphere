@@ -1,3 +1,0 @@
-SUBDIRS=\
-  util\
-  sp

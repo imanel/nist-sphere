@@ -1,3 +1,6 @@
+lib_LIBRARIES=$(top_builddir)/lib/libutil.a\
+              $(top_builddir)/lib/libsp.a
+
 bin_PROGRAMS=$(top_builddir)/bin/h_add\
              $(top_builddir)/bin/h_delete\
              $(top_builddir)/bin/h_edit\
@@ -9,6 +12,71 @@ bin_PROGRAMS=$(top_builddir)/bin/h_add\
              $(top_builddir)/bin/w_diff\
              $(top_builddir)/bin/w_edit\
              $(top_builddir)/bin/w_encode
+
+__top_builddir__lib_libutil_a_SOURCES=cfg.c\
+comments.c\
+ds.c\
+err_util.c\
+fobops.c\
+hist.c\
+hsgetopt.c\
+itoa.c\
+maldie.c\
+mtrf.c\
+order.c\
+pad.c\
+rsprintf.c\
+sfgets.c\
+statdist.c\
+str_srch.c\
+string.c\
+t_or_f.c\
+word.c
+
+__top_builddir__lib_libsp_a_SOURCES=alaw.c\
+array.c\
+dif_wavf.c\
+dupfinfo.c\
+exit.c\
+fixio.c\
+h_fix.c\
+license.c\
+lpc.c\
+nat_bord.c\
+poly.c\
+sdatamod.c\
+shorten.c\
+shpack_s.c\
+shpacki2.c\
+shpackio.c\
+sp_ntoh.c\
+sp_utils.c\
+spalloc.c\
+spchksum.c\
+spclose.c\
+speof.c\
+sperror.c\
+sphere.c\
+sphio.c\
+spinput.c\
+sploadf.c\
+spopen.c\
+spoutput.c\
+spread.c\
+sprewind.c\
+sprstat.c\
+spseek.c\
+sptell.c\
+sptemp.c\
+sputils2.c\
+spvers.c\
+spwrite.c\
+stdfield.c\
+ulaw.c\
+vario.c\
+verbose.c\
+wavedit.c\
+wavpack.c
 
 __top_builddir__bin_h_add_SOURCES=h_add.c
 __top_builddir__bin_h_delete_SOURCES=h_delete.c
@@ -22,6 +90,6 @@ __top_builddir__bin_w_diff_SOURCES=w_diff.c
 __top_builddir__bin_w_edit_SOURCES=w_edit.c
 __top_builddir__bin_w_encode_SOURCES=w_encode.c
 
-CPPFLAGS=-I$(top_builddir)/lib/util/include -I$(top_builddir)/lib/sp/include
+CPPFLAGS=-I$(top_builddir)/include
 LDFLAGS=-L$(top_builddir)/lib
 LIBS=-lutil -lsp
