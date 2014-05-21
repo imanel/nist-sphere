@@ -1,2 +1,3 @@
 SUBDIRS=\
-  lib
+  lib\
+  src
