@@ -6,7 +6,7 @@
 /*********************************************************************/
 
 
-#include <sphere.h>
+#include <sp/sphere.h>
 
 
 int sp_rewind(SP_FILE *sp)

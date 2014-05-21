@@ -9,7 +9,7 @@
 #include <ctype.h>
 
 #define SPHERE_LIBRARY_CODE
-#include <sphere.h>
+#include <sp/sphere.h>
 
 extern int farray_fields;
 extern struct field_t *farray[];

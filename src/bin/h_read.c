@@ -15,8 +15,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include <sphere.h>
-#include <hsgetopt.h>
+#include <sp/sphere.h>
+#include <util/hsgetopt.h>
 
 #define SELECT_ALL		1
 #define SELECT_STD		2

@@ -16,8 +16,8 @@
 # include <fcntl.h>
 #endif
 /* Changed by Jon Fiscus */
-# include <fob.h>
-# include <shorten/shorten.h>
+# include <util/fob.h>
+# include <sp/shorten/shorten.h>
 
 #ifdef fread
 #       undef fread

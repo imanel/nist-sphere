@@ -9,7 +9,7 @@
 /*                  throughout the scoring package                    */
 /*                                                                    */
 /**********************************************************************/
-#include <utillib.h>
+#include <util/utillib.h>
 
 #define safe_fgets_C_VERSION "V1.1"
 

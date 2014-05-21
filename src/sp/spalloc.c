@@ -1,6 +1,6 @@
 #include <stdio.h>
 #define SPHERE_LIBRARY_CODE
-#include <sphere.h>
+#include <sp/sphere.h>
 
 /*
  *  memory allocation/deallocation routines for the sphere_t

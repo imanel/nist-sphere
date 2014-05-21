@@ -6,7 +6,7 @@
 #include <sys/param.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <sphere.h>
+#include <sp/sphere.h>
 
 			/* for temporary files */
 #define EXTENSION	".BAK"

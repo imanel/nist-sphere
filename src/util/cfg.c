@@ -10,7 +10,7 @@
 /*                  line arguments and configuration files            */
 /**********************************************************************/
 
-#include <utillib.h>
+#include <util/utillib.h>
 
 #define CFG_VERSION "V1.0"
 
@@ -63,7 +63,7 @@ void alloc_CONFIG(CONFIG *cfg)
 /*  file                                                     */
 void cfg_get_args(CONFIG *cfg, int argc, char **argv, char *setup_config)
 {
-    
+
     /* load the initialization file common to all */
     if (cfg_dbg) fprintf(stdout,"Loading setup config file %s\n",setup_config);
     if (*setup_config != NULL_CHAR){
@@ -122,7 +122,7 @@ void load_com_line_CONFIG(CONFIG *cfg, int argc, char **argv, int silent)
                 case CFG_C2:{
                     char **t_arr;
                     int arg_count = 0, stop = 0;
- 
+
                     t_arr = (char **)cfg->rec_list[cfg_ind].value;
                     arg++;
                     while ((arg < argc) && (stop == 0)){
@@ -481,7 +481,7 @@ void print_usage_CONFIG(CONFIG *cfg, char *prog_name)
 		printf("      [ ");
 		first = 0;
 		for (j=0; *(cfg->rec_list[j].intern_id) != NULL_CHAR; j++){
-		    if (cfg->rec_list[j].flag_group == 
+		    if (cfg->rec_list[j].flag_group ==
 			cfg->rec_list[i].flag_group){
 			if (first++ != 0)
 			    printf("| ");

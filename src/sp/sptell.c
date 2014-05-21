@@ -1,4 +1,4 @@
-#include <sphere.h>
+#include <sp/sphere.h>
 
 
 int sp_tell(SP_FILE *sp)

@@ -7,7 +7,7 @@
 #include <sys/stat.h>
 
 #define SPHERE_LIBRARY_CODE
-#include <sphere.h>
+#include <sp/sphere.h>
 
 char * sptemp(char *file)
 {

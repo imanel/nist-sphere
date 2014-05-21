@@ -23,8 +23,8 @@
 #   include <varargs.h>
 # endif
 /* Changed by Jon Fiscus */
-# include <fob.h>
-# include <shorten/shorten.h>
+# include <util/fob.h>
+# include <sp/shorten/shorten.h>
 
 /* From: fred@masterd.fdn.org (Frederic SAVOIR) */
 #ifdef __WATCOMC__

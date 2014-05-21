@@ -20,9 +20,9 @@ ajr@eng.cam.ac.uk     voice: +44-223-332815
 # include <math.h>
 # include <stdio.h>
 # include <setjmp.h>
-# include <fob.h>
-# include <shorten/shorten.h>
-# include <shorten/shrt_sph.h>
+# include <util/fob.h>
+# include <sp/shorten/shorten.h>
+# include <sp/shorten/shrt_sph.h>
 
 extern jmp_buf	exitenv;
 extern char	*exitmessage;

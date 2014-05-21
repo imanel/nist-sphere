@@ -34,7 +34,7 @@
 #define find_end_of_word(_ptr) \
     while ((*_ptr != ' ') && (*_ptr != '\t') && (*_ptr != (char)0) && \
            (*_ptr != '\n')) \
-        _ptr++; 
+        _ptr++;
 
 #define pct(num,dem)	(((dem)==0) ? 0 : (double)(num)/(double)(dem) * 100.0)
 #define ROUND(_x) ((int) ((_x) + 0.5))
@@ -47,7 +47,7 @@
 #define MAX(_a,_b) (((_a) > (_b)) ? (_a) : (_b))
 #endif
 
-#include <min.h>
+#include <util/min.h>
 
 #define swap_short(_x) \
 {short *_p=(short *)&_x,_t; _t=*(_p+1); *(_p+1)=*(_p); *(_p)=_t;}
@@ -57,7 +57,7 @@
 
 #define move_to_null(to) \
     while (*to != NULL_CHAR) \
-        to++; 
+        to++;
 
 #define form_feed()	printf("");
 

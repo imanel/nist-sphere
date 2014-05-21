@@ -9,7 +9,7 @@
 /*                  throughout the scoring package                    */
 /*                                                                    */
 /**********************************************************************/
-#include <utillib.h>
+#include <util/utillib.h>
 
 /***************************************************************/
 /*  Return TRUE if the string is empty, i.e. containing all    */
@@ -24,7 +24,7 @@ int is_empty(char *str)
         return(TRUE);
     return(FALSE);
 }
- 
+
 /***************************************************************/
 /*  move the character pointer to the character                */
 /***************************************************************/
@@ -42,7 +42,7 @@ void search_back_for_char(char *beg_ptr, char **ptr, char chr)
     while ((**ptr != chr) && (*ptr != beg_ptr))
         (*ptr)--;
 }
- 
+
 /***************************************************************/
 /*  copy the strings until the character of the NULL is found  */
 /***************************************************************/
@@ -130,7 +130,7 @@ void strncpy_pad(char *to, char *from, int len, char chr)
  /* strstr(ps1,ps2)  K&R 2nd ed p. 250  */
  /***************************************/
 
- 
+
  /********************************************************/
  /*  strstr1(ps1,ps2)                                     */
  /*  Scans string ps1 for the first occurrence of ps2.   */
@@ -149,7 +149,7 @@ void strncpy_pad(char *to, char *from, int len, char chr)
   return px;
  }
 
- 
+
  /********************************************************/
  /*  strstr1(ps1,ps2)                                     */
  /*  Scans string ps1 for the first occurrence of ps2.   */
@@ -167,7 +167,7 @@ void strncpy_pad(char *to, char *from, int len, char chr)
   if (!matched) px = NULL;
   return px;
 }
- 
+
 
 /**********************************************/
 /* convert a string to upper case             */
@@ -185,7 +185,7 @@ char *str2up(char *str)
                  str,mem);
     return(mem);
   }
- 
+
 /**********************************************/
 /* convert a string to lower case             */
 /**********************************************/

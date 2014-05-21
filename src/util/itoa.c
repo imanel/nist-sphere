@@ -10,7 +10,7 @@
 /*                                                                    */
 /**********************************************************************/
 
-#include <utillib.h>
+#include <util/utillib.h>
 
 /**********************************************************************/
 /* build a string zero padded string of max_len for the val           */

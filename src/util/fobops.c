@@ -1,6 +1,6 @@
 /* LINTLIBRARY */
 
-#include <utillib.h>
+#include <util/utillib.h>
 
 FOB * fob_create(FILE *fp)
 {
@@ -10,7 +10,7 @@ FOB * fob_create(FILE *fp)
 	if ( fobp == FOBPNULL )
 		return FOBPNULL;
 	fobp->fp = fp;
-	fobp->length = 0;	
+	fobp->length = 0;
 	fobp->read_byte_swap = 0;
 	fobp->write_byte_swap = 0;
 	fobp->buf_swap = CNULL;
@@ -159,7 +159,7 @@ int fob_flush_to_fp(FOB *f, FILE *fp)
 
     printf("FOB: flushing %d chars\n",f->length);
 
-    if (fwrite(f->buf,1,f->length,fp) != f->length)	
+    if (fwrite(f->buf,1,f->length,fp) != f->length)
 	return -1;
     return 0;
 }
@@ -312,7 +312,7 @@ int fob_fread(char *p, int size, int nitems, FOB *fobp)
 	}
         if (fobp->read_byte_swap){
 /*            printf("Swapping bytes (%dx%d)  read %d\n",size,nitems,n); */
-     
+
             if ((n*size > 0) && ((n*size % 2) != 0)) {
 /*                fprintf(stderr,"Error: tried to byte swap an odd length buffer of %d bytes\n",n); */
                 return -1;
@@ -346,7 +346,7 @@ int fob_fwrite(char *p, int size, int nitems, FOB *fobp)
                 if (write_buf == CNULL)
 		    return -1;
 
-		fobp->buf_swap = write_buf;	
+		fobp->buf_swap = write_buf;
 	    }
             if (((nitems*size) % 2) != 0) {
                 fprintf(stderr,"Error: tried to byte swap an odd byte length buffer\n");
@@ -370,12 +370,12 @@ int fob_fwrite(char *p, int size, int nitems, FOB *fobp)
 }
 
 int fob_putc(char c, FOB *fobp)
-{ 
+{
      return (fob_fwrite(&c,1,1,fobp) == (-1) ? EOF : c);
 }
 
 int fob_getc(FOB *fobp)
-{ 
+{
      unsigned char c;
      if ( fob_fread((char *)&c,1,1,fobp) == EOF)
          return(EOF);
@@ -385,7 +385,7 @@ int fob_getc(FOB *fobp)
 
 
 int fob_getw(FOB *fobp)
-{ 
+{
      int c;
      if ( fob_fread((char *)&c,sizeof(int),1,fobp) == EOF)
          return(EOF);
@@ -402,7 +402,7 @@ int fob_ferror(FOB *fobp)
 
 	if ( fobp == FOBPNULL )
 		return -1;
-	
+
 	if ( fobp->fp != FPNULL )
 		n = ferror( fobp->fp );
 	else
@@ -419,7 +419,7 @@ int fob_feof(FOB *fobp)
 
     if ( fobp == FOBPNULL )
 	return -1;
-	
+
     if ( fobp->fp != FPNULL )
 	n = feof( fobp->fp );
     else {
@@ -444,7 +444,7 @@ int fob_fclose(FOB *fob){
 FOB *fob_fopen(char *name, char *mode){
     FOB *tfob;
     FILE *fp;
-    
+
     if ((fp=fopen(name,mode)) == (FILE *)0)
 	return FOBPNULL;
     if ((tfob=fob_create(fp)) == FOBPNULL){
@@ -454,4 +454,4 @@ FOB *fob_fopen(char *name, char *mode){
     return(tfob);
 }
 
-    
+

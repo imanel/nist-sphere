@@ -3,8 +3,8 @@
 
 # include <math.h>
 # include <stdio.h>
-# include <sphere.h>
-# include <shpack/shpk_sph.h>
+# include <sp/sphere.h>
+# include <sp/shpack/shpk_sph.h>
 
 #if defined(NARCH_SUN) || defined(NARCH_HP)	/* cth */
 #include <sys/types.h>

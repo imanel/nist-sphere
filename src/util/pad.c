@@ -17,7 +17,7 @@
 /*                  can be.                                           */
 /*                                                                    */
 /**********************************************************************/
-#include <utillib.h>
+#include <util/utillib.h>
 
 static int pad_print_out_width=SCREEN_WIDTH;
 
@@ -44,7 +44,7 @@ int pad_pr_width(void)
 void set_pad(char *pad, char *str)
 {
     int i, len;
-    
+
     len = (pad_print_out_width - strlen(str) )/2;
     for (i=0; i<len;i++)
         pad[i] = SPACE;
@@ -72,7 +72,7 @@ void set_pad_cent_n(char *pad, int len)
     int i;
 
     for (i=0;i<((pad_print_out_width - len) / 2);i++)
-        pad[i]=SPACE; 
+        pad[i]=SPACE;
     if (i>0)
        pad[i-1] = NULL_CHAR;
     else
@@ -81,7 +81,7 @@ void set_pad_cent_n(char *pad, int len)
 
 /************************************************************/
 /* Return a pointer to a string with a centered version of  */
-/* str to len characters                                    */	
+/* str to len characters                                    */
 /************************************************************/
 char *center(char *str, int len)
 {

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define SPHERE_LIBRARY_CODE
-#include <sphere.h>
+#include <sp/sphere.h>
 #include <math.h>
 
 

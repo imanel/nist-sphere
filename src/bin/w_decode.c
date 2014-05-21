@@ -11,7 +11,7 @@
 #include <string.h>
 #include <sys/stat.h>
 
-#include <sphere.h>
+#include <sp/sphere.h>
 char usage[] = "Usage:  %s [-vf] [ -oOUT ] { filein | - } { fileout | - }\n\
         %s [-vi] [ -oOUT ] file1 file2 ...\n\
 Where:\n\

@@ -1,2 +1,3 @@
 SUBDIRS=util\
-        sp
+        sp\
+        bin

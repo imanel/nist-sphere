@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #define SPHERE_LIBRARY_CODE
-#include <sphere.h>
+#include <sp/sphere.h>
 
 enum SP_sample_byte_fmt get_natural_sbf(int sample_size)
 {

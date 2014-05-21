@@ -1,8 +1,8 @@
 #include <stdio.h>
-#include <sphere.h>
-#include <ulaw.h>
-#include <alaw.h>
-#include <shorten/shorten.h>
+#include <sp/sphere.h>
+#include <sp/ulaw.h>
+#include <sp/alaw.h>
+#include <sp/shorten/shorten.h>
 #include <string.h>
 #include <setjmp.h>
 

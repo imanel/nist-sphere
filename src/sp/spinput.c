@@ -10,8 +10,8 @@
 #include <sys/types.h>
 
 #define SPHERE_LIBRARY_CODE
-#include <sphere.h>
-#include <chars.h>
+#include <sp/sphere.h>
+#include <util/chars.h>
 
 int farray_fields;
 struct field_t *farray[MAXFIELDS];

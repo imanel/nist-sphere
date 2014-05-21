@@ -6,8 +6,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include <sphere.h>
-#include <hsgetopt.h>
+#include <sp/sphere.h>
+#include <util/hsgetopt.h>
 
 
 int main (int argc, char **argv){

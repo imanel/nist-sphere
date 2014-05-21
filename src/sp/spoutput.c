@@ -10,7 +10,7 @@
 #include <sys/types.h>
 
 #define SPHERE_LIBRARY_CODE
-#include <sphere.h>
+#include <sp/sphere.h>
 
 #define NAMEWIDTH	30
 /** Field names are printed to this width, left-justified, in */

@@ -19,3 +19,5 @@ str_srch.c\
 string.c\
 t_or_f.c\
 word.c
+
+CPPFLAGS=-I$(top_builddir)/include

@@ -12,7 +12,7 @@
 
 #include <sys/stat.h>
 #define SPHERE_PRE_2_2
-#include <sphere.h>
+#include <sp/sphere.h>
 
 char usage[] = "Usage:  %s [-v] -o [-[t|p]F:T]] [-c EXP] [-o OUT ] { filein | - } \
 { fileout | - }\n\

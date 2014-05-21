@@ -1,6 +1,6 @@
 #include <stdio.h>
 #define SPHERE_LIBRARY_CODE
-#include <sphere.h>
+#include <sp/sphere.h>
 
 /*** This file's functions write to a passed in file pointer, therefore ***/
 /*** the messages created here do NOT go the FILE * spfp                ***/

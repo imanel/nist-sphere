@@ -27,7 +27,7 @@ interface and increased portability.
 #include <stddef.h>		/* for size_t */
 #include <stdio.h>
 #define SPHERE_LIBRARY_CODE
-#include <sphere.h>
+#include <sp/sphere.h>
 
 SP_CHECKSUM sp_compute_short_checksum(short int *wav, size_t len,
 				      int do_swap)

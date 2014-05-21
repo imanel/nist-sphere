@@ -16,7 +16,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <sphere.h>
+#include <sp/sphere.h>
 
 #define LONG1		27L
 #define LONG2		-55L

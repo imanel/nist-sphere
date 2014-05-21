@@ -1,7 +1,7 @@
 #include <stdio.h>
 #define SPHERE_LIBRARY_CODE
-#include <sphere.h>
-#include <shorten/shorten.h>
+#include <sp/sphere.h>
+#include <sp/shorten/shorten.h>
 #include <string.h>
 
 int parse_channel_selection(char *, SP_FILE *sp);

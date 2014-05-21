@@ -19,18 +19,18 @@ extern "C" {
 #endif
 
 #define MTRF_ON
-#include <utillib.h>
+#include <util/utillib.h>
 
-#include <header.h>
-#include <sysparam.h>
-#include <spchksum.h>
-#include <spfile.h>
-#include <sysfunc.h>
-#include <sp.h>
+#include <sp/header.h>
+#include <sp/sysparam.h>
+#include <sp/spchksum.h>
+#include <sp/spfile.h>
+#include <sp/sysfunc.h>
+#include <sp/sp.h>
 
-#include <shorten/shrt_sph.h>
-#include <wavpack/wavpack.h>
-#include <version.h>
+#include <sp/shorten/shrt_sph.h>
+#include <sp/wavpack/wavpack.h>
+#include <sp/version.h>
 
 /**************************************************************/
 /**** Uncomment this line if you'd like to use the pre_2.2 ****/

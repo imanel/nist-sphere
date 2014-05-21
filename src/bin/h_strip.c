@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <sphere.h>
+#include <sp/sphere.h>
 
 
 int main(int argc, char **argv)

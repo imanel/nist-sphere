@@ -10,12 +10,12 @@
  * (From Henry Spencer @ U of Toronto Zoology, slightly edited)
  */
 
-/* 
+/*
  * modiifed by Tony Robinson on 27 March 1993 to remove the call to index()
  * and declare strcmp(); and strlen().
 */
 
-#include <utillib.h>
+#include <util/utillib.h>
 
 /* BEGIN AJR MOD */
 extern int strcmp PROTO((const char *, const char *));
@@ -32,7 +32,7 @@ void
 hs_resetopt(void) {
         scan = (char *)0;
         hs_optind = 0;
-} 
+}
 
 int
 hs_getopt(register int argc, register char **argv, char *optstring)

@@ -12,7 +12,7 @@
 /*                  distributions                               */
 /*                                                              */
 /****************************************************************/
-#include <utillib.h>
+#include <util/utillib.h>
 
 #define MAX_Z	10
 #define MAX_X2	32
@@ -52,7 +52,7 @@ Z_STRUCT Z2tail[MAX_Z] = {
       "93%",
       "07%",
       0.93
-   },                 
+   },
    {  1.751,
       "92%",
       "08%",
@@ -686,7 +686,7 @@ X2_STRUCT X2 = {
 void dump_X2_table(void)
 {
     int i,j;
-    
+
     printf("\n\n\t\t\t\tX2 DISTRIBUTION TABLE\n\n");
     printf("\t");
     for (i=MIN_X2_PER;i<MAX_X2_PER+1; i++)
@@ -810,7 +810,7 @@ int Z_pass(double Z_stat)
 }
 
 /**********************************************************************/
-/* calc_two_sample_z_test_double by Brett 5/10/93                      */ 
+/* calc_two_sample_z_test_double by Brett 5/10/93                      */
 /*     a general routine to perform a two-sample z test on two lists  */
 /*     of doubles                                                      */
 /**********************************************************************/
@@ -853,7 +853,7 @@ double compute_acc_binomial(int R, int n, double p)
                         p,r,pow(p,(double)r));
         if (dbg) printf(" * pow(%5.3f,%2d) = %f",
                         p,n-r,pow(1.0-p,(double)(n-r)));
-        sum += n_CHOOSE_r(n,r) * pow(p,(double)r) * pow(1.0-p,(double)(n-r));	
+        sum += n_CHOOSE_r(n,r) * pow(p,(double)r) * pow(1.0-p,(double)(n-r));
         if (dbg) printf("] = %f\n",sum);
     }
     return(sum);
@@ -865,7 +865,7 @@ double compute_acc_binomial(int R, int n, double p)
 /*  from f to to                                                   */
 /*******************************************************************/
 double seq_mult(int f, int t)
-{  
+{
     double sum=1.0;
     int i;
     for (i=f; i<=t; i++)

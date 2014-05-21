@@ -57,8 +57,8 @@
 # include <setjmp.h>
 extern jmp_buf	exitenv;
 
-#include <sphere.h>
-#include <wavpack/wavpack.h>
+#include <sp/sphere.h>
+#include <sp/wavpack/wavpack.h>
 
 
 static char magic[] = WAVPACK_MAGIC;	/* magic string to identify wavpack files */

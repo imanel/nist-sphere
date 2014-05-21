@@ -1,4 +1,4 @@
-#include <sphere.h>
+#include <sp/sphere.h>
 
 int sp_load_file(char *file, char *sdm, SP_INTEGER *nsamp, SP_INTEGER *nchan, SP_INTEGER *nsnb, void **data){
     SP_FILE *sp;

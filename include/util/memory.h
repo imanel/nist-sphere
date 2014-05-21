@@ -12,7 +12,7 @@
 #ifndef MEMORY_HEADER
 #define MEMORY_HEADER
 
-#include <mtrf.h>
+#include <util/mtrf.h>
 
 /**********************************************************************/
 /*  Allocation macros                                                 */
@@ -146,8 +146,8 @@ void malloc_died PROTO((int len));
         _a = _tp; \
         _max = (int)((_max) * (_fact)); \
     }
- 
- 
+
+
 #define expand_1dim(_a,_n,_max,_fact,_type,_upd1) \
     {   \
         _type *_tp; \
@@ -158,7 +158,7 @@ void malloc_died PROTO((int len));
         _a = _tp; \
         if (_upd1) { _max = (int)((_max) * (_fact)); } \
     }
- 
+
 #define expand_1dimZ(_a,_n,_max,_fact,_type,_val,_upd1) \
     {   \
         _type *_tp; \
@@ -168,7 +168,7 @@ void malloc_died PROTO((int len));
         _a = _tp; \
         if (_upd1) { _max = (int)((_max) * (_fact)); } \
     }
- 
+
 #define expand_2dimZ(_a,_n1,_max1,_fact1,_n2,_max2,_fact2,_type,_val,_upd2) \
     {   register int _x2 = 0;\
         if ((int)((_max1) * (_fact1)) != _max1){ \

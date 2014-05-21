@@ -21,3 +21,7 @@ __top_builddir__bin_w_decode_SOURCES=w_decode.c
 __top_builddir__bin_w_diff_SOURCES=w_diff.c
 __top_builddir__bin_w_edit_SOURCES=w_edit.c
 __top_builddir__bin_w_encode_SOURCES=w_encode.c
+
+CPPFLAGS=-I$(top_builddir)/include
+LDFLAGS=-L$(top_builddir)/lib
+LIBS=-lutil -lsp

@@ -2,8 +2,8 @@
 #include <math.h>
 #include <string.h>
 #define SPHERE_PRE_2_2
-#include <sphere.h>
-#include <hsgetopt.h>
+#include <sp/sphere.h>
+#include <util/hsgetopt.h>
 #include <memory.h>
 
 #if defined(NARCH_SUN) || defined(NARCH_HP)	/* cth */

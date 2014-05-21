@@ -1,9 +1,9 @@
 #include <stdio.h>
 #define SPHERE_LIBRARY_CODE
-#include <sphere.h>
-#include <ulaw.h>
-#include <alaw.h>
-#include <shorten/shorten.h>
+#include <sp/sphere.h>
+#include <sp/ulaw.h>
+#include <sp/alaw.h>
+#include <sp/shorten/shorten.h>
 #include <string.h>
 
 static int spw_file_init(SP_FILE *sp, char *call_proc);

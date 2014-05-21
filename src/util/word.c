@@ -9,7 +9,7 @@
 /*                  throughout the scoring package                    */
 /*                                                                    */
 /**********************************************************************/
-#include <utillib.h>
+#include <util/utillib.h>
 
 #define WORD_C_VERSION "V1.0"
 
@@ -25,7 +25,7 @@
 int wrdlen(char *ptr)
 {
     int i=0;
-     
+
     while ((ptr[i] != SPACE) && (ptr[i] != NULL_CHAR) && (ptr[i] != NEWLINE))
         i++;
     return(i);
@@ -38,7 +38,7 @@ int wrdlen(char *ptr)
 /***************************************************************/
 void wrdcpy(char *to, char *from)
 {
-    while ((*from != SPACE) && (*from != NULL_CHAR) && 
+    while ((*from != SPACE) && (*from != NULL_CHAR) &&
            (*from != NEWLINE) && (*from != TAB))
         *to++ = *from++;
     *to = NULL_CHAR;

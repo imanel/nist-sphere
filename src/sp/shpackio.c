@@ -10,8 +10,8 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 #endif
-#include <sphere.h>
-#include <min.h>
+#include <sp/sphere.h>
+#include <util/min.h>
 #include <setjmp.h>
 
 extern jmp_buf	exitenv;
