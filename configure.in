@@ -8,7 +8,8 @@ AC_SUBST(OS,`uname -s`)
 AC_SUBST(ARCH,`uname -m`)
 
 AC_OUTPUT([src/Makefile
-           src/util/Makefile
-           src/sp/Makefile
+           src/lib/Makefile
+           src/lib/util/Makefile
+           src/lib/sp/Makefile
            src/bin/Makefile
            Makefile])

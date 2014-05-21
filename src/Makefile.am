@@ -1,3 +1,2 @@
-SUBDIRS=util\
-        sp\
+SUBDIRS=lib\
         bin
