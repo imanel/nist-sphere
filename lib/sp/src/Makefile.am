@@ -1,6 +1,6 @@
-lib_LIBRARIES=libsp.a
+lib_LIBRARIES=$(top_builddir)/lib/libsp.a
 
-libsp_a_SOURCES=alaw.c\
+__top_builddir__lib_libsp_a_SOURCES=alaw.c\
 array.c\
 dif_wavf.c\
 dupfinfo.c\
@@ -45,7 +45,5 @@ verbose.c\
 wavedit.c\
 wavpack.c
 
-AM_CPPFLAGS=-I../include -I../../util/include
-AM_LDFLAGS=-L../../
-
-
+__top_builddir__lib_libsp_a_CPPFLAGS=-I../include -I$(top_builddir)/lib/util/include
+AM_LDFLAGS=-L$(top_builddir)/lib

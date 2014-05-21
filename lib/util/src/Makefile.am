@@ -1,6 +1,6 @@
-lib_LIBRARIES=libutil.a
+lib_LIBRARIES=$(top_builddir)/lib/libutil.a
 
-libutil_a_SOURCES=cfg.c\
+__top_builddir__lib_libutil_a_SOURCES=cfg.c\
 comments.c\
 ds.c\
 err_util.c\
@@ -20,5 +20,4 @@ string.c\
 t_or_f.c\
 word.c
 
-AM_CPPFLAGS=-I../include
-
+__top_builddir__lib_libutil_a_CPPFLAGS=-I../include
