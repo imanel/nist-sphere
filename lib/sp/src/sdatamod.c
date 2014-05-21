@@ -1,7 +1,7 @@
 #include <stdio.h>
 #define SPHERE_LIBRARY_CODE
-#include <sp/sphere.h>
-#include <sp/shorten/shorten.h>
+#include <sphere.h>
+#include <shorten/shorten.h>
 #include <string.h>
 
 int parse_channel_selection(char *, SP_FILE *sp);
@@ -105,27 +105,27 @@ int sp_set_data_mode(SP_FILE *sp, char *mode)
 	    fprintf(spfp,"Proc %s: token found = %s\n",proc,mstr);
 	if ((strsame(mstr,"SE-PCM")) || (strsame(mstr,"SE-PCM-2"))) {
 	    new_encoding = SP_se_pcm2;
-	    new_compress = SP_wc_none; 
+	    new_compress = SP_wc_none;
 	    se_set++;
 	} else if (strsame(mstr,"SE-PCM-1")) {
 	    new_encoding = SP_se_pcm1;
-	    new_compress = SP_wc_none; 
+	    new_compress = SP_wc_none;
 	    se_set++;
 	} else if (strsame(mstr,"SE-RAW")) {
 	    new_encoding = SP_se_raw;
-	    new_compress = SP_wc_none; 
+	    new_compress = SP_wc_none;
 	    se_set++;
 	} else if (strsame(mstr,"SE-ULAW")) {
 	    new_encoding = SP_se_ulaw;
-	    new_compress = SP_wc_none; 
+	    new_compress = SP_wc_none;
 	    se_set++;
 	} else if (strsame(mstr,"SE-PCULAW")) {
 	    new_encoding = SP_se_pculaw;
-	    new_compress = SP_wc_none; 
+	    new_compress = SP_wc_none;
 	    se_set++;
 	} else if (strsame(mstr,"SE-ALAW")) {
 	    new_encoding = SP_se_alaw;
-	    new_compress = SP_wc_none; 
+	    new_compress = SP_wc_none;
 	    se_set++;
 	} else if (strsame(mstr,"SE-SHORTEN")){
 	    new_encoding = old_encoding;
@@ -181,7 +181,7 @@ int sp_set_data_mode(SP_FILE *sp, char *mode)
 		return_err(proc,105,105,
 			   rsprintf("Parse channel selection string '%s'",
 				    get_return_status_message()));
-	}    
+	}
 	else {
 	    mtrf_free(mode_str);
 	    return_err(proc,102,102,
@@ -459,7 +459,7 @@ int sp_set_data_mode(SP_FILE *sp, char *mode)
 	SP_INTEGER lint;
 	char new_sample_coding[100];
 	int channels_changed = FALSE;
-       
+
 	if (sp->open_mode == SP_mode_read){
 	    if (sp_verbose > 15)
 		fprintf(spfp,"Proc %s: modifying the user's header \n",
@@ -476,10 +476,10 @@ int sp_set_data_mode(SP_FILE *sp, char *mode)
 	/* set the sample_n_bytes field */
 	if (new_encoding == SP_se_pcm2){
 	    lint = 2;
-	    if (sp_verbose > 15) 
+	    if (sp_verbose > 15)
 		fprintf(spfp,"Proc %s: new %s value %ld\n",
 			proc,SAMPLE_N_BYTES_FIELD,lint);
-	    if (h_set_field(hdr_to_modify, SAMPLE_N_BYTES_FIELD, 
+	    if (h_set_field(hdr_to_modify, SAMPLE_N_BYTES_FIELD,
 			    T_INTEGER, &lint))
 		return_err(proc,150,150,
 			   "Unable to update sample_n_bytes field\n");
@@ -494,25 +494,25 @@ int sp_set_data_mode(SP_FILE *sp, char *mode)
 	    if (h_set_field(hdr_to_modify, SAMPLE_N_BYTES_FIELD,
 			    T_INTEGER, &lint))
 		return_err(proc,151,151,
-			   "Unable to update sample_n_bytes field\n"); 	    
+			   "Unable to update sample_n_bytes field\n");
 	} else { /* nothing has changed, used the file_sample_n_bytes */
 	    if (sp->open_mode == SP_mode_read)
 		lint = sp->read_spifr->status->file_sample_n_bytes;
 	    else
 		lint = sp->write_spifr->status->file_sample_n_bytes;
 	}
-	
+
 	/* setup the new sample_n_bytes values */
 	if (sp->open_mode == SP_mode_read)
 	    sp->read_spifr->status->user_sample_n_bytes = lint ;
 	else
 	    sp->write_spifr->status->file_sample_n_bytes = lint ;
 
-	/* set the sample byte format */ 
+	/* set the sample byte format */
 	{   char *str = header_str_SP_sample_byte_fmt(new_sbf);
 	    if (new_sbf == SP_sbf_null)
 		return_err(proc,157,157,"Internal function error");
-	    if (sp_verbose > 15) 
+	    if (sp_verbose > 15)
 		fprintf(spfp,"Proc %s: new sample_byte_format %s\n",
 			proc,str);
 	    if (h_set_field(hdr_to_modify, SAMPLE_BF_FIELD, T_STRING, str))
@@ -521,29 +521,29 @@ int sp_set_data_mode(SP_FILE *sp, char *mode)
 			 str));
 	}
 
-	/* set the new channel count */ 
+	/* set the new channel count */
 	lint = -1;
 	if (sp->open_mode == SP_mode_read) {
 	    if (sp->read_spifr->status->channels != CHANNELSNULL)
-		lint = sp->read_spifr->status->user_channel_count = 
+		lint = sp->read_spifr->status->user_channel_count =
 		    sp->read_spifr->status->channels->num_chan;
 	} else {
 	    if (sp->write_spifr->status->channels != CHANNELSNULL)
-		lint = sp->write_spifr->status->file_channel_count = 
+		lint = sp->write_spifr->status->file_channel_count =
 		    sp->write_spifr->status->channels->num_chan;
-	} 
+	}
 	if (lint != (-1)){
-	    if (sp_verbose > 15) 
+	    if (sp_verbose > 15)
 		fprintf(spfp,"Proc %s: new channel count %ld\n",
 			proc,lint);
-	    if (h_set_field(hdr_to_modify, CHANNEL_COUNT_FIELD, T_INTEGER, 
+	    if (h_set_field(hdr_to_modify, CHANNEL_COUNT_FIELD, T_INTEGER,
 			    (void *)&lint))
 		return_err(proc,154,154,
 			   rsprintf("%schannel count field to %d\n",
 				    "Unable to update ",lint));
 	    channels_changed = TRUE;
 	}
-		    
+
 	/* set the sample encoding field */
 	*new_sample_coding = '\0';
 	switch (new_encoding){
@@ -594,14 +594,14 @@ int sp_set_data_mode(SP_FILE *sp, char *mode)
 	if (old_encoding !=  new_encoding){
 	    if (new_encoding == SP_se_pcm2)
 		lint = 16;
-	    else if ((new_encoding == SP_se_ulaw) || 
-		     (new_encoding == SP_se_pculaw) || 
-		     (new_encoding == SP_se_alaw) || 
+	    else if ((new_encoding == SP_se_ulaw) ||
+		     (new_encoding == SP_se_pculaw) ||
+		     (new_encoding == SP_se_alaw) ||
 		     (new_encoding == SP_se_pcm1))
 		lint = 8;
-	    
+
 	    if (h_set_field(hdr_to_modify, SAMPLE_SIG_BITS_FIELD,
-			    T_INTEGER, (void *)&lint)){		
+			    T_INTEGER, (void *)&lint)){
 		if (sp_verbose > 15)
 		    fprintf(spfp,"Proc %s: new sample_sig_bits to %ld\n",
 			    proc,lint);
@@ -625,7 +625,7 @@ int sp_set_data_mode(SP_FILE *sp, char *mode)
     }
 
 /* make a warning if the default mode is used */
-    
+
     if (sp->open_mode == SP_mode_read)
 	sp->read_spifr->status->set_data_mode_occured_flag = TRUE;
     else
@@ -644,7 +644,7 @@ int sp_set_data_mode(SP_FILE *sp, char *mode)
       case SP_wc_null:
 	;
     }
-    
+
     if (sp_verbose > 16) sp_file_dump(sp,spfp);
     if (sp_verbose > 11) fprintf(spfp,"Proc %s: Exit\n",proc);
 
@@ -698,7 +698,7 @@ int parse_channel_selection(char *desc, SP_FILE *sp){
 
     for (pass=0; pass < 2; pass++){
 	temp_description = (char *)mtrf_strdup(desc);
-	
+
 	if (pass == 1) {
 	    if (spifr->status->channels != CHANNELSNULL)
 		free_CHANNELS(spifr);

@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 #define SPHERE_LIBRARY_CODE
-#include <sp/sphere.h>
+#include <sphere.h>
 
 char *std_fields[] = {
 	"database_id",

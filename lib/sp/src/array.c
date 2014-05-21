@@ -9,8 +9,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 /* Changed by Jon Fiscus */
-# include <util/fob.h>
-# include <sp/shorten/shorten.h>
+# include <fob.h>
+# include <shorten/shorten.h>
 
 void *pmalloc(size) ulong size; {
   void *ptr;

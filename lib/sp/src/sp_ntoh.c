@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #define SPHERE_LIBRARY_CODE
-#include <sp/sphere.h>
+#include <sphere.h>
 
 long sp_ntohl(long t){
     static enum SP_sample_byte_fmt sbf = SP_sbf_null;

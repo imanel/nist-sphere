@@ -10,8 +10,8 @@
 #include <sys/types.h>
 
 #define SPHERE_LIBRARY_CODE
-#include <sp/sphere.h>
-#include <util/chars.h>
+#include <sphere.h>
+#include <chars.h>
 
 int farray_fields;
 struct field_t *farray[MAXFIELDS];
@@ -395,7 +395,7 @@ struct field_t **spx_get_field_vector(int elements)
 /*    specified by "elements", a positive number.         */
 /**********************************************************/
 
-int spx_copy_field_vector(struct field_t **src_fv, struct field_t **dst_fv, 
+int spx_copy_field_vector(struct field_t **src_fv, struct field_t **dst_fv,
 			  int elements)
 {
     int vbytes;

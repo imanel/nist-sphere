@@ -10,8 +10,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 /* Changed by Jon Fiscus */
-# include <util/fob.h>
-# include <sp/shorten/shorten.h>
+# include <fob.h>
+# include <shorten/shorten.h>
 
 /* watch out, these are all 0 .. order inclusive arrays */
 
@@ -20,13 +20,13 @@
 static float *fbuf = NULL;
 static int nflpc = 0, nfbuf = 0;
 
-int wav2lpc_init(){ 
+int wav2lpc_init(){
     if (fbuf != NULL) free(fbuf);
     nflpc = 0;
     nfbuf = 0;
 }
 
-int wav2lpc(buf, nbuf, offset, qlpc, nlpc, version, psigbit, presbit) 
+int wav2lpc(buf, nbuf, offset, qlpc, nlpc, version, psigbit, presbit)
 	long *buf; int nbuf; long offset; int *qlpc, nlpc, version;
 	float *psigbit, *presbit; {
   int   i, j, bestnbit, bestnlpc;

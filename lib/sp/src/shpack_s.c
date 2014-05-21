@@ -3,8 +3,8 @@
 
 # include <math.h>
 # include <stdio.h>
-# include <sp/sphere.h>
-# include <sp/shpack/shpk_sph.h>
+# include <sphere.h>
+# include <shpack/shpk_sph.h>
 
 #if defined(NARCH_SUN) || defined(NARCH_HP)	/* cth */
 #include <sys/types.h>
@@ -41,11 +41,11 @@ int shortpack_uncompress(FOB *fpin, FOB *fpout, struct header_t *header)
     return(0);
 }
 
-  
-  
-  
-    
-  
+
+
+
+
+
 
 
 
@@ -55,7 +55,7 @@ int shortpack_uncompress(FOB *fpin, FOB *fpout, struct header_t *header)
     int filesize;
     int pos, num_in_chunk, written;
     short array[1024];
- 
+
     read_shortpack_header(fpin, 0, &filesize, &swap);    /* read the header from input */
     do {
 	num_in_chunk =  read_shortpack_chunk_from_file(fpin, array, 0,
@@ -79,9 +79,9 @@ FILE *fp;
     { int i,j,k;
       int input_pointer;
       int num_in_chunk;
- 
+
       input_pointer = 0;
- 
+
       while(input_pointer < num_elements)
 	  { num_in_chunk =  read_shortpack_chunk_from_file(fp, array, input_pointer,
 							   num_elements, ALL_ONES);
@@ -104,7 +104,7 @@ FILE *fp;
 
 
 
-/* 
+/*
  * read_shortpack_header(): This stuff gets the byte-ordering of the
    compressed file.  Default (unswapped) is IEEE ordering (SPARC,
    Motorola 680X0) Swapped is VAX, DEC RISC, Intel 80X86, etc.  * * arg:

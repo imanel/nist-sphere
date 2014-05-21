@@ -1,14 +1,14 @@
 #include <stdio.h>
-#include <sp/sphere.h>
-#include <sp/ulaw.h>
-#include <sp/alaw.h>
-#include <sp/shorten/shorten.h>
+#include <sphere.h>
+#include <ulaw.h>
+#include <alaw.h>
+#include <shorten/shorten.h>
 #include <string.h>
 #include <setjmp.h>
 
 extern jmp_buf	exitenv;
 
-static int fob_short_checksum(FOB *f, SP_CHECKSUM *checksum, int do_byte_swap, 
+static int fob_short_checksum(FOB *f, SP_CHECKSUM *checksum, int do_byte_swap,
 		      SP_CHECKSUM (*add_checksum) (SP_CHECKSUM,SP_CHECKSUM));
 static int fob_char_checksum(FOB *, SP_CHECKSUM *,
 	      SP_CHECKSUM (*add_checksum) (SP_CHECKSUM , SP_CHECKSUM ));
@@ -28,11 +28,11 @@ int sp_mc_read_data(void *buffer, size_t num_sample, SP_FILE *sp)
     int ret;
     int do_conversions, do_channel_selections;
 
-    if (buffer == (void *)0) 
-	return_err(proc,100,0,"Null memory buffer"); 
+    if (buffer == (void *)0)
+	return_err(proc,100,0,"Null memory buffer");
     if (sp == SPNULL)
 	return_err(proc,101,0,"Null SPFILE structure");
-    if (sp->open_mode != SP_mode_read) 
+    if (sp->open_mode != SP_mode_read)
 	return_err(proc,104,104,"Read on a file not opened for read");
 #ifdef isnotansi
     if (num_sample < 0)
@@ -41,10 +41,10 @@ int sp_mc_read_data(void *buffer, size_t num_sample, SP_FILE *sp)
 #endif
     spifr = sp->read_spifr;
     /* dissallow reads if the file is still compressed. J.Thompson */
-    if (spifr->status->user_compress != SP_wc_none) 
+    if (spifr->status->user_compress != SP_wc_none)
  	return_err(proc,110,110,"Unable to Read file in compressed mode");
- 
-    if (sp_verbose > 10) 
+
+    if (sp_verbose > 10)
        fprintf(spfp,
 	       "Proc %s: file %s, %d bytes/sample, %d channels, %ld samples\n",
 	       proc,spifr->status->external_filename,
@@ -68,7 +68,7 @@ int sp_mc_read_data(void *buffer, size_t num_sample, SP_FILE *sp)
 	if (! spifr->waveform->waveform_setup){
 	    if ((spifr->status->user_compress == SP_wc_none) &&
 		(spifr->status->file_compress != SP_wc_none)){
-		decompress_waveform(sp) ; 
+		decompress_waveform(sp) ;
 		if ((ret = sp_get_return_status()) != 0)
 		    return_err(proc,ret,0,
 			       rsprintf("decompress_waveform failed, %s",
@@ -77,8 +77,8 @@ int sp_mc_read_data(void *buffer, size_t num_sample, SP_FILE *sp)
 	    else {
 		/* The following code assumes that no pre-reading of the   */
 		/* waveform is needed                                      */
-		
-		if ((spifr->waveform->sp_fob = 
+
+		if ((spifr->waveform->sp_fob =
 		     fob_create(spifr->waveform->sp_fp)) == FOBPNULL)
 		    return_err(proc,300,0,
 			  "Unable to allocate a FOB 'File or Buffer' struct.");
@@ -86,7 +86,7 @@ int sp_mc_read_data(void *buffer, size_t num_sample, SP_FILE *sp)
 	    }
 	    spifr->waveform->waveform_setup = TRUE;
 	}
-	
+
     	/****************************************************/
 	/**            INVARIANT ASSERTION:                **/
 	/** The data is now in it's natural (decomp) form  **/
@@ -95,7 +95,7 @@ int sp_mc_read_data(void *buffer, size_t num_sample, SP_FILE *sp)
 	/************ Set up the file conversions ***********/
 	/****************************************************/
 	/*        Set up byte format the conversions        */
-	if (spifr->status->user_sbf != spifr->status->file_sbf) 
+	if (spifr->status->user_sbf != spifr->status->file_sbf)
 	    if (((spifr->status->user_sbf == SP_sbf_01) &&
 		 (spifr->status->file_sbf == SP_sbf_10)) ||
 		((spifr->status->user_sbf == SP_sbf_10) &&
@@ -112,19 +112,19 @@ int sp_mc_read_data(void *buffer, size_t num_sample, SP_FILE *sp)
 	do_conversions = FALSE;
 	if (spifr->status->user_encoding != spifr->status->file_encoding) {
 	    if (((spifr->status->file_encoding == SP_se_ulaw) &&
-		 (spifr->status->user_encoding == SP_se_pcm2)) || 
+		 (spifr->status->user_encoding == SP_se_pcm2)) ||
 		((spifr->status->file_encoding == SP_se_pcm2) &&
-		 (spifr->status->user_encoding == SP_se_ulaw))) 
+		 (spifr->status->user_encoding == SP_se_ulaw)))
 		do_conversions = TRUE;
 	    if (((spifr->status->file_encoding == SP_se_pculaw) &&
-		 (spifr->status->user_encoding == SP_se_pcm2)) || 
+		 (spifr->status->user_encoding == SP_se_pcm2)) ||
 		((spifr->status->file_encoding == SP_se_pcm2) &&
-		 (spifr->status->user_encoding == SP_se_pculaw))) 
+		 (spifr->status->user_encoding == SP_se_pculaw)))
 		do_conversions = TRUE;
 	    if (((spifr->status->file_encoding == SP_se_alaw) &&
-		 (spifr->status->user_encoding == SP_se_pcm2)) || 
+		 (spifr->status->user_encoding == SP_se_pcm2)) ||
 		((spifr->status->file_encoding == SP_se_pcm2) &&
-		 (spifr->status->user_encoding == SP_se_alaw))) 
+		 (spifr->status->user_encoding == SP_se_alaw)))
 		do_conversions = TRUE;
 	    if (do_conversions == FALSE)
 		return_err(proc,400,0,
@@ -133,10 +133,10 @@ int sp_mc_read_data(void *buffer, size_t num_sample, SP_FILE *sp)
 
 	/* are channel selection requested ????? */
 	do_channel_selections = FALSE;
-	if (spifr->status->channels != CHANNELSNULL) 
+	if (spifr->status->channels != CHANNELSNULL)
 	    do_channel_selections = TRUE;
 
-	if (do_conversions || do_channel_selections || 
+	if (do_conversions || do_channel_selections ||
 	    (spifr->status->user_data_fmt == SP_df_array)){
 	    /* allocate the memory for the file data buffer   */
 	    /*  IF it's a legal transformation                */
@@ -145,32 +145,32 @@ int sp_mc_read_data(void *buffer, size_t num_sample, SP_FILE *sp)
 		    spifr->status->file_channel_count;
 	    if (sp_verbose > 15)
 		fprintf(spfp,"Proc %s: Alloc %d (%d*%d*%d) bytes%s\n",
-		       proc,	
+		       proc,
 		       spifr->waveform->file_data_buffer_len,TRANSLATION_LEN,
 		       spifr->status->file_sample_n_bytes,
 		       spifr->status->file_channel_count,
 		       " for file data buffer");
-	    if ((spifr->waveform->file_data_buffer = 
+	    if ((spifr->waveform->file_data_buffer =
 		 (void *)
 		       mtrf_malloc(spifr->waveform->file_data_buffer_len)) ==
 	        (void *)0)
 		return_err(proc,500,0,
 			"Unable to alloc memory for the translation buffer");
-	} 
-	if (do_conversions && 
+	}
+	if (do_conversions &&
 	    (do_channel_selections ||
 	     (spifr->status->user_data_fmt == SP_df_array))){
 	    spifr->waveform->converted_buffer_len = TRANSLATION_LEN *
-		spifr->status->user_sample_n_bytes * 
+		spifr->status->user_sample_n_bytes *
 		    spifr->status->file_channel_count;
 	    if (sp_verbose > 15)
 		fprintf(spfp,"Proc %s: Alloc %d (%d*%d*%d) bytes %s\n",
-		       proc,	
+		       proc,
 		       spifr->waveform->converted_buffer_len,TRANSLATION_LEN,
 		       spifr->status->user_sample_n_bytes,
 		       spifr->status->file_channel_count,
 		       "for converted data buffer");
-	    if ((spifr->waveform->converted_buffer = 
+	    if ((spifr->waveform->converted_buffer =
 		 (void *)
 		       mtrf_malloc(spifr->waveform->converted_buffer_len)) ==
 		(void *)0)
@@ -179,23 +179,23 @@ int sp_mc_read_data(void *buffer, size_t num_sample, SP_FILE *sp)
 	}
 	if (spifr->status->user_data_fmt == SP_df_array){
 	    spifr->waveform->interleave_buffer_len = TRANSLATION_LEN *
-		spifr->status->user_sample_n_bytes * 
+		spifr->status->user_sample_n_bytes *
 		    spifr->status->user_channel_count;
 	    if (sp_verbose > 15)
 		fprintf(spfp,"Proc %s: Alloc %d (%d*%d*%d) bytes %s\n",
-			proc,	
+			proc,
 			spifr->waveform->interleave_buffer_len,TRANSLATION_LEN,
 			spifr->status->user_sample_n_bytes,
 			spifr->status->user_channel_count,
 			"for interleave data buffer");
-	    if ((spifr->waveform->interleave_buffer = 
+	    if ((spifr->waveform->interleave_buffer =
 		 (void *)
 		       mtrf_malloc(spifr->waveform->interleave_buffer_len)) ==
 		(void *)0)
 		return_err(proc,600,0,
 			"Unable to alloc memory for the interleave buffer");
 	}
-	    
+
 
 	/* pre-verify the waveform data */
 	if (spifr->status->extra_checksum_verify){
@@ -223,7 +223,7 @@ int sp_mc_read_data(void *buffer, size_t num_sample, SP_FILE *sp)
     return_success(proc,0,ret,"ok");
 }
 
-static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){ 
+static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
     SPIFR *spifr;
     char *proc="    read_data_in " SPHERE_VERSION_STR;
     int samples_read = 0;
@@ -240,20 +240,20 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
     SP_CHECKSUM checksum=0, block_checksum=0;
     int file_record_size;
     char **arr_buff = (char **)0, *arr;
-       
+
     spifr = sp->read_spifr;
 
     file_record_size = spifr->status->file_sample_n_bytes *
 	spifr->status->file_channel_count;
-    
+
     while ((samples_read < num_sample) &&
 	   (! fob_feof(spifr->waveform->sp_fob))){
 	if (sp_verbose > 16)
 	    fprintf(spfp,"Proc %s:  Beginning block %d\n",proc,block);
-	
+
 	/* read in either a block or the whole chunk if data */
 	if (spifr->waveform->file_data_buffer != CNULL) {
-	    if (sp_verbose > 15) 
+	    if (sp_verbose > 15)
 		fprintf(spfp,
 			"Proc %s: reading a block into temporary storage\n",
 			proc);
@@ -266,7 +266,7 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 			    in_samples, spifr->waveform->sp_fob);
 	    if (ret < 0)
 		return_err(proc,105,0,"Unable to read data");
-	} else { 
+	} else {
 	    /* there was no change in the sample coding so just read    */
 	    /* in the data */
 	    if (sp_verbose > 15)
@@ -288,11 +288,11 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 	in_samples = ret;
 	/**** ret is the number of samples per time period read in from */
 	/**** the file */
-	
+
 	/**** Do the checksum computation before format changes occur ***/
 	switch (spifr->status->file_encoding){
 	  case SP_se_pcm2:
-	    
+
 	    /* DON'T SWAP if the coding type hasn't changed, and the    */
 	    /* output SBF == natural_sbf                                */
 	    /*    OR         if the coding changed and the file SBF     */
@@ -307,12 +307,12 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 			    "Proc %s: Not Swapping for checksum\n",proc);
 		checksum =
 		    sp_compute_short_checksum((void *)in_block,in_samples*
-				      spifr->status->file_channel_count, 
+				      spifr->status->file_channel_count,
 					      FALSE);
 	    } else {
 		if (sp_verbose > 16)
 		    fprintf(spfp,"Proc %s: Swapping for checksum\n",proc);
-		checksum = 
+		checksum =
 		    sp_compute_short_checksum((void *)in_block,
 		       in_samples*spifr->status->file_channel_count, TRUE);
 	    }
@@ -328,15 +328,15 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 	      break;
 	  }
 	}
-	
-	spifr->waveform->checksum = 
+
+	spifr->waveform->checksum =
 	    sp_add_checksum(spifr->waveform->checksum,checksum);
 	block_checksum = checksum;
-	
+
 	/***  FINISHED WITH THE CHECKSUMS ***/
 	samples_read += in_samples;
 	spifr->waveform->samples_read += in_samples;
-	
+
 	if (sp_eof(sp))
 	    /* only check this if the user_sample count is real */
 	    /* Added June 22, 1994 by JGF                       */
@@ -356,7 +356,7 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 	    if ((! spifr->status->ignore_checksum) &&
 		(spifr->waveform->checksum !=
 		 spifr->status->file_checksum)){
-		spifr->waveform->failed_checksum = TRUE;	    
+		spifr->waveform->failed_checksum = TRUE;
 		return_err(proc,1000,0,
 			   rsprintf("%sComputed %d != Expected %d",
 				    "Checksum Test Failed ",
@@ -364,18 +364,18 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 				    spifr->status->file_checksum));
 	    }
 	}
-	
+
 	/****   Do the sample coding conversions  ****/
 	if (((spifr->status->file_encoding == SP_se_ulaw) &&
-	     (spifr->status->user_encoding == SP_se_pcm2)) || 
+	     (spifr->status->user_encoding == SP_se_pcm2)) ||
 	    ((spifr->status->file_encoding == SP_se_pcm2) &&
 	     (spifr->status->user_encoding == SP_se_ulaw))) {
-	    int samples_to_change = 
+	    int samples_to_change =
 		in_samples*spifr->status->file_channel_count;
 
 	    if ((spifr->status->channels != CHANNELSNULL) ||
 		(spifr->status->user_data_fmt == SP_df_array)){
-		out_conversion_block = next_out_block = 
+		out_conversion_block = next_out_block =
 		    (char *)spifr->waveform->converted_buffer;
 		if (sp_verbose > 16)
 		    fprintf(spfp,"Proc %s: using converted buffer output\n",
@@ -389,7 +389,7 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 		if (next_out_block == (char *)0)
 		    next_out_block = out_conversion_block;
 	    }
-	    
+
 	    if (sp_verbose > 16)
 		fprintf(spfp,
 			"Proc %s: converting %d (%d*%d) samples\n",proc,
@@ -400,12 +400,12 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 		/* now convert the block into the buffer */
 		if (sp_verbose > 16)
 		    fprintf(spfp,"Proc %s: Converting ULAW to PCM", proc);
-		
+
 		/* set up some pointers */
 		ulaw_data =
 		    (unsigned char *)spifr->waveform->file_data_buffer;
 		sh_data = (short *)next_out_block ;
-		
+
 	       /*** This was a bug, it used to compare to sp_sbf_10 ***/
 		if (spifr->status->user_sbf != get_natural_sbf(2)){
 		    if (sp_verbose > 16)
@@ -431,7 +431,7 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 		/* set up some pointers */
 		sh_data = (short *)spifr->waveform->file_data_buffer;
 		ulaw_data = (unsigned char *)next_out_block;
-		
+
 
 		if (spifr->status->file_sbf != spifr->status->natural_sbf){
 		    char *p , temp; short odata;
@@ -440,7 +440,7 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 				"Proc %s: Swapping input shorts\n", proc);
 		    for (o=0; o < samples_to_change; o++) {
 			/* Pre swap the bytes */
-			
+
 			odata = *sh_data;
 			p = (char *) &odata;
 			temp = *p;
@@ -448,7 +448,7 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 			*(p + 1) = temp;
 			/* fprintf(spfp,
 			   "  %d -> %x -> %x\n",o,*sh_data,odata); */
-			
+
 			*ulaw_data = linear2ulaw(odata);
 			sh_data ++; ulaw_data ++;
 		    }
@@ -458,20 +458,20 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 			sh_data ++; ulaw_data ++;
 		    }
 		next_out_block = (char *)ulaw_data;
-	    } else 
+	    } else
 		return_err(proc,109,0,"Internal Error");
-	    
+
 	    current_data_location = out_conversion_block;
 	} else if (((spifr->status->file_encoding == SP_se_pculaw) &&
-	     (spifr->status->user_encoding == SP_se_pcm2)) || 
+	     (spifr->status->user_encoding == SP_se_pcm2)) ||
 	    ((spifr->status->file_encoding == SP_se_pcm2) &&
 	     (spifr->status->user_encoding == SP_se_pculaw))) {
-	    int samples_to_change = 
+	    int samples_to_change =
 		in_samples*spifr->status->file_channel_count;
 
 	    if ((spifr->status->channels != CHANNELSNULL) ||
 		(spifr->status->user_data_fmt == SP_df_array)){
-		out_conversion_block = next_out_block = 
+		out_conversion_block = next_out_block =
 		    (char *)spifr->waveform->converted_buffer;
 		if (sp_verbose > 16)
 		    fprintf(spfp,"Proc %s: using converted buffer output\n",
@@ -485,7 +485,7 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 		if (next_out_block == (char *)0)
 		    next_out_block = out_conversion_block;
 	    }
-	    
+
 	    if (sp_verbose > 16)
 		fprintf(spfp,
 			"Proc %s: converting %d (%d*%d) samples\n",proc,
@@ -496,12 +496,12 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 		/* now convert the block into the buffer */
 		if (sp_verbose > 16)
 		    fprintf(spfp,"Proc %s: Converting PCULAW to PCM", proc);
-		
+
 		/* set up some pointers */
 		pculaw_data =
 		    (unsigned char *)spifr->waveform->file_data_buffer;
 		sh_data = (short *)next_out_block ;
-		
+
 	       /*** This was a bug, it used to compare to sp_sbf_10 ***/
 		if (spifr->status->user_sbf != get_natural_sbf(2)){
 		    if (sp_verbose > 16)
@@ -529,7 +529,7 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 		/* set up some pointers */
 		sh_data = (short *)spifr->waveform->file_data_buffer;
 		pculaw_data = (unsigned char *)next_out_block;
-		
+
 
 		if (spifr->status->file_sbf != spifr->status->natural_sbf){
 		    char *p , temp; short odata;
@@ -538,7 +538,7 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 				"Proc %s: Swapping input shorts\n", proc);
 		    for (o=0; o < samples_to_change; o++) {
 			/* Pre swap the bytes */
-			
+
 			odata = *sh_data;
 			p = (char *) &odata;
 			temp = *p;
@@ -546,7 +546,7 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 			*(p + 1) = temp;
 			/* fprintf(spfp,
 			   "  %d -> %x -> %x\n",o,*sh_data,odata); */
-			
+
 			*pculaw_data = uchar_bitreverse_lut[linear2ulaw(odata)];
 			sh_data ++; pculaw_data ++;
 		    }
@@ -557,20 +557,20 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 			sh_data ++; pculaw_data ++;
 		    }
 		next_out_block = (char *)pculaw_data;
-	    } else 
+	    } else
 		return_err(proc,109,0,"Internal Error");
-	    
+
 	    current_data_location = out_conversion_block;
 	} else 	if (((spifr->status->file_encoding == SP_se_alaw) &&
-		     (spifr->status->user_encoding == SP_se_pcm2)) || 
+		     (spifr->status->user_encoding == SP_se_pcm2)) ||
 		    ((spifr->status->file_encoding == SP_se_pcm2) &&
 		     (spifr->status->user_encoding == SP_se_alaw))) {
-	    int samples_to_change = 
+	    int samples_to_change =
 		in_samples*spifr->status->file_channel_count;
 
 	    if ((spifr->status->channels != CHANNELSNULL) ||
 		(spifr->status->user_data_fmt == SP_df_array)){
-		out_conversion_block = next_out_block = 
+		out_conversion_block = next_out_block =
 		    (char *)spifr->waveform->converted_buffer;
 		if (sp_verbose > 16)
 		    fprintf(spfp,"Proc %s: using converted buffer output\n",
@@ -584,7 +584,7 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 		if (next_out_block == (char *)0)
 		    next_out_block = out_conversion_block;
 	    }
-	    
+
 	    if (sp_verbose > 16)
 		fprintf(spfp,
 			"Proc %s: converting %d (%d*%d) samples\n",proc,
@@ -595,12 +595,12 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 		/* now convert the block into the buffer */
 		if (sp_verbose > 16)
 		    fprintf(spfp,"Proc %s: Converting ALAW to PCM", proc);
-		
+
 		/* set up some pointers */
 		alaw_data =
 		    (unsigned char *)spifr->waveform->file_data_buffer;
 		sh_data = (short *)next_out_block ;
-		
+
 	       /*** This was a bug, it used to compare to sp_sbf_10 ***/
 		if (spifr->status->user_sbf != get_natural_sbf(2)){
 		    if (sp_verbose > 16)
@@ -626,7 +626,7 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 		/* set up some pointers */
 		sh_data = (short *)spifr->waveform->file_data_buffer;
 		alaw_data = (unsigned char *)next_out_block;
-		
+
 
 		if (spifr->status->file_sbf != spifr->status->natural_sbf){
 		    char *p , temp; short odata;
@@ -635,7 +635,7 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 				"Proc %s: Swapping input shorts\n", proc);
 		    for (o=0; o < samples_to_change; o++) {
 			/* Pre swap the bytes */
-			
+
 			odata = *sh_data;
 			p = (char *) &odata;
 			temp = *p;
@@ -643,7 +643,7 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 			*(p + 1) = temp;
 			/* fprintf(spfp,
 			   "  %d -> %x -> %x\n",o,*sh_data,odata); */
-			
+
 			*alaw_data = linear2alaw(odata);
 			sh_data ++; alaw_data ++;
 		    }
@@ -653,16 +653,16 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 			sh_data ++; alaw_data ++;
 		    }
 		next_out_block = (char *)alaw_data;
-	    } else 
+	    } else
 		return_err(proc,109,0,"Internal Error");
-	    
+
 	    current_data_location = out_conversion_block;
 	}
 
 	/* Do the channel conversions */
 	if (spifr->status->channels != CHANNELSNULL){
 	    int in_recsize, out_recsize, in_chancnt, out_chancnt;
-	    
+
 	    if (sp_verbose > 15)
 		fprintf(spfp,"Proc %s: Converting channels\n",proc);
 	    if (spifr->status->user_data_fmt == SP_df_array)
@@ -671,30 +671,30 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 		if (out_block == (void *)0)
 		    out_block = (void *)buffer;
 	    current_data_location = out_block;
-		
+
 	    if (spifr->status->file_encoding !=	spifr->status->user_encoding)
-		in_conversion_block = 
+		in_conversion_block =
 		    (void *)spifr->waveform->converted_buffer;
-	    else 
-		if (in_conversion_block == (void *)0) 
+	    else
+		if (in_conversion_block == (void *)0)
 		    in_conversion_block =
 			(void *)spifr->waveform->file_data_buffer;
 
-	    
+
 	    in_chancnt = spifr->status->file_channel_count;
 	    in_recsize = spifr->status->user_sample_n_bytes *  in_chancnt;
 	    out_chancnt = spifr->status->user_channel_count;
 	    out_recsize = spifr->status->user_sample_n_bytes * out_chancnt;
-	    
+
 	    for (oc=0; oc<spifr->status->channels->num_chan; oc++)
 		if (spifr->status->channels->ochan[oc].num_origin == 1){
 		    char *in_ptr, *out_ptr;
-		    in_ptr = in_conversion_block + 
+		    in_ptr = in_conversion_block +
                         ((spifr->status->channels->ochan[oc].orig_channel[0]-1)
 			 * spifr->status->user_sample_n_bytes);
-		    out_ptr = out_block + 
+		    out_ptr = out_block +
 			(oc * spifr->status->user_sample_n_bytes);
-		    
+
 		    for (s=0; s<in_samples; s++){
 			memcpy(out_ptr,in_ptr,
 			      spifr->status->user_sample_n_bytes);
@@ -714,10 +714,10 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 			in_ptr = (short *)in_conversion_block;
 			out_ptr = (short *)out_block;
 			ochn = &(spifr->status->channels->ochan[oc]);
-			
+
 			if (spifr->status->user_sbf== get_natural_sbf(2)){
 			    for (s=0; s<in_samples; s++){
-				for (ch=0, sum=0; ch < ochn->num_origin; 
+				for (ch=0, sum=0; ch < ochn->num_origin;
 				     ch++){
 				    sum +=*(in_ptr+ochn->orig_channel[ch]-1);
 				}
@@ -734,7 +734,7 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 					"Adding Swapped PCM data channel",oc);
 			    for (s=0; s<in_samples; s++){
 				/*    fprintf(spfp,"sample %d\n",s);  */
-				for (ch=0, sum=0; ch < ochn->num_origin; 
+				for (ch=0, sum=0; ch < ochn->num_origin;
 				     ch++){
 				    x = *(in_ptr+ochn->orig_channel[ch]-1);
 				    swap_bytes(x);
@@ -749,8 +749,8 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 				in_ptr += in_chancnt;
 				out_ptr += out_chancnt;
 			    }
-			    
-			}			   
+
+			}
 		    } else if (spifr->status->user_encoding == SP_se_ulaw){
 			/* do an add on ulaw data */
 			ORIGINATION_CHAN *ochn;
@@ -763,7 +763,7 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 			in_ptr = (unsigned char *)in_conversion_block;
 			out_ptr = (unsigned char *)out_block;
 			ochn = &(spifr->status->channels->ochan[oc]);
-			
+
 			for (s=0; s<in_samples; s++){
 			    for (ch=0, sum=0; ch < ochn->num_origin;
 				 ch++){
@@ -789,7 +789,7 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 			in_ptr = (unsigned char *)in_conversion_block;
 			out_ptr = (unsigned char *)out_block;
 			ochn = &(spifr->status->channels->ochan[oc]);
-			
+
 			for (s=0; s<in_samples; s++){
 			    for (ch=0, sum=0; ch < ochn->num_origin;
 				 ch++){
@@ -817,7 +817,7 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 			in_ptr = (unsigned char *)in_conversion_block;
 			out_ptr = (unsigned char *)out_block;
 			ochn = &(spifr->status->channels->ochan[oc]);
-			
+
 			for (s=0; s<in_samples; s++){
 			    for (ch=0, sum=0; ch < ochn->num_origin;
 				 ch++){
@@ -835,7 +835,7 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 		}
 	    out_block += out_recsize * in_samples;
 	}
-	
+
 	if (spifr->status->user_data_fmt == SP_df_array){
 	    /* convert the data from it's interleaved form */
 	    /* to an array format                          */
@@ -843,17 +843,17 @@ static int read_data_in(void *buffer, size_t num_sample, SP_FILE *sp){
 	    int chcnt = spifr->status->user_channel_count;
 	    int recsize = snb * chcnt;
 	    char *in_dat;
-	    
+
 	    if (sp_verbose > 15)
 		fprintf(spfp,"Proc %s: Converting data to an array\n",
 			proc);
-	    
+
 	    if (arr_buff == (char  **)0)
 		arr_buff = (char **)buffer;
 	    for (c=0; c<chcnt; c++){
 		in_dat =  current_data_location + (snb * c) ;
 		arr = arr_buff[c] + ((samples_read-in_samples) * snb);
-		
+
 		for (s=0; s<in_samples; s++,arr+=snb,in_dat+=recsize)
 		    memcpy(arr,in_dat,snb);
 	    }
@@ -879,15 +879,15 @@ static int decompress_waveform(SP_FILE *sp)
     char *buff;
     int blen;
     char *proc="decompress_waveform " SPHERE_VERSION_STR;
-    
-    wav_bytes = spifr->status->user_sample_count * 
-	spifr->status->user_channel_count * 
+
+    wav_bytes = spifr->status->user_sample_count *
+	spifr->status->user_channel_count *
 	    spifr->status->user_sample_n_bytes;
-    
+
     /* the file must be decompressed, Question: Should it be done in memory? */
     if (wav_bytes > MAX_INTERNAL_WAVFORM)
 	decomp_into_memory = FALSE;
-    
+
     /* The file needs to be de_compressed into memory !!!! */
     /* 1. make an FOB struct for the uncompressed waveform to be read into d */
     /*    and the original file */
@@ -895,7 +895,7 @@ static int decompress_waveform(SP_FILE *sp)
     /* 3. decompress the file */
     /* 4. Clean up the FOB struct for the file, moving the fp from the FOB */
     /* 5. reset the uncompressed FOB struct to the beginning of the memory */
-		
+
 
     if (decomp_into_memory) {
 	if (sp_verbose > 15)
@@ -903,8 +903,8 @@ static int decompress_waveform(SP_FILE *sp)
 		   proc);
 	if (fob_create2(spifr->waveform->sp_fp, FPNULL, &fob_in, &fob_out) < 0)
 	    return_err(proc,200,1,"Unable to setup for decompression");
-	blen = spifr->status->file_channel_count * 
-	    spifr->status->file_sample_count * 
+	blen = spifr->status->file_channel_count *
+	    spifr->status->file_sample_count *
 		spifr->status->file_sample_n_bytes;
 	if ((buff=mtrf_malloc(blen)) == CNULL){
 	    fob_destroy(fob_in);
@@ -924,19 +924,19 @@ static int decompress_waveform(SP_FILE *sp)
 	    fprintf(spfp,"Proc %s: %s%d bytes long, using temp file %s\n",
 		   proc, "Attempting to read a big file ",wav_bytes,
 		   spifr->status->temp_filename);
-	if ((temp_fp=fopen(spifr->status->temp_filename,TRUNCATE_UPDATEMODE)) 
-	    == FPNULL) 
+	if ((temp_fp=fopen(spifr->status->temp_filename,TRUNCATE_UPDATEMODE))
+	    == FPNULL)
 	    return_err(proc,401,1,
 		       rsprintf("Unable to open temporary file %s",
 				spifr->status->temp_filename));
 
 	if (fob_create2(spifr->waveform->sp_fp, temp_fp, &fob_in, &fob_out) <0)
 	    return_err(proc,402,1,"Unable to setup for decompression");
-	
+
 	/* the FILE pointer will be closed after completion of the           */
 	/* decompression directly from the fob_in FOB pointer.  this is the  */
 	/* bug which Francis caught.                                         */
-	
+
 	/* Note:  Do NOT set the waveform file to FPNULL here (see bugfix    */
 	/* below.)  ***PSI***  24-Sep-1993                                   */
 	/* spifr->waveform->sp_fp = FPNULL; */
@@ -1001,25 +1001,25 @@ static int decompress_waveform(SP_FILE *sp)
 	    fob_destroy(fob_in);
 	    fob_destroy(fob_out);
 	    return_err(proc,208,1,"Shortpack Decompression aborted");
-	}		    
+	}
 	break;
       default:
 	return_err(proc,209,1,"Unable to decompress the requested format\n");
     }
     fob_rewind(fob_out);
-    
-    
+
+
     /**** Begin SRI bugfix. ****/
-    
+
     /* If a temporary file is being used, close the waveform file BEFORE    */
     /* setting it to FPNULL.  ***PSI***  24-Sep-1993                        */
-    
+
     if (spifr->status->is_temp_file) {
 	if (sp_verbose > 15)
 	    fprintf(spfp,"Proc %s: Closing waveform file \"%s\" (%d)\n",
 		   proc, spifr->status->external_filename,
 		   fileno(spifr->waveform->sp_fp));
-	
+
 	if (fclose(spifr->waveform->sp_fp))
 	    return_err(proc, 403, 0,
 		       rsprintf("Unable to close waveform file \"%s\" (%d)",
@@ -1027,25 +1027,25 @@ static int decompress_waveform(SP_FILE *sp)
 				fileno(spifr->waveform->sp_fp)));
 	spifr->waveform->sp_fp = FPNULL;
     }
-    
+
     /**** End SRI bugfix. ****/
-    
-    if (! decomp_into_memory) { 
+
+    if (! decomp_into_memory) {
 	/* Close the original file pointer to the SPHERE file */
 	fclose(fob_in->fp);
     }
-    fob_destroy(fob_in);	    
-    
+    fob_destroy(fob_in);
+
     spifr->waveform->sp_fob = fob_out;
     return_success(proc,0,0,"ok");
 }
 
 
 /*
- *  This function just computes the checksum of the file pointed to by 
+ *  This function just computes the checksum of the file pointed to by
  *  an FOB structure.
  */
-static int fob_short_checksum(FOB *f, SP_CHECKSUM *checksum, int do_byte_swap, 
+static int fob_short_checksum(FOB *f, SP_CHECKSUM *checksum, int do_byte_swap,
 	       SP_CHECKSUM (*add_checksum) (SP_CHECKSUM , SP_CHECKSUM ))
 {
     long cur_fp_pos;
@@ -1076,10 +1076,10 @@ static int fob_short_checksum(FOB *f, SP_CHECKSUM *checksum, int do_byte_swap,
 }
 
 /*
- *  This function just computes the checksum of the file pointed to by 
+ *  This function just computes the checksum of the file pointed to by
  *  an FOB structure.
  */
-static int fob_char_checksum(FOB *f, SP_CHECKSUM *checksum,  
+static int fob_char_checksum(FOB *f, SP_CHECKSUM *checksum,
 	       SP_CHECKSUM (*add_checksum) (SP_CHECKSUM , SP_CHECKSUM ))
 {
     long cur_fp_pos;
@@ -1112,14 +1112,14 @@ static int pre_verify_checksum(SP_FILE *sp){
     char *proc="pre_verify_checksum " SPHERE_VERSION_STR;
     SPIFR *spifr=sp->read_spifr;
     SP_CHECKSUM checksum;
-    
+
     /* if the samples are in memory, compute the checksum from there. */
     /* if not, read in the file, a block at a time and compute the    */
     /* checksum.                                                      */
     switch (spifr->status->file_encoding){
       case SP_se_pcm2:
 	if (fob_short_checksum(spifr->waveform->sp_fob, &checksum,
-			       spifr->status->file_sbf != 
+			       spifr->status->file_sbf !=
 			       spifr->status->natural_sbf,
 			       sp_add_checksum) < 0)
 	    return_err(proc,501,0,"Unable to Pre-Verify Checksum");

@@ -6,7 +6,7 @@
 *                                                                             *
 ******************************************************************************/
 
-/* 
+/*
   set the atime and mtime of path1 to be the same as that of path0
 */
 
@@ -14,8 +14,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 /* Changed by Jon Fiscus */
-# include <util/fob.h>
-# include <sp/shorten/shorten.h>
+# include <fob.h>
+# include <shorten/shorten.h>
 
 /* From: fred@masterd.fdn.org (Frederic SAVOIR) */
 #ifdef __WATCOMC__

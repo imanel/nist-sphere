@@ -1,13 +1,13 @@
 /*  File: sphere.c
  *
  *  Description:
- *  This is the main sphere include file.  It should be included in any modules 
+ *  This is the main sphere include file.  It should be included in any modules
  *  that use the sphere libraries.
  *
  *  Revision History:
  *     - Created: November 1993
  *
- *     - May 5, 1994: Added the redefinition for the sp_read_data and 
+ *     - May 5, 1994: Added the redefinition for the sp_read_data and
  *       sp_write_data so as to properly handle old function argument syntax
  */
 
@@ -19,18 +19,18 @@ extern "C" {
 #endif
 
 #define MTRF_ON
-#include <util/utillib.h>
+#include <utillib.h>
 
-#include <sp/header.h>
-#include <sp/sysparam.h>
-#include <sp/spchksum.h>
-#include <sp/spfile.h>
-#include <sp/sysfunc.h>
-#include <sp/sp.h>
+#include <header.h>
+#include <sysparam.h>
+#include <spchksum.h>
+#include <spfile.h>
+#include <sysfunc.h>
+#include <sp.h>
 
-#include <sp/shorten/shrt_sph.h>
-#include <sp/wavpack/wavpack.h>
-#include <sp/version.h>
+#include <shorten/shrt_sph.h>
+#include <wavpack/wavpack.h>
+#include <version.h>
 
 /**************************************************************/
 /**** Uncomment this line if you'd like to use the pre_2.2 ****/

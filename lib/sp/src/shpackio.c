@@ -10,8 +10,8 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 #endif
-#include <sp/sphere.h>
-#include <util/min.h>
+#include <sphere.h>
+#include <min.h>
 #include <setjmp.h>
 
 extern jmp_buf	exitenv;
@@ -20,12 +20,12 @@ extern jmp_buf	exitenv;
 #       undef fread
 #endif
 #define fread(a,b,c,d)          fob_fread((void *)(a),(b),(c),(d))
- 
+
 #ifdef fwrite
 #       undef fwrite
 #endif
 #define fwrite(a,b,c,d)         fob_fwrite((void *)(a),(b),(c),(d))
- 
+
 #ifdef putc
 #       undef putc
 #endif
@@ -45,7 +45,7 @@ extern jmp_buf	exitenv;
 #       undef getw
 #endif
 #define getw(a)                 fob_getw((a))
- 
+
 #ifdef fputc
 #       undef fputc
 #endif
@@ -95,13 +95,13 @@ int unpack_short_array_into_buffer(short int *, int , int , int, int , short int
 
 	Creation Date: 	12-JUL-1990
 
-	This program compresses utterance files made up of short integers.  
+	This program compresses utterance files made up of short integers.
 	Refer to the manpage for more information.
 	This segment comprises the "guts" of the shortpack algorithim.
 
 	Revision History:
 
-	08-OCT-1990	Modified to not compress files which have an odd 
+	08-OCT-1990	Modified to not compress files which have an odd
 	                number of bytes, since they are obviously not made
 		        up of short integers (pdaly).
 
@@ -116,7 +116,7 @@ int unpack_short_array_into_buffer(short int *, int , int , int, int , short int
 **************************************************************************/
 
 
-/*  
+/*
 
 /*ok, here's how shortpack works:
 
@@ -175,7 +175,7 @@ int write_shortpacked_data(short int *array, int num_elements, FOB *fp)
   input_pointer = 0;
 
   while(input_pointer < num_elements)
-  { num_in_chunk = find_next_chunk_to_compress(array, input_pointer, 
+  { num_in_chunk = find_next_chunk_to_compress(array, input_pointer,
 					       num_elements, &bits, ALL_ONES);
     pack_and_write_chunk_to_file(array, input_pointer, num_in_chunk,
 				 bits, fp, ALL_ONES);
@@ -241,7 +241,7 @@ void write_shortpack_reading_from_file(FOB *ifp, FOB *ofp, int swap)
       }
       if(num_read < how_much_to_write)
       { next_write += num_read;
-	
+
       }
       else
       { next_write = 0;
@@ -249,7 +249,7 @@ void write_shortpack_reading_from_file(FOB *ifp, FOB *ofp, int swap)
     }
     if(next_read > next_write)
     { how_much_to_write = next_read - next_write;
-      num_read = fread(&(cbuf[next_write]), sizeof(short), how_much_to_write, 
+      num_read = fread(&(cbuf[next_write]), sizeof(short), how_much_to_write,
 		       ifp);
 /*      printf("num_read2 %d\n", num_read);*/
       if(!(swap ^ ieee_order))
@@ -275,7 +275,7 @@ void write_shortpack_reading_from_file(FOB *ifp, FOB *ofp, int swap)
       { num_to_read = CBUF_SIZE - (next_read - next_write);
       }
     }
-    num_in_chunk = find_next_chunk_to_compress(cbuf, next_read, 
+    num_in_chunk = find_next_chunk_to_compress(cbuf, next_read,
 					       next_read + num_to_read, &bits,
 					       CBUF_MASK);
     pack_and_write_chunk_to_file(cbuf, next_read, num_in_chunk, bits, ofp,
@@ -316,8 +316,8 @@ void read_shortpack_writing_to_file(FOB *ifp, FOB *ofp, int swap)
       }
     }
 
-    num_in_chunk =  read_shortpack_chunk_from_file(ifp, cbuf, next_write, 
-						   next_write + room_in_cbuf, 
+    num_in_chunk =  read_shortpack_chunk_from_file(ifp, cbuf, next_write,
+						   next_write + room_in_cbuf,
 						   CBUF_MASK);
     if(num_in_chunk < 0) break;
 
@@ -336,7 +336,7 @@ void read_shortpack_writing_to_file(FOB *ifp, FOB *ofp, int swap)
 	  *(char_ptr++) = temp_char;
 	}
       }
-      num_written = fwrite(&(cbuf[next_read]), sizeof(short), 
+      num_written = fwrite(&(cbuf[next_read]), sizeof(short),
 			   how_much_to_write, ofp);
       if(num_written < how_much_to_write)
       { fprintf(stderr,"read_shortpack_writing_to_file: HAD_TROUBLE_WRITING!!\n");
@@ -358,7 +358,7 @@ void read_shortpack_writing_to_file(FOB *ifp, FOB *ofp, int swap)
 	  *(char_ptr++) = temp_char;
 	}
       }
-      num_written = fwrite(&(cbuf[next_read]), sizeof(short), 
+      num_written = fwrite(&(cbuf[next_read]), sizeof(short),
 			   how_much_to_write, ofp);
       if(num_written < how_much_to_write)
       { fprintf(stderr,"read_shortpack_writing_to_file: HAD_TROUBLE_WRITING!!\n");
@@ -371,7 +371,7 @@ void read_shortpack_writing_to_file(FOB *ifp, FOB *ofp, int swap)
 }
 
 /*
- * find_bits_needed(): deterimine the minimum number of bits needed to to 
+ * find_bits_needed(): deterimine the minimum number of bits needed to to
  represent a number.
  */
 
@@ -389,8 +389,8 @@ find_bits_needed(short int num)
 }
 
 /*
- * find_next_chunk_to_compress: (compression) look ahead in the uncompressed 
- data to determine how many bits 
+ * find_next_chunk_to_compress: (compression) look ahead in the uncompressed
+ data to determine how many bits
  will be needed to represent the next chunk of data.
  */
 int find_next_chunk_to_compress(short int *buffer, int start, int num_elements, int *pbits, int mask)
@@ -428,8 +428,8 @@ int find_next_chunk_to_compress(short int *buffer, int start, int num_elements, 
 /*    printf("i %d mask %d abs %d\n", i, mask, abs_element);*/
 
     if(bits_for_element > bits_for_chunk)
-    { if(   (i!= start) 
-	 && better_to_chop_here_vs_using_more_bits(bits_for_element, 
+    { if(   (i!= start)
+	 && better_to_chop_here_vs_using_more_bits(bits_for_element,
 						   bits_for_chunk, (i-start)))
       { *pbits = bits_for_chunk;
 /*	printf("chopping upscale bits %d inchunk %d i %d\n", bits_for_element, bits_for_chunk, i);*/
@@ -441,9 +441,9 @@ int find_next_chunk_to_compress(short int *buffer, int start, int num_elements, 
     }
     else
     if(bits_for_element < bits_for_chunk)
-    { if(better_to_chop_here_and_use_fewer_bits_for_future(bits_for_element, 
-							   bits_for_chunk, buffer, 
-							   bits_for_element_cache, start, 
+    { if(better_to_chop_here_and_use_fewer_bits_for_future(bits_for_element,
+							   bits_for_chunk, buffer,
+							   bits_for_element_cache, start,
 							   i, end, mask))
       { *pbits = bits_for_chunk;
 /*	printf("chopping downscale bits %d inchunk %d i %d\n", bits_for_element, bits_for_chunk, i);*/
@@ -458,7 +458,7 @@ int find_next_chunk_to_compress(short int *buffer, int start, int num_elements, 
 }
 
 
-/*this figures out how many shorts will be needed to represent output if we 
+/*this figures out how many shorts will be needed to represent output if we
   chop now vs how many will be needed if we increase the bits for the chunk
   from bits_for_chunk to bits_for_element
 */
@@ -487,7 +487,7 @@ int better_to_chop_here_vs_using_more_bits(int bits_for_element, int bits_for_ch
   }
 }
 
-/*chop if number of bits saved for future is more than the header size.  
+/*chop if number of bits saved for future is more than the header size.
   Check though to see if it will want to use less bits for for before these
   bits are saved (for steadily decreasing amp for example)
 */
@@ -529,7 +529,7 @@ int better_to_chop_here_and_use_fewer_bits_for_future(int bits_for_element, int 
     if(bits_saved_per_element <= 0) break; /*no hope for saving any bits*/
 
     if((bits_saved_per_element * (i-start)) > 16) /*if the total bits saved is more than header*/
-    { /*check if we are going to reduce bits in the near future 
+    { /*check if we are going to reduce bits in the near future
 	(before the current savings is realized)*/
       for(j=start+1;j<=i;j++)
       { ind = j-cache_start;
@@ -542,8 +542,8 @@ int better_to_chop_here_and_use_fewer_bits_for_future(int bits_for_element, int 
 	bits = bits_for_element_cache[ind];
 
 	if(better_to_chop_here_and_use_fewer_bits_for_future(bits, max_bits,
-							     buffer, bits_for_element_cache, 
-							 cache_start, 
+							     buffer, bits_for_element_cache,
+							 cache_start,
 							     j, end, mask))
 	{ /*going to chop in the future anyway, so don't chop here*/
 	  return 0;
@@ -562,11 +562,11 @@ int better_to_chop_here_and_use_fewer_bits_for_future(int bits_for_element, int 
  */
 
 void pack_and_write_chunk_to_file(short int *buffer, int start, int num, int bits, FOB *fp, int mask)
-        
-           
-          
-              
-          /*so the buffer can be a circular buffer 
+
+
+
+
+          /*so the buffer can be a circular buffer
 	    (if ALL_ONES, just use linear buffer)*/
 { int i,j,k;
   char *char_ptr;
@@ -577,7 +577,7 @@ void pack_and_write_chunk_to_file(short int *buffer, int start, int num, int bit
   short test_short = 1;
 
 /*  printf("paw start %d num %d mask %d\n", start, num, mask);*/
-  els = pack_short_array_into_buffer(buffer, start, num, bits, mask, 
+  els = pack_short_array_into_buffer(buffer, start, num, bits, mask,
 				     compressed_data);
 
 
@@ -603,15 +603,15 @@ void pack_and_write_chunk_to_file(short int *buffer, int start, int num, int bit
 }
 
 /*
- * read_shortpack_from_file(): (uncompression) read "shortpacked" data from a 
+ * read_shortpack_from_file(): (uncompression) read "shortpacked" data from a
  * file
  */
 int
 read_shortpack_chunk_from_file(FOB *fp, short int *buffer, int start, int max_elements, int mask)
-        
-              
-                        
-          /*so the buffer can be a circular buffer (if ALL_ONES, 
+
+
+
+          /*so the buffer can be a circular buffer (if ALL_ONES,
 	    just use linear buffer)*/
 { int i,j,k;
   int num_read;
@@ -669,9 +669,9 @@ read_shortpack_chunk_from_file(FOB *fp, short int *buffer, int start, int max_el
     }
   }
   num_unpacked = unpack_short_array_into_buffer(buffer, start, max_elements,
-						bits_used, mask, 
+						bits_used, mask,
 						compressed_data, num);
-  
+
   return num_unpacked;
 }
 
@@ -697,7 +697,7 @@ int pack_short_array_into_buffer(short int *buffer, int start, int num, int bits
     v = buffer[buffer_ind];
     /* set the sign here */
     bit_mark++;
-    
+
     if (v < 0)
     { compressed_data[j] |= log2s[16 - bit_mark];
       v = -v;

@@ -1,9 +1,9 @@
 #include <stdio.h>
 #define SPHERE_LIBRARY_CODE
-#include <sp/sphere.h>
+#include <sphere.h>
 
 /*
- *  memory allocation/deallocation routines for the sphere_t 
+ *  memory allocation/deallocation routines for the sphere_t
  *  structure.
  *
  *  Returns:  a SP_FILE pointer upon success
@@ -40,16 +40,16 @@ SPIFR *alloc_SPIFR(void)
 
     if ((tspifr=(SPIFR *)mtrf_malloc(sizeof(SPIFR))) == SPIFRNULL)
 	return(SPIFRNULL);
-    
+
     /* init the sphere_t structure */
     if ((tspifr->status=(struct spfile_status_t *)
-	                mtrf_malloc(sizeof(struct spfile_status_t))) == 
+	                mtrf_malloc(sizeof(struct spfile_status_t))) ==
         (struct spfile_status_t *)0){
 	mtrf_free((char *)tspifr);
 	return(SPIFRNULL);
     }
     if ((tspifr->waveform=(struct waveform_t *)
-	                mtrf_malloc(sizeof(struct waveform_t))) == 
+	                mtrf_malloc(sizeof(struct waveform_t))) ==
 	(struct waveform_t *)0){
 	mtrf_free((char *)tspifr->status);
 	mtrf_free((char *)tspifr);
@@ -86,12 +86,12 @@ SPIFR *alloc_SPIFR(void)
 
     tspifr->status->user_channel_count = 0;
     tspifr->status->user_sample_count = 0;
-    tspifr->status->user_sample_rate = 0; 
+    tspifr->status->user_sample_rate = 0;
     tspifr->status->user_sample_n_bytes = 0;
 
     tspifr->status->file_channel_count = 0;
     tspifr->status->file_sample_count = 0;
-    tspifr->status->file_sample_rate = 0; 
+    tspifr->status->file_sample_rate = 0;
     tspifr->status->file_sample_n_bytes = 0;
 
     tspifr->status->file_checksum = (-1);
@@ -109,7 +109,7 @@ SPIFR *alloc_SPIFR(void)
     tspifr->status->field_set_occured_flag = FALSE;
     tspifr->status->set_data_mode_occured_flag = FALSE;
 
-    return(tspifr);    
+    return(tspifr);
 }
 
 CHANNELS *alloc_CHANNELS(int num_chan, int max_chan_add){
@@ -164,7 +164,7 @@ void free_SPIFR_waveform_buffers(SPIFR *spifr)
 	mtrf_free((char *) spifr->waveform->converted_buffer);
     spifr->waveform->converted_buffer = (void *)0;
     spifr->waveform->converted_buffer = 0;
-    
+
     if (spifr->waveform->interleave_buffer != (void *)0)
 	mtrf_free((char *)spifr->waveform->interleave_buffer);
     spifr->waveform->interleave_buffer = (void *)0;
@@ -237,6 +237,6 @@ int free_sphere_t(SP_FILE *sp)
         free_SPIFR(sp->read_spifr);
     if (sp->write_spifr != SPIFRNULL)
         free_SPIFR(sp->write_spifr);
-    mtrf_free((char *)sp);	    
+    mtrf_free((char *)sp);
     return(0);
 }

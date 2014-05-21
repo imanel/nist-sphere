@@ -10,43 +10,43 @@
 #include <sys/types.h>
 
 #define SPHERE_LIBRARY_CODE
-#include <sp/sphere.h>
+#include <sphere.h>
 
 #define NAMEWIDTH	30
 /** Field names are printed to this width, left-justified, in */
 /** sp_print_lines().                                         */
 
 /****  This function is exempt from the required use of spfp ****/
-int spx_write_header(struct header_t *h, struct fileheader_fixed *fh, 
+int spx_write_header(struct header_t *h, struct fileheader_fixed *fh,
 		     FILE *fp, int set, SP_INTEGER *hpos, SP_INTEGER *d)
 {
     SP_INTEGER p, pbytes;
     int c;
-    
+
     clearerr(fp);
     (void) fwrite((char *)fh,sizeof(struct fileheader_fixed),1,fp);
     if (sp_format_lines(h,fp) < 0)
 	return -1;
     (void) fprintf(fp,"%s\n",ENDSTR);
-    
+
     if (set)
 	*d = ftell(fp);
-    
+
     for (c=0; c < PAD_NEWLINES; c++)	/* pad with newlines always */
 	(void) putc('\n',fp);
     pbytes = PAD_MULT - ((*d + PAD_NEWLINES) % PAD_MULT);
     for (p=0; p < pbytes; p++)	/* pad to multiple of PAD_MULT */
 	(void) putc(PAD_CHAR,fp);
-    
+
     if (set) {
 	*hpos = ftell(fp);
 	if (*hpos % PAD_MULT != 0)
 	    return -1;
     }
-    
+
     (void) fflush(fp);
     if (ferror(fp)) return -1;
-    
+
     return 0;
 }
 
@@ -64,7 +64,7 @@ int spx_write_header(struct header_t *h, struct fileheader_fixed *fh,
 /* systems where ftell() doesn't return byte offsets.             */
 /******************************************************************/
 
-FUNCTION int sp_write_header(register FILE *fp, struct header_t *h, 
+FUNCTION int sp_write_header(register FILE *fp, struct header_t *h,
 			     SP_INTEGER *hbytes, SP_INTEGER *databytes)
 {
     register FILE *tfp;
@@ -72,19 +72,19 @@ FUNCTION int sp_write_header(register FILE *fp, struct header_t *h,
     int n;
     SP_INTEGER d, hpos;
     struct fileheader_fixed fh;
-    
+
     if (fp == FPNULL)	return -1;	/* check sanity of arguments */
     if (h == HDRNULL)	return -1;
     if (hbytes == LNULL)	return -1;
     if (databytes == LNULL)	return -1;
-    
+
     tfile = sptemp_dirfile();		/* create temp filename to format */
     if (tfile == (char *) NULL) return -1;  /* header (need to know size) */
-    
+
     tfp = fopen(tfile,"w+");		/* open the temp file */
     if (tfp == (FILE *) NULL)
 	return -1;
-    
+
     memset( (char *)&fh, 0, sizeof fh );
     n = spx_write_header(h,&fh,tfp,1,&hpos,&d);
     (void) fclose(tfp);			/* close temp file */
@@ -93,11 +93,11 @@ FUNCTION int sp_write_header(register FILE *fp, struct header_t *h,
 	return -1;
     /* the filename must not be free'd until after the file is unlinked */
     mtrf_free(tfile);
-    
+
 /**** Bug: JGF, Sept 12.  this sprintf causes some machines/compilers
       to royally get messed up.  The bug report, by Paul F. Werkowski
       (pw@snoopy.mv.com), found that it wrote an extra '\0' character
-      onto the stack, thus causing a core dump.  
+      onto the stack, thus causing a core dump.
 
     sprintf((char *) &fh,"%*s\n%*ld\n",
 	    sizeof(fh.header_id)-1,		NISTLABEL,
@@ -113,10 +113,10 @@ FUNCTION int sp_write_header(register FILE *fp, struct header_t *h,
     n = spx_write_header(h,&fh,fp,0,&hpos,&d);
     if (n < 0)
 	return -1;
-    
+
     *hbytes = hpos;		/* on success, return #bytes in header */
     *databytes = d;		/* and #bytes before padding           */
-    
+
     return 0;
 }
 
@@ -136,10 +136,10 @@ FUNCTION int sp_print_lines(struct header_t *h, register FILE *fp)
     register struct field_t **fv;
     int len, j;
     char *p;
-    
+
     if (h == HDRNULL)	return -1;	/* check sanity of arguments */
     if (fp == FPNULL)	return -1;
-    
+
     clearerr(fp);
     fv = h->fv;
     fc = h->fc;
@@ -179,10 +179,10 @@ FUNCTION int sp_format_lines(struct header_t *h, register FILE *fp)
     int i, j, fc;
     char *p;
     register struct field_t **fv;
-    
+
     if (h == HDRNULL)	return -1;	/* check sanity of arguments */
     if (fp == FPNULL)	return -1;
-    
+
     clearerr(fp);
     fv = h->fv;
     fc = h->fc;
@@ -210,7 +210,7 @@ FUNCTION int sp_format_lines(struct header_t *h, register FILE *fp)
 int spx_tp(register int ftype)
 {
     register int result;
-    
+
     switch (ftype) {
       case T_INTEGER:
 	result = 'i'; break;

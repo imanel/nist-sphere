@@ -45,5 +45,7 @@ verbose.c\
 wavedit.c\
 wavpack.c
 
-AM_CPPFLAGS=-I../include
+AM_CPPFLAGS=-I../include -I../../util/include
+AM_LDFLAGS=-L../../
+
 

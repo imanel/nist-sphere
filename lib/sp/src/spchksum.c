@@ -27,11 +27,11 @@ interface and increased portability.
 #include <stddef.h>		/* for size_t */
 #include <stdio.h>
 #define SPHERE_LIBRARY_CODE
-#include <sp/sphere.h>
+#include <sphere.h>
 
 SP_CHECKSUM sp_compute_short_checksum(short int *wav, size_t len,
 				      int do_swap)
-{ 
+{
   unsigned short *p;
   unsigned short *end;
   unsigned long checksum;
@@ -61,7 +61,7 @@ SP_CHECKSUM sp_compute_short_checksum(short int *wav, size_t len,
 }
 
 SP_CHECKSUM sp_compute_char_checksum(char *wav, size_t len)
-{ 
+{
   unsigned char *p;
   unsigned char *end;
   unsigned long checksum;
@@ -71,9 +71,9 @@ SP_CHECKSUM sp_compute_char_checksum(char *wav, size_t len)
   p = (unsigned char *) wav;
   end = p + len;
 
-  while (p < end) 
+  while (p < end)
       checksum = (checksum + (*p++)) & 0xffff;
-  
+
   return (SP_CHECKSUM) checksum;
 }
 
@@ -91,7 +91,7 @@ int sp_compute_checksum(SP_FILE *sp, SP_CHECKSUM *comp_chksum){
 
     if (sp == SPNULL)
 	return_err(proc,101,101,"Null SPFILE structure");
-    if (sp->open_mode != SP_mode_read) 
+    if (sp->open_mode != SP_mode_read)
 	return_err(proc,102,102,"File must be opened for read");
     if (! sp->read_spifr->status->is_disk_file)
 	return_err(proc,103,103,"File must be a disk file");
@@ -108,7 +108,7 @@ int sp_compute_checksum(SP_FILE *sp, SP_CHECKSUM *comp_chksum){
 	return_err(proc,111,111,
 		   rsprintf("sp_seek() to sample 0 failed, returning: %s",
 			    get_return_status_message()));
-    
+
     /* allocate some memory */
     if ((buff = (void *)sp_data_alloc(sp,4096)) == (void *)0)
 	return_err(proc,112,112,

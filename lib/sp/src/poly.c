@@ -10,8 +10,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 /* Changed by Jon Fiscus */
-# include <util/fob.h>
-# include <sp/shorten/shorten.h>
+# include <fob.h>
+# include <shorten/shorten.h>
 
 # define ALPHA0 (3.0 / 2.0)
 # define ALPHA1 M_LN2

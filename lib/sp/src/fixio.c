@@ -9,20 +9,20 @@
 # include <stdio.h>
 # include <stdlib.h>
 /* Changed by Jon Fiscus */
-# include <util/fob.h>
-# include <sp/shorten/shorten.h>
+# include <fob.h>
+# include <shorten/shorten.h>
 # include "bitshift.h"
 
 #ifdef fread
 #       undef fread
 #endif
 #define fread(a,b,c,d)          fob_fread((a),(b),(c),(d))
- 
+
 #ifdef fwrite
 #       undef fwrite
 #endif
 #define fwrite(a,b,c,d)         fob_fwrite((a),(b),(c),(d))
- 
+
 #ifdef putc
 #       undef putc
 #endif
@@ -317,10 +317,10 @@ void fwrite_type(data, ftype, nchan, nitem, stream) long **data; int ftype,
 
 int find_bitshift(data, nitem, ftype) long *data; int nitem, ftype; {
   int i, bitshift;
-  
+
   if(ftype == TYPE_AU1 || ftype == TYPE_AU2) {
     bitshift = NBITPERLONG;
-    for(i = 0; i < nitem && 
+    for(i = 0; i < nitem &&
 	(bitshift = MIN(bitshift, ulaw_maxshift[data[i]])) != 0; i++);
     if(ftype == TYPE_AU1)
       for(i = 0; i < nitem; i++)
@@ -337,7 +337,7 @@ int find_bitshift(data, nitem, ftype) long *data; int nitem, ftype; {
   }
   else {
     int hash = 0;
-	
+
     for(i = 0; i < nitem && ((hash |= data[i]) & 1) == 0; i++);
     if(hash != 0) {
       for(bitshift = 0; (hash & 1) == 0; bitshift++) hash >>= 1;

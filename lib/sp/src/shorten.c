@@ -16,19 +16,19 @@
 # include <fcntl.h>
 #endif
 /* Changed by Jon Fiscus */
-# include <util/fob.h>
-# include <sp/shorten/shorten.h>
+# include <fob.h>
+# include <shorten/shorten.h>
 
 #ifdef fread
 #       undef fread
 #endif
 #define fread(a,b,c,d)          fob_fread((a),(b),(c),(d))
- 
+
 #ifdef fwrite
 #       undef fwrite
 #endif
 #define fwrite(a,b,c,d)         fob_fwrite((a),(b),(c),(d))
- 
+
 #ifdef putc
 #       undef putc
 #endif
@@ -196,9 +196,9 @@ int shorten(stdi, stdo, argc, argv) FOB *stdi, *stdo; int argc; char **argv; {
                argv0);
 	printf("\t-a %d\tbytes to copy verbatim to align file\n",
 	       DEFAULT_NSKIP);
-	printf("\t-b %d\tblock size\n", DEFAULT_BLOCK_SIZE); 
-	printf("\t-c %d\tnumber of channels\n", DEFAULT_NCHAN); 
-	printf("\t-d %d\tbytes to discard before compression or decompression\n", DEFAULT_NDISCARD); 
+	printf("\t-b %d\tblock size\n", DEFAULT_BLOCK_SIZE);
+	printf("\t-c %d\tnumber of channels\n", DEFAULT_NCHAN);
+	printf("\t-d %d\tbytes to discard before compression or decompression\n", DEFAULT_NDISCARD);
 	printf("\t-h\thelp (this message)\n");
 	printf("\t-l\tprint the license giving the distribution and usage conditions\n");
 	printf("\t-m %d\tnumber of past block for mean estimation\n",
@@ -554,7 +554,7 @@ int shorten(stdi, stdo, argc, argv) FOB *stdi, *stdo; int argc; char **argv; {
 	    resn = floor(resbit + 0.5);
 	  else
 	    resn = 0;
-	  
+
 	  maxresnbitshift = floor(resbit - maxresn[chan] + 0.5);
 	  sigpow          = exp(2.0 * M_LN2 * sigbit) / (0.5 * M_LN2 * M_LN2);
           nn              = 12.0 * sigpow / pow(10.0, minsnr / 10.0);
@@ -594,7 +594,7 @@ int shorten(stdi, stdo, argc, argv) FOB *stdi, *stdo; int argc; char **argv; {
 	  uvar_put((ulong) bitshift, BITSHIFTSIZE, fileo);
 	  lastbitshift = bitshift;
 	}
-	
+
 	if(fnd == FN_ZERO) {
 	  uvar_put((ulong) fnd, FNSIZE, fileo);
 	}

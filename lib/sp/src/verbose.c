@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #define SPHERE_LIBRARY_CODE
-#include <sp/sphere.h>
+#include <sphere.h>
 
 int sp_verbose = 0;
 

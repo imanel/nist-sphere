@@ -9,7 +9,7 @@
 #include <ctype.h>
 
 #define SPHERE_LIBRARY_CODE
-#include <sp/sphere.h>
+#include <sphere.h>
 
 extern int farray_fields;
 extern struct field_t *farray[];
@@ -47,11 +47,11 @@ void *sp_data_alloc(SP_FILE *sp, int nsamp)
 	if (nsamp == (-1))
 	    return_err(proc,103,0,
 	       "Illegal number samples, -1, for a file opened for write");
-	spifr = sp->write_spifr; 
+	spifr = sp->write_spifr;
     }
 
     if (spifr->status->user_data_fmt == SP_df_raw){
-	size = spifr->status->user_channel_count * 
+	size = spifr->status->user_channel_count *
 	    spifr->status->user_sample_n_bytes;
 	if (nsamp > 0){
 	    size *= nsamp;
@@ -64,7 +64,7 @@ void *sp_data_alloc(SP_FILE *sp, int nsamp)
 	return_success(proc,0,tptr,"ok");
     } else if (spifr->status->user_data_fmt == SP_df_array){
 	/* first make an array of pointers for each channel */
-	if ((tarr = (void **) mtrf_malloc(spifr->status->user_channel_count * 
+	if ((tarr = (void **) mtrf_malloc(spifr->status->user_channel_count *
 					  sizeof(void *))) == (void **)0)
 	    return_err(proc,300,0,
 		       rsprintf("Unable to alloc %d-channel pointer array",
@@ -73,14 +73,14 @@ void *sp_data_alloc(SP_FILE *sp, int nsamp)
 	/* compute the size of each channel */
 	size = spifr->status->user_sample_n_bytes * ((nsamp > 0) ? nsamp :
 					     spifr->status->user_sample_count);
-	/* alloc space for each waveform */ 
-	for (c=0; c<spifr->status->user_channel_count; c++)	
+	/* alloc space for each waveform */
+	for (c=0; c<spifr->status->user_channel_count; c++)
 	    if ((tarr[c] = mtrf_malloc(size)) == (void *)0)
 		return_err(proc,301,0,
 			rsprintf("Unable to channel array of %d bytes",size));
-    
+
 	return_success(proc,0,(void *)tarr,"ok");
-    } else 
+    } else
 	return_err(proc,400,0,rsprintf("Unknown data format '%d'",
 					    spifr->status->user_data_fmt));
 }
@@ -101,25 +101,25 @@ int sp_data_free(SP_FILE *sp, void *tptr)
     if (sp->open_mode == SP_mode_read)
 	spifr = sp->read_spifr;
     else
-	spifr = sp->write_spifr; 
+	spifr = sp->write_spifr;
 
     if (spifr->status->user_data_fmt == SP_df_raw)
 	mtrf_free(tptr);
     else {
 	tarr  = (void **)tptr;
-	for (c=0; c<spifr->status->user_channel_count; c++)	
+	for (c=0; c<spifr->status->user_channel_count; c++)
 	    mtrf_free((char *)tarr[c]);
 	mtrf_free((char *)tarr);
-    }    
+    }
     return_success(proc,0,0,"ok");
 }
 
-int convert_file(char *filein, char *fileout, char *format_conversion, 
+int convert_file(char *filein, char *fileout, char *format_conversion,
 		 char *prog_name)
 {
     SP_FILE *sp_in, *sp_out;
     SP_INTEGER sp_in_snb, sp_out_snb;
-    
+
     if ((sp_in=sp_open(filein,"r")) == SPNULL){
 	fprintf(spfp,"%s: Unable to open file '%s' to update\n",
 		prog_name,(strsame(filein,"-") ? "stdin" : filein ));
@@ -191,13 +191,13 @@ int convert_file(char *filein, char *fileout, char *format_conversion,
     if (sp_out->write_spifr->status->file_encoding !=
 	sp_out->write_spifr->status->user_encoding)
 	sp_h_delete_field(sp_out,"sample_checksum");
-    
+
     { char *buff;
       int ns, nc, nspb;
       int samples_read, samples_written, tot_samples_read;
 
       ns = sp_in->read_spifr->status->user_sample_count;
-      nc = sp_in->read_spifr->status->user_channel_count;      
+      nc = sp_in->read_spifr->status->user_channel_count;
       nspb = sp_in->read_spifr->status->user_sample_n_bytes;
       tot_samples_read=0;
       if ((buff=mtrf_malloc(nc * nspb * 4096)) == CNULL) {
@@ -219,7 +219,7 @@ int convert_file(char *filein, char *fileout, char *format_conversion,
 		  mtrf_free(buff);
 		  return(100);
 	      }
-	  } else { 
+	  } else {
 	      /*  Change to allow for a file read in from a pipe */
 	      /*  June 22, 1994                                  */
 	      if (ns != 999999999 && ns != tot_samples_read)
@@ -280,11 +280,11 @@ int do_update(char *filein, char *format_conversion, char *prog_name)
     /**************************************************/
     /*   If certain format conversion have happened   */
     /*   delete the now invalid checksum              */
-    if ((sp->write_spifr->status->file_encoding != 
+    if ((sp->write_spifr->status->file_encoding !=
 	 sp->write_spifr->status->user_encoding) ||
 	(sp->write_spifr->status->channels != CHANNELSNULL))
 	sp_h_delete_field(sp,"sample_checksum");
-    
+
     if (sp_close(sp) != 0){
 	fprintf(spfp,"%s: In-place update of file '%s' FAILED\n",
 		prog_name,filein);
