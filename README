@@ -2,6 +2,12 @@ The NIST SPeech HEader REsources (SPHERE) Package
 
 Version 2.6
 
+Installation:
+
+$ aclocal && autoconf && automake
+$ ./configure
+$ make
+
 For a description of SPHERE, read the files, 'doc/sphere.rdm' and
 'doc/sphere.doc'.  UNIX-style man pages can be found in 'doc/man'.
 
